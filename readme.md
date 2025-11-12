@@ -1,3 +1,5 @@
+# Magyar C++
+
 A Flex file has three sections, separated by %%:
 
 definitions
