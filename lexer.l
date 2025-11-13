@@ -321,7 +321,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Real number */
-[+-]?(?:\d*\.\d+|\d+\.\d*) {
+[+-]?([0-9]*\.[0-9]+|[0-9]+\.[0-9]*) {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -359,8 +359,7 @@ int utf8_strlen(const string& str) {
     colno += yyleng;
     out << "[sor: " << yylineno << ", oszlop: " << startcol
         << ", hossz: " << yyleng << "] " << "Lexikális hiba, ismeretlen szimbólum: " << yytext << endl;
+    cerr << "Lexical error at line " << yylineno << ", column " << startcol
+        << ": unknown symbol " << yytext << endl;
 }
 %%
-/* int main(){
-    yylex();
-} */

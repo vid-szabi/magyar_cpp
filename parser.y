@@ -37,6 +37,9 @@ extern int startcol;
 %left ES VAGY
 %left NEM
 
+%nonassoc AKKOR
+%nonassoc KULONBEN
+
 /* The start symbol of the grammar */
 %start s
 
@@ -44,28 +47,27 @@ extern int startcol;
 
 %%
 
-s: /* eps */
-   program
+s: blokk ;
+
+blokk: /* eps */
+	 | program
 ;
 
-program: /* eps */
-	  	 utasitas 
-	   | error
+program: utasitas 
        | program utasitas 
-       | program utasitas error
+       | program error /* general error */
 ;
 
-utasitas: /* eps */
-		  deklaracio UTASITASVEG
+utasitas: deklaracio UTASITASVEG
 		| ertekadas UTASITASVEG
 		| kiir UTASITASVEG
 		| beolvas UTASITASVEG
 		| elagazas 
 		| ciklus
+		| error UTASITASVEG /* unfinished statement */
 ;
 
-deklaracio: /* eps */
-			SZAM VALTOZO
+deklaracio: SZAM VALTOZO
 		  | SZAM ertekadas
 		  | VALOS VALTOZO
 		  | VALOS ertekadas
@@ -75,29 +77,19 @@ deklaracio: /* eps */
 		  | LOGIKAI ertekadas
 ;
 
-ertekadas: /* eps */
-		   VALTOZO ERTEKAD kifejezes
+ertekadas: VALTOZO ERTEKAD kifejezes ;
+
+kiir: KIIR kifejezes ;
+
+beolvas: BEOLVAS kifejezes ;
+
+elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
+		| HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
 ;
 
-kiir: /* eps */
-	  KIIR kifejezes
-;
+ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG ;
 
-beolvas: /* eps */
-	     BEOLVAS kifejezes
-;
-
-elagazas: /* eps */
-		  HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD program BLOKKVEG
-		| HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD program BLOKKVEG KULONBEN BLOKKKEZD program BLOKKVEG
-;
-
-ciklus: /* eps */
-	    AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD BLOKKVEG
-;
-
-kifejezes: /* eps */
-		   SZAM
+kifejezes: SZAM
 		 | VALOS
 		 | BETU
 		 | IGAZ
@@ -105,6 +97,7 @@ kifejezes: /* eps */
 		 | SZAMERTEK
 		 | VALOSERTEK
 		 | BETUERTEK
+		 | VALTOZO
 		 | kifejezes PLUSZ kifejezes
 		 | kifejezes MINUSZ kifejezes
 		 | MINUSZ kifejezes
@@ -119,7 +112,6 @@ kifejezes: /* eps */
 		 | ZAROJELKEZD kifejezes ZAROJELVEG
 		 | kifejezes ES kifejezes
 		 | kifejezes VAGY kifejezes
-		 | kifejezes NEM kifejezes
 		 | NEM kifejezes
 
 %%
