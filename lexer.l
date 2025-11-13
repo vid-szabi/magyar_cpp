@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 int colno = 1; // column number
@@ -273,11 +274,12 @@ int utf8_strlen(const std::string& str) {
 
     /* Token types */
     /* Variable name */
+    /* TODO: [a-zA-Z_áÁéÉíÍóÓöÖőŐúÚüÜűŰ][a-zA-Z0-9_áÁéÉíÍóÓöÖőŐúÚüÜűŰ]* */
 [a-zA-Z_][a-zA-Z0-9_]* {
     int startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Azonosító: " << yytext << endl;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Változó: " << yytext << endl;
 }
 
     /* Real number */
@@ -312,7 +314,7 @@ int utf8_strlen(const std::string& str) {
     int startcol = colno;
     colno += yyleng;
     out << "[sor: " << yylineno << ", oszlop: " << startcol
-        << ", hossz: " << yyleng << "] " << "Ismeretlen szimbólum: " << yytext << endl;
+        << ", hossz: " << yyleng << "] " << "Lexikális hiba, ismeretlen szimbólum: " << yytext << endl;
 }
 %%
 int main(){

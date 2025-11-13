@@ -8,6 +8,8 @@ g++ lex.yy.c
 
 A Flex file has three sections, separated by %%:
 
+rewrite = to legyen
+
 definitions
 %%
 rules
