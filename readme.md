@@ -2,7 +2,8 @@
 
 ```bash
 flex lexer.l
-g++ lex.yy.c
+bison -dvt parser.y
+g++ lex.yy.c parser.tab.c
 ./a.out < fibonacci.txt
 ```
 
