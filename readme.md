@@ -1,5 +1,11 @@
 # Magyar C++
 
+```bash
+flex lexer.l
+g++ lex.yy.c
+./a.out < fibonacci.txt
+```
+
 A Flex file has three sections, separated by %%:
 
 definitions
