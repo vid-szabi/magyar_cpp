@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 int main()
 {
+    string alma = "alma";
     int fibo0 = 0;
     int fibo1 = 1;
     int count = 5;
