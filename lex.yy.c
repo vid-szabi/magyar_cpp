@@ -373,8 +373,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 40
-#define YY_END_OF_BUFFER 41
+#define YY_NUM_RULES 41
+#define YY_END_OF_BUFFER 42
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -382,22 +382,22 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[124] =
+static const flex_int16_t yy_accept[125] =
     {   0,
-        0,    0,   41,   39,    3,    4,   39,   24,   25,   29,
-       27,   28,   39,   30,   36,   34,   26,   33,   35,   35,
-       35,   35,   35,   35,   35,   35,   35,   35,   35,   22,
-       23,   39,    0,    0,    0,   36,    0,   37,    0,    1,
-       32,   31,   35,   35,   35,   35,   37,   35,   35,   13,
-       35,   35,    0,   35,   35,   35,    0,   38,    0,    0,
-        1,   35,    0,   35,   35,   37,   35,   35,   35,    0,
-        0,   19,    0,   35,   35,   35,   20,    2,   35,    0,
-       35,    0,   35,   35,    9,    0,    0,    0,    0,   21,
-       35,    0,   14,   16,   35,    7,   35,   10,   12,    0,
+        0,    0,   42,   40,    3,    4,   40,   25,   26,   30,
+       28,   29,   40,   31,   37,   22,   35,   27,   34,   36,
+       36,   36,   36,   36,   36,   36,   36,   36,   36,   36,
+       23,   24,   40,    0,    0,    0,   37,    0,   38,    0,
+        1,   33,   32,   36,   36,   36,   36,   38,   36,   36,
+       13,   36,   36,    0,   36,   36,   36,    0,   39,    0,
+        0,    1,   36,    0,   36,   36,   38,   36,   36,   36,
+        0,    0,   19,    0,   36,   36,   36,   20,    2,   36,
+        0,   36,    0,   36,   36,    9,    0,    0,    0,    0,
+       21,   36,    0,   14,   16,   36,    7,   36,   10,   12,
 
-        0,    5,    8,    0,   35,   35,    0,    0,    6,   11,
-        0,    0,    0,   18,    0,    0,    0,    0,   15,    0,
-        0,   17,    0
+        0,    0,    5,    8,    0,   36,   36,    0,    0,    6,
+       11,    0,    0,    0,   18,    0,    0,    0,    0,   15,
+        0,    0,   17,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -407,22 +407,22 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    4,    1,    1,    1,    1,    1,    1,    5,    6,
         7,    8,    9,    1,   10,   11,   12,   13,   13,   13,
-       13,   13,   13,   13,   13,   13,   13,    1,    1,   14,
-       15,   16,    1,    1,   17,   17,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
-        1,   18,    1,    1,   17,    1,   19,   20,   17,   21,
+       13,   13,   13,   13,   13,   13,   13,    1,   14,   15,
+       16,   17,    1,    1,   18,   18,   18,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18,   18,   18,
+        1,   19,    1,    1,   18,    1,   20,   21,   18,   22,
 
-       22,   17,   23,   24,   25,   26,   27,   28,   29,   30,
-       31,   17,   17,   32,   33,   34,   17,   35,   17,   17,
-       36,   37,   38,    1,   39,    1,    1,    1,    1,    1,
+       23,   18,   24,   25,   26,   27,   28,   29,   30,   31,
+       32,   18,   18,   33,   34,   35,   18,   36,   18,   18,
+       37,   38,   39,    1,   40,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,   40,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,   41,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-       41,    1,    1,    1,    1,    1,    1,    1,   42,    1,
-        1,    1,   43,    1,    1,    1,    1,    1,   44,    1,
-        1,   45,    1,    1,    1,    1,    1,   46,    1,    1,
-        1,    1,    1,    1,   47,    1,   48,    1,    1,    1,
+       42,    1,    1,    1,    1,    1,    1,    1,   43,    1,
+        1,    1,   44,    1,    1,    1,    1,    1,   45,    1,
+        1,   46,    1,    1,    1,    1,    1,   47,    1,    1,
+        1,    1,    1,    1,   48,    1,   49,    1,    1,    1,
 
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -432,113 +432,113 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[49] =
+static const YY_CHAR yy_meta[50] =
     {   0,
         1,    1,    2,    1,    3,    1,    1,    1,    1,    1,
-        1,    1,    4,    1,    1,    1,    4,    1,    4,    4,
+        1,    1,    4,    1,    1,    1,    1,    4,    1,    4,
         4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
-        4,    4,    4,    4,    4,    4,    4,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1
+        4,    4,    4,    4,    4,    4,    4,    4,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1
     } ;
 
-static const flex_int16_t yy_base[128] =
+static const flex_int16_t yy_base[129] =
     {   0,
-        0,    0,  162,  163,  163,  163,  143,  163,  163,  163,
-       38,   39,  139,   45,  146,  143,  163,  142,    0,   27,
-      134,   44,  132,  135,  130,   33,  130,  114,  131,  163,
-      163,  107,  143,   58,  126,  133,   51,  124,  136,    0,
-      163,  163,    0,  116,   95,   33,  120,   55,  104,  110,
-      119,   90,   90,  106,   87,   45,  100,  163,  124,   62,
-        0,  100,   87,  101,   81,  106,  104,  100,   87,   80,
-       94,  117,   79,   83,   87,   70,  163,  163,   84,   92,
-       79,   67,   82,   78,    0,   78,   62,   86,   78,    0,
-       76,   61,    0,  163,   85,  163,   75,    0,  163,   57,
+        0,    0,  163,  164,  164,  164,  143,  164,  164,  164,
+       39,   40,  139,   46,  147,  164,  143,  164,  142,    0,
+       27,  134,   45,  132,  135,  130,   33,  130,  114,  131,
+      164,  164,  107,  144,   60,  126,  134,   49,  124,  137,
+        0,  164,  164,    0,  116,   95,   34,  120,   53,  104,
+      110,  119,   90,   90,  106,   87,   49,  100,  164,  125,
+       60,    0,  100,   87,  101,   81,  106,  104,  100,   87,
+       80,   94,  118,   79,   83,   87,   70,  164,  164,   84,
+       92,   79,   67,   82,   78,    0,   78,   62,   86,   78,
+        0,   76,   61,    0,  164,   85,  164,   75,    0,  164,
 
-       78,  163,    0,   67,   66,   50,   67,   60,  163,    0,
-       55,   74,   71,  163,   68,   53,   49,   50,  163,   29,
-       35,  163,  163,   80,   65,   84,   88
+       57,   78,  164,    0,   67,   66,   50,   67,   60,  164,
+        0,   55,   74,   71,  164,   68,   53,   49,   50,  164,
+       28,   33,  164,  164,   81,   66,   85,   89
     } ;
 
-static const flex_int16_t yy_def[128] =
+static const flex_int16_t yy_def[129] =
     {   0,
-      123,    1,  123,  123,  123,  123,  124,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  125,  125,
-      125,  125,  125,  125,  125,  125,  125,  125,  125,  123,
-      123,  123,  123,  124,  123,  123,  123,  123,  126,  127,
-      123,  123,  125,  125,  125,  125,  123,  125,  125,  125,
-      125,  125,  123,  125,  125,  125,  123,  123,  126,  126,
-      127,  125,  123,  125,  125,  123,  125,  125,  125,  123,
-      123,  125,  123,  125,  125,  125,  123,  123,  125,  123,
-      125,  123,  125,  125,  125,  123,  123,  123,  123,  125,
-      125,  123,  125,  123,  125,  123,  125,  125,  123,  123,
+      124,    1,  124,  124,  124,  124,  125,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  126,
+      126,  126,  126,  126,  126,  126,  126,  126,  126,  126,
+      124,  124,  124,  124,  125,  124,  124,  124,  124,  127,
+      128,  124,  124,  126,  126,  126,  126,  124,  126,  126,
+      126,  126,  126,  124,  126,  126,  126,  124,  124,  127,
+      127,  128,  126,  124,  126,  126,  124,  126,  126,  126,
+      124,  124,  126,  124,  126,  126,  126,  124,  124,  126,
+      124,  126,  124,  126,  126,  126,  124,  124,  124,  124,
+      126,  126,  124,  126,  124,  126,  124,  126,  126,  124,
 
-      123,  123,  125,  123,  125,  125,  123,  123,  123,  125,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,    0,  123,  123,  123,  123
+      124,  124,  124,  126,  124,  126,  126,  124,  124,  124,
+      126,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,    0,  124,  124,  124,  124
     } ;
 
-static const flex_int16_t yy_nxt[212] =
+static const flex_int16_t yy_nxt[214] =
     {   0,
         4,    5,    6,    5,    7,    8,    9,   10,   11,   12,
-       13,   14,   15,   16,   17,   18,   19,    4,   20,   21,
-       22,   23,   19,   24,   25,   19,   26,   19,   19,   27,
-       19,   19,   28,   19,   29,   19,   19,   30,   31,    4,
-        4,    4,    4,    4,    4,    4,   32,    4,   35,   35,
-       36,   36,   39,   44,   47,   45,   40,   52,   37,   37,
-      123,   47,   33,   64,   48,   47,   65,   74,   43,   60,
-       75,   37,   76,   78,  122,   48,  121,  120,  119,   53,
-       33,   33,  118,   33,   59,   59,   59,   59,   61,  117,
-       61,   61,  116,  115,  114,  113,  112,  111,  110,  109,
+       13,   14,   15,   16,   17,   18,   19,   20,    4,   21,
+       22,   23,   24,   20,   25,   26,   20,   27,   20,   20,
+       28,   20,   20,   29,   20,   30,   20,   20,   31,   32,
+        4,    4,    4,    4,    4,    4,    4,   33,    4,   36,
+       36,   37,   37,   40,   45,   48,   46,   41,   53,   48,
+       38,   38,  124,   48,   34,   65,   49,   61,   66,   44,
+       38,   79,   75,  123,   49,   76,  122,   77,  121,  120,
+       54,   34,   34,  119,   34,   60,   60,   60,   60,   62,
+      118,   62,   62,  117,  116,  115,  114,  113,  112,  111,
 
-      108,  107,  106,  105,  104,  103,  102,  101,  100,   99,
-       98,   97,   96,   95,   94,   93,   92,   91,   90,   89,
-       88,   87,   86,   85,   84,   83,   66,   82,   81,   80,
-       79,   60,   77,   73,   72,   71,   70,   69,   68,   67,
-       66,   63,   62,   60,   38,   36,   38,   58,   57,   56,
-       55,   54,   51,   50,   49,   46,   42,   41,   36,   38,
-       34,  123,    3,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
+      110,  109,  108,  107,  106,  105,  104,  103,  102,  101,
+      100,   99,   98,   97,   96,   95,   94,   93,   92,   91,
+       90,   89,   88,   87,   86,   85,   84,   67,   83,   82,
+       81,   80,   61,   78,   74,   73,   72,   71,   70,   69,
+       68,   67,   64,   63,   61,   39,   37,   39,   59,   58,
+       57,   56,   55,   52,   51,   50,   47,   43,   42,   37,
+       39,   35,  124,    3,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
 
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124
     } ;
 
-static const flex_int16_t yy_chk[212] =
+static const flex_int16_t yy_chk[214] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,   11,   12,
-       11,   12,   14,   20,   22,   20,   14,   26,   11,   12,
-       34,   37,   34,   46,   22,   48,   46,   56,  125,   60,
-       56,   37,   56,   60,  121,   48,  120,  118,  117,   26,
-      124,  124,  116,  124,  126,  126,  126,  126,  127,  115,
-      127,  127,  113,  112,  111,  108,  107,  106,  105,  104,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,   11,
+       12,   11,   12,   14,   21,   23,   21,   14,   27,   38,
+       11,   12,   35,   49,   35,   47,   23,   61,   47,  126,
+       38,   61,   57,  122,   49,   57,  121,   57,  119,  118,
+       27,  125,  125,  117,  125,  127,  127,  127,  127,  128,
+      116,  128,  128,  114,  113,  112,  109,  108,  107,  106,
 
-      101,  100,   97,   95,   92,   91,   89,   88,   87,   86,
-       84,   83,   82,   81,   80,   79,   76,   75,   74,   73,
-       72,   71,   70,   69,   68,   67,   66,   65,   64,   63,
-       62,   59,   57,   55,   54,   53,   52,   51,   50,   49,
-       47,   45,   44,   39,   38,   36,   35,   33,   32,   29,
-       28,   27,   25,   24,   23,   21,   18,   16,   15,   13,
-        7,    3,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
+      105,  102,  101,   98,   96,   93,   92,   90,   89,   88,
+       87,   85,   84,   83,   82,   81,   80,   77,   76,   75,
+       74,   73,   72,   71,   70,   69,   68,   67,   66,   65,
+       64,   63,   60,   58,   56,   55,   54,   53,   52,   51,
+       50,   48,   46,   45,   40,   39,   37,   36,   34,   33,
+       30,   29,   28,   26,   25,   24,   22,   19,   17,   15,
+       13,    7,    3,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
 
-      123,  123,  123,  123,  123,  123,  123,  123,  123,  123,
-      123
+      124,  124,  124,  124,  124,  124,  124,  124,  124,  124,
+      124,  124,  124
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[41] =
+static const flex_int32_t yy_rule_can_match_eol[42] =
     {   0,
 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
-    0,     };
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+    0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -558,15 +558,25 @@ char *yytext;
 #line 2 "lexer.l"
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 int colno = 1; // column number
 ofstream out("lexer_output.txt");
-#line 566 "lex.yy.c"
+
+// We need this because of the Hungarian accents
+int utf8_strlen(const std::string& str) {
+    int len = 0;
+    for (unsigned char c : str) {
+        if ((c & 0xC0) != 0x80) len++;
+    }
+    return len;
+}
+#line 576 "lex.yy.c"
 /* noyywrap disables the need of a yywrap function */
 /* yylineno enables Flex to automatically track line numbers */
 /* yyleng is the length of the current matched token */
-#line 570 "lex.yy.c"
+#line 580 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -783,9 +793,9 @@ YY_DECL
 		}
 
 	{
-#line 15 "lexer.l"
+#line 25 "lexer.l"
 
-#line 789 "lex.yy.c"
+#line 799 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -812,13 +822,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 124 )
+				if ( yy_current_state >= 125 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 163 );
+		while ( yy_base[yy_current_state] != 164 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -854,380 +864,428 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "lexer.l"
+#line 26 "lexer.l"
 { /* single-line comment */ }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 17 "lexer.l"
+#line 27 "lexer.l"
 { /* multi-line comment */ }
 	YY_BREAK
+/* ignore whitespace */
 case 3:
 YY_RULE_SETUP
-#line 19 "lexer.l"
-{ /* ignore whitespace */ }
+#line 30 "lexer.l"
+{
+    colno += yyleng;
+}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 21 "lexer.l"
+#line 34 "lexer.l"
 { colno = 1; }
 	YY_BREAK
 /* Valid string literals in the language */
 /* Types */
 case 5:
 YY_RULE_SETUP
-#line 25 "lexer.l"
+#line 38 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
     }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 31 "lexer.l"
+#line 45 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 37 "lexer.l"
+#line 52 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 43 "lexer.l"
+#line 59 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
 }
 	YY_BREAK
 /* Values for bool */
 case 9:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 67 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai érték: "  << yytext << endl;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 56 "lexer.l"
+#line 74 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai érték: " << yytext << endl;
 }
 	YY_BREAK
 /* IO functions */
 case 11:
 YY_RULE_SETUP
-#line 63 "lexer.l"
+#line 82 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Bemeneti-kimeneti parancs: " << yytext << endl;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 69 "lexer.l"
+#line 89 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Bemeneti-kimeneti parancs: " << yytext << endl;
 }
 	YY_BREAK
 /* Conditional statement if-then-else */
 case 13:
 YY_RULE_SETUP
-#line 76 "lexer.l"
+#line 97 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 104 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 111 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
 }
 	YY_BREAK
 /* Loop statement */
 case 16:
 YY_RULE_SETUP
-#line 95 "lexer.l"
+#line 119 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Ciklus kezdő: " << yytext << endl;
 }
 	YY_BREAK
 /* Logical statements */
 case 17:
 YY_RULE_SETUP
-#line 102 "lexer.l"
+#line 127 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai kifejezés: " << yytext << endl;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 108 "lexer.l"
+#line 134 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai kifejezés: " << yytext << endl;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 114 "lexer.l"
+#line 141 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai kifejezés: " << yytext << endl;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 120 "lexer.l"
+#line 148 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai kifejezés: " << yytext << endl;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 126 "lexer.l"
+#line 155 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Logikai kifejezés: " << yytext << endl;
+}
+	YY_BREAK
+/* Statement end */
+case 22:
+YY_RULE_SETUP
+#line 163 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Utasítás vége: " << yytext << endl;
 }
 	YY_BREAK
 /* Block start */
-case 22:
+case 23:
 YY_RULE_SETUP
-#line 133 "lexer.l"
+#line 171 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Blokk kezdő: " << yytext << endl;
 }
 	YY_BREAK
 /* Block end */
-case 23:
+case 24:
 YY_RULE_SETUP
-#line 140 "lexer.l"
+#line 179 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Blokk vége: " << yytext << endl;
 }
 	YY_BREAK
 /* Parentheses start */
-case 24:
+case 25:
 YY_RULE_SETUP
-#line 147 "lexer.l"
+#line 187 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Zárójel kezdő: " << yytext << endl;
 }
 	YY_BREAK
 /* Parentheses end */
-case 25:
+case 26:
 YY_RULE_SETUP
-#line 154 "lexer.l"
+#line 195 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Blokk vége: " << yytext << endl;
 }
 	YY_BREAK
 /* Assignment operator */
-case 26:
-YY_RULE_SETUP
-#line 161 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Addition */
 case 27:
-YY_RULE_SETUP
-#line 168 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Subtraction */
-case 28:
-YY_RULE_SETUP
-#line 175 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Multiplication */
-case 29:
-YY_RULE_SETUP
-#line 182 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Division */
-case 30:
-YY_RULE_SETUP
-#line 189 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Greater than or equal to */
-case 31:
-YY_RULE_SETUP
-#line 196 "lexer.l"
-{
-    int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
-}
-	YY_BREAK
-/* Less than or equal to */
-case 32:
 YY_RULE_SETUP
 #line 203 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Addition */
+case 28:
+YY_RULE_SETUP
+#line 211 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Subtraction */
+case 29:
+YY_RULE_SETUP
+#line 219 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Multiplication */
+case 30:
+YY_RULE_SETUP
+#line 227 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Division */
+case 31:
+YY_RULE_SETUP
+#line 235 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Greater than or equal to */
+case 32:
+YY_RULE_SETUP
+#line 243 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+}
+	YY_BREAK
+/* Less than or equal to */
+case 33:
+YY_RULE_SETUP
+#line 251 "lexer.l"
+{
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
 }
 	YY_BREAK
 /* Greater than */
-case 33:
+case 34:
 YY_RULE_SETUP
-#line 210 "lexer.l"
+#line 259 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
 }
 	YY_BREAK
 /* Less than */
-case 34:
+case 35:
 YY_RULE_SETUP
-#line 217 "lexer.l"
+#line 267 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
 }
 	YY_BREAK
 /* Token types */
 /* Variable name */
-case 35:
+case 36:
 YY_RULE_SETUP
-#line 225 "lexer.l"
+#line 276 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Azonosító: " << yytext << endl;
 }
 	YY_BREAK
 /* Integer number */
-case 36:
+case 37:
 YY_RULE_SETUP
-#line 232 "lexer.l"
+#line 284 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Egész szám: " << yytext << endl;
 }
 	YY_BREAK
 /* Real number */
-case 37:
+case 38:
 YY_RULE_SETUP
-#line 239 "lexer.l"
+#line 292 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Valós szám: " << yytext << endl;
 }
 	YY_BREAK
-/* Character */
-case 38:
-/* rule 38 can match eol */
+/* Character literal */
+case 39:
+/* rule 39 can match eol */
 YY_RULE_SETUP
-#line 246 "lexer.l"
+#line 300 "lexer.l"
 {
     int startcol = colno;
-    colno += yyleng;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << yyleng << "] " << yytext << endl;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Karakterlánc: " << yytext << endl;
 }
 	YY_BREAK
 /* End of file */
 case YY_STATE_EOF(INITIAL):
-#line 253 "lexer.l"
+#line 308 "lexer.l"
 { out.close(); return 0; }
 	YY_BREAK
 /* Anything else */
-case 39:
+case 40:
 YY_RULE_SETUP
-#line 256 "lexer.l"
+#line 311 "lexer.l"
 {
     int startcol = colno;
     colno += yyleng;
     out << "[sor: " << yylineno << ", oszlop: " << startcol
-        << ", hossz: " << yyleng << "] " << " Unknown symbol:" << yytext << endl;
+        << ", hossz: " << yyleng << "] " << "Ismeretlen szimbólum: " << yytext << endl;
 }
 	YY_BREAK
-case 40:
+case 41:
 YY_RULE_SETUP
-#line 262 "lexer.l"
+#line 317 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1231 "lex.yy.c"
+#line 1289 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1522,7 +1580,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 124 )
+			if ( yy_current_state >= 125 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1550,11 +1608,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 124 )
+		if ( yy_current_state >= 125 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 123);
+	yy_is_jam = (yy_current_state == 124);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2242,7 +2300,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 262 "lexer.l"
+#line 317 "lexer.l"
 
 int main(){
     yylex();

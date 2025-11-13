@@ -1,7 +1,7 @@
 szám fibo0 = 0;
 szám fibo1 = 1;
 szám count = 5;
-count--;
+count = count - 1;
 
 // 0 1 1 2 3 5 8 13
 amíg (count > 0)

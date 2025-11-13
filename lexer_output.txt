@@ -1,51 +1,53 @@
-[sor: 1, oszlop: 1, hossz: 5] szám
-[sor: 1, oszlop: 6, hossz: 5] fibo0
-[sor: 1, oszlop: 11, hossz: 1] =
-[sor: 1, oszlop: 12, hossz: 1] 0
-[sor: 1, oszlop: 13, hossz: 1]  Unknown symbol:;
-[sor: 2, oszlop: 1, hossz: 5] szám
-[sor: 2, oszlop: 6, hossz: 5] fibo1
-[sor: 2, oszlop: 11, hossz: 1] =
-[sor: 2, oszlop: 12, hossz: 1] 1
-[sor: 2, oszlop: 13, hossz: 1]  Unknown symbol:;
-[sor: 3, oszlop: 1, hossz: 5] szám
-[sor: 3, oszlop: 6, hossz: 5] count
-[sor: 3, oszlop: 11, hossz: 1] =
-[sor: 3, oszlop: 12, hossz: 1] 5
-[sor: 3, oszlop: 13, hossz: 1]  Unknown symbol:;
-[sor: 4, oszlop: 1, hossz: 5] count
-[sor: 4, oszlop: 6, hossz: 1] -
-[sor: 4, oszlop: 7, hossz: 1] -
-[sor: 4, oszlop: 8, hossz: 1]  Unknown symbol:;
-[sor: 7, oszlop: 1, hossz: 5] amíg
-[sor: 7, oszlop: 6, hossz: 1] (
-[sor: 7, oszlop: 7, hossz: 5] count
-[sor: 7, oszlop: 12, hossz: 1] >
-[sor: 7, oszlop: 13, hossz: 1] 0
-[sor: 7, oszlop: 14, hossz: 1] )
-[sor: 8, oszlop: 1, hossz: 1] {
-[sor: 9, oszlop: 1, hossz: 3] int
-[sor: 9, oszlop: 4, hossz: 7] current
-[sor: 9, oszlop: 11, hossz: 1] =
-[sor: 9, oszlop: 12, hossz: 5] fibo0
-[sor: 9, oszlop: 17, hossz: 1] +
-[sor: 9, oszlop: 18, hossz: 5] fibo1
-[sor: 9, oszlop: 23, hossz: 1]  Unknown symbol:;
-[sor: 10, oszlop: 1, hossz: 5] fibo0
-[sor: 10, oszlop: 6, hossz: 1] =
-[sor: 10, oszlop: 7, hossz: 5] fibo1
-[sor: 10, oszlop: 12, hossz: 1]  Unknown symbol:;
-[sor: 11, oszlop: 1, hossz: 5] fibo1
-[sor: 11, oszlop: 6, hossz: 1] =
-[sor: 11, oszlop: 7, hossz: 7] current
-[sor: 11, oszlop: 14, hossz: 1]  Unknown symbol:;
-[sor: 12, oszlop: 1, hossz: 5] count
-[sor: 12, oszlop: 6, hossz: 1] =
-[sor: 12, oszlop: 7, hossz: 5] count
-[sor: 12, oszlop: 12, hossz: 1] -
-[sor: 12, oszlop: 13, hossz: 1] 1
-[sor: 12, oszlop: 14, hossz: 1]  Unknown symbol:;
-[sor: 13, oszlop: 1, hossz: 1] }
-[sor: 14, oszlop: 1, hossz: 5] kiír
-[sor: 14, oszlop: 6, hossz: 5] fibo1
-[sor: 14, oszlop: 11, hossz: 1]  Unknown symbol:;
+[sor: 1, oszlop: 1, hossz: 4] Típus: szám
+[sor: 1, oszlop: 6, hossz: 5] Azonosító: fibo0
+[sor: 1, oszlop: 12, hossz: 1] Operátor: =
+[sor: 1, oszlop: 14, hossz: 1] Egész szám: 0
+[sor: 1, oszlop: 15, hossz: 1] Utasítás vége: ;
+[sor: 2, oszlop: 1, hossz: 4] Típus: szám
+[sor: 2, oszlop: 6, hossz: 5] Azonosító: fibo1
+[sor: 2, oszlop: 12, hossz: 1] Operátor: =
+[sor: 2, oszlop: 14, hossz: 1] Egész szám: 1
+[sor: 2, oszlop: 15, hossz: 1] Utasítás vége: ;
+[sor: 3, oszlop: 1, hossz: 4] Típus: szám
+[sor: 3, oszlop: 6, hossz: 5] Azonosító: count
+[sor: 3, oszlop: 12, hossz: 1] Operátor: =
+[sor: 3, oszlop: 14, hossz: 1] Egész szám: 5
+[sor: 3, oszlop: 15, hossz: 1] Utasítás vége: ;
+[sor: 4, oszlop: 1, hossz: 5] Azonosító: count
+[sor: 4, oszlop: 7, hossz: 1] Operátor: =
+[sor: 4, oszlop: 9, hossz: 5] Azonosító: count
+[sor: 4, oszlop: 15, hossz: 1] Operátor: -
+[sor: 4, oszlop: 17, hossz: 1] Egész szám: 1
+[sor: 4, oszlop: 18, hossz: 1] Utasítás vége: ;
+[sor: 7, oszlop: 1, hossz: 4] Ciklus kezdő: amíg
+[sor: 7, oszlop: 6, hossz: 1] Zárójel kezdő: (
+[sor: 7, oszlop: 7, hossz: 5] Azonosító: count
+[sor: 7, oszlop: 13, hossz: 1] Operátor: >
+[sor: 7, oszlop: 15, hossz: 1] Egész szám: 0
+[sor: 7, oszlop: 16, hossz: 1] Blokk vége: )
+[sor: 8, oszlop: 1, hossz: 1] Blokk kezdő: {
+[sor: 9, oszlop: 5, hossz: 3] Azonosító: int
+[sor: 9, oszlop: 9, hossz: 7] Azonosító: current
+[sor: 9, oszlop: 17, hossz: 1] Operátor: =
+[sor: 9, oszlop: 19, hossz: 5] Azonosító: fibo0
+[sor: 9, oszlop: 25, hossz: 1] Operátor: +
+[sor: 9, oszlop: 27, hossz: 5] Azonosító: fibo1
+[sor: 9, oszlop: 32, hossz: 1] Utasítás vége: ;
+[sor: 10, oszlop: 5, hossz: 5] Azonosító: fibo0
+[sor: 10, oszlop: 11, hossz: 1] Operátor: =
+[sor: 10, oszlop: 13, hossz: 5] Azonosító: fibo1
+[sor: 10, oszlop: 18, hossz: 1] Utasítás vége: ;
+[sor: 11, oszlop: 5, hossz: 5] Azonosító: fibo1
+[sor: 11, oszlop: 11, hossz: 1] Operátor: =
+[sor: 11, oszlop: 13, hossz: 7] Azonosító: current
+[sor: 11, oszlop: 20, hossz: 1] Utasítás vége: ;
+[sor: 12, oszlop: 5, hossz: 5] Azonosító: count
+[sor: 12, oszlop: 11, hossz: 1] Operátor: =
+[sor: 12, oszlop: 13, hossz: 5] Azonosító: count
+[sor: 12, oszlop: 19, hossz: 1] Operátor: -
+[sor: 12, oszlop: 21, hossz: 1] Egész szám: 1
+[sor: 12, oszlop: 22, hossz: 1] Utasítás vége: ;
+[sor: 13, oszlop: 1, hossz: 1] Blokk vége: }
+[sor: 14, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
+[sor: 14, oszlop: 6, hossz: 5] Azonosító: fibo1
+[sor: 14, oszlop: 11, hossz: 1] Utasítás vége: ;
