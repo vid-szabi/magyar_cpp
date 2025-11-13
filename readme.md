@@ -1,6 +1,6 @@
 # Magyar C++
 
-A compiler for a Hungarian🇭🇺 variant of C++ built using **Flex** (lexical analyzer) and **Bison** (parser generator). This project implements a complete lexical and syntactic analysis pipeline for a programming language with Hungarian keywords and syntax.
+A compiler for a Hungarian variant of C++ built using **Flex** (lexical analyzer) and **Bison** (parser generator). This project implements a complete lexical and syntactic analysis pipeline for a programming language with Hungarian keywords and syntax.
 
 ## Language Features
 
