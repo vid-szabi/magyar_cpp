@@ -89,10 +89,7 @@ elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
 
 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG ;
 
-kifejezes: SZAM
-		 | VALOS
-		 | BETU
-		 | IGAZ
+kifejezes: IGAZ
 		 | HAMIS
 		 | SZAMERTEK
 		 | VALOSERTEK

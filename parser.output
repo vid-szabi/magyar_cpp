@@ -39,71 +39,68 @@ Grammar
 
    27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG
 
-   28 kifejezes: SZAM
-   29          | VALOS
-   30          | BETU
-   31          | IGAZ
-   32          | HAMIS
-   33          | SZAMERTEK
-   34          | VALOSERTEK
-   35          | BETUERTEK
-   36          | VALTOZO
-   37          | kifejezes PLUSZ kifejezes
-   38          | kifejezes MINUSZ kifejezes
-   39          | MINUSZ kifejezes
-   40          | kifejezes SZOROZ kifejezes
-   41          | kifejezes OSZT kifejezes
-   42          | kifejezes EGYENLO kifejezes
-   43          | kifejezes NEMEGYENLO kifejezes
-   44          | kifejezes NAGYOBBEGYENLO kifejezes
-   45          | kifejezes KISEBBEGYENLO kifejezes
-   46          | kifejezes NAGYOBB kifejezes
-   47          | kifejezes KISEBB kifejezes
-   48          | ZAROJELKEZD kifejezes ZAROJELVEG
-   49          | kifejezes ES kifejezes
-   50          | kifejezes VAGY kifejezes
-   51          | NEM kifejezes
+   28 kifejezes: IGAZ
+   29          | HAMIS
+   30          | SZAMERTEK
+   31          | VALOSERTEK
+   32          | BETUERTEK
+   33          | VALTOZO
+   34          | kifejezes PLUSZ kifejezes
+   35          | kifejezes MINUSZ kifejezes
+   36          | MINUSZ kifejezes
+   37          | kifejezes SZOROZ kifejezes
+   38          | kifejezes OSZT kifejezes
+   39          | kifejezes EGYENLO kifejezes
+   40          | kifejezes NEMEGYENLO kifejezes
+   41          | kifejezes NAGYOBBEGYENLO kifejezes
+   42          | kifejezes KISEBBEGYENLO kifejezes
+   43          | kifejezes NAGYOBB kifejezes
+   44          | kifejezes KISEBB kifejezes
+   45          | ZAROJELKEZD kifejezes ZAROJELVEG
+   46          | kifejezes ES kifejezes
+   47          | kifejezes VAGY kifejezes
+   48          | NEM kifejezes
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256) 6 13
-    SZAMERTEK <egesz_ertek> (258) 33
-    VALOSERTEK <valos_ertek> (259) 34
-    VALTOZO <valtozonev> (260) 14 16 18 20 22 36
-    BETUERTEK <betu_ertek> (261) 35
-    SZAM (262) 14 15 28
-    VALOS (263) 16 17 29
-    BETU (264) 18 19 30
+    SZAMERTEK <egesz_ertek> (258) 30
+    VALOSERTEK <valos_ertek> (259) 31
+    VALTOZO <valtozonev> (260) 14 16 18 20 22 33
+    BETUERTEK <betu_ertek> (261) 32
+    SZAM (262) 14 15
+    VALOS (263) 16 17
+    BETU (264) 18 19
     LOGIKAI (265) 20 21
-    IGAZ (266) 31
-    HAMIS (267) 32
+    IGAZ (266) 28
+    HAMIS (267) 29
     BEOLVAS (268) 24
     KIIR (269) 23
     HA (270) 25 26
     AKKOR (271) 25 26
     KULONBEN (272) 26
     AMIG (273) 27
-    NEMEGYENLO (274) 43
-    EGYENLO (275) 42
-    NEM (276) 51
-    ES (277) 49
-    VAGY (278) 50
+    NEMEGYENLO (274) 40
+    EGYENLO (275) 39
+    NEM (276) 48
+    ES (277) 46
+    VAGY (278) 47
     UTASITASVEG (279) 7 8 9 10 13
     BLOKKKEZD (280) 25 26 27
     BLOKKVEG (281) 25 26 27
-    ZAROJELKEZD (282) 25 26 27 48
-    ZAROJELVEG (283) 25 26 27 48
-    PLUSZ (284) 37
-    MINUSZ (285) 38 39
-    SZOROZ (286) 40
-    OSZT (287) 41
+    ZAROJELKEZD (282) 25 26 27 45
+    ZAROJELVEG (283) 25 26 27 45
+    PLUSZ (284) 34
+    MINUSZ (285) 35 36
+    SZOROZ (286) 37
+    OSZT (287) 38
     ERTEKAD (288) 22
-    NAGYOBBEGYENLO (289) 44
-    KISEBBEGYENLO (290) 45
-    NAGYOBB (291) 46
-    KISEBB (292) 47
+    NAGYOBBEGYENLO (289) 41
+    KISEBBEGYENLO (290) 42
+    NAGYOBB (291) 43
+    KISEBB (292) 44
 
 
 Nonterminals, with rules where they appear
@@ -141,8 +138,8 @@ Nonterminals, with rules where they appear
         on left: 27
         on right: 12
     kifejezes (49)
-        on left: 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
-        on right: 22 23 24 25 26 27 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
+        on left: 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
+        on right: 22 23 24 25 26 27 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
 
 
 State 0
@@ -236,16 +233,13 @@ State 7
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
-    kifejezes  go to state 43
+    kifejezes  go to state 40
 
 
 State 8
@@ -256,16 +250,13 @@ State 8
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
-    kifejezes  go to state 44
+    kifejezes  go to state 41
 
 
 State 9
@@ -273,21 +264,21 @@ State 9
    25 elagazas: HA • ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
    26         | HA • ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
 
-    ZAROJELKEZD  shift, and go to state 45
+    ZAROJELKEZD  shift, and go to state 42
 
 
 State 10
 
    27 ciklus: AMIG • ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG
 
-    ZAROJELKEZD  shift, and go to state 46
+    ZAROJELKEZD  shift, and go to state 43
 
 
 State 11
 
     0 $accept: s • $end
 
-    $end  shift, and go to state 47
+    $end  shift, and go to state 44
 
 
 State 12
@@ -303,7 +294,7 @@ State 13
     5 program: program • utasitas
     6        | program • error
 
-    error    shift, and go to state 48
+    error    shift, and go to state 45
     VALTOZO  shift, and go to state 2
     SZAM     shift, and go to state 3
     VALOS    shift, and go to state 4
@@ -317,7 +308,7 @@ State 13
     $end      reduce using rule 3 (blokk)
     BLOKKVEG  reduce using rule 3 (blokk)
 
-    utasitas    go to state 49
+    utasitas    go to state 46
     deklaracio  go to state 15
     ertekadas   go to state 16
     kiir        go to state 17
@@ -337,28 +328,28 @@ State 15
 
     7 utasitas: deklaracio • UTASITASVEG
 
-    UTASITASVEG  shift, and go to state 50
+    UTASITASVEG  shift, and go to state 47
 
 
 State 16
 
     8 utasitas: ertekadas • UTASITASVEG
 
-    UTASITASVEG  shift, and go to state 51
+    UTASITASVEG  shift, and go to state 48
 
 
 State 17
 
     9 utasitas: kiir • UTASITASVEG
 
-    UTASITASVEG  shift, and go to state 52
+    UTASITASVEG  shift, and go to state 49
 
 
 State 18
 
    10 utasitas: beolvas • UTASITASVEG
 
-    UTASITASVEG  shift, and go to state 53
+    UTASITASVEG  shift, and go to state 50
 
 
 State 19
@@ -390,16 +381,13 @@ State 22
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
-    kifejezes  go to state 54
+    kifejezes  go to state 51
 
 
 State 23
@@ -472,192 +460,162 @@ State 30
 
 State 31
 
-   33 kifejezes: SZAMERTEK •
+   30 kifejezes: SZAMERTEK •
 
-    $default  reduce using rule 33 (kifejezes)
+    $default  reduce using rule 30 (kifejezes)
 
 
 State 32
 
-   34 kifejezes: VALOSERTEK •
+   31 kifejezes: VALOSERTEK •
 
-    $default  reduce using rule 34 (kifejezes)
+    $default  reduce using rule 31 (kifejezes)
 
 
 State 33
 
-   36 kifejezes: VALTOZO •
+   33 kifejezes: VALTOZO •
 
-    $default  reduce using rule 36 (kifejezes)
+    $default  reduce using rule 33 (kifejezes)
 
 
 State 34
 
-   35 kifejezes: BETUERTEK •
+   32 kifejezes: BETUERTEK •
 
-    $default  reduce using rule 35 (kifejezes)
+    $default  reduce using rule 32 (kifejezes)
 
 
 State 35
 
-   28 kifejezes: SZAM •
+   28 kifejezes: IGAZ •
 
     $default  reduce using rule 28 (kifejezes)
 
 
 State 36
 
-   29 kifejezes: VALOS •
+   29 kifejezes: HAMIS •
 
     $default  reduce using rule 29 (kifejezes)
 
 
 State 37
 
-   30 kifejezes: BETU •
+   48 kifejezes: NEM • kifejezes
 
-    $default  reduce using rule 30 (kifejezes)
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 52
 
 
 State 38
 
-   31 kifejezes: IGAZ •
+   45 kifejezes: ZAROJELKEZD • kifejezes ZAROJELVEG
 
-    $default  reduce using rule 31 (kifejezes)
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 53
 
 
 State 39
 
-   32 kifejezes: HAMIS •
+   36 kifejezes: MINUSZ • kifejezes
 
-    $default  reduce using rule 32 (kifejezes)
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 54
 
 
 State 40
 
-   51 kifejezes: NEM • kifejezes
-
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 55
-
-
-State 41
-
-   48 kifejezes: ZAROJELKEZD • kifejezes ZAROJELVEG
-
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 56
-
-
-State 42
-
-   39 kifejezes: MINUSZ • kifejezes
-
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 57
-
-
-State 43
-
    24 beolvas: BEOLVAS kifejezes •
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
 
     $default  reduce using rule 24 (beolvas)
 
 
-State 44
+State 41
 
    23 kiir: KIIR kifejezes •
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
 
     $default  reduce using rule 23 (kiir)
 
 
-State 45
+State 42
 
    25 elagazas: HA ZAROJELKEZD • kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
    26         | HA ZAROJELKEZD • kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
@@ -666,19 +624,16 @@ State 45
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
-    kifejezes  go to state 70
+    kifejezes  go to state 67
 
 
-State 46
+State 43
 
    27 ciklus: AMIG ZAROJELKEZD • kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG
 
@@ -686,26 +641,23 @@ State 46
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
-    kifejezes  go to state 71
+    kifejezes  go to state 68
 
 
-State 47
+State 44
 
     0 $accept: s $end •
 
     $default  accept
 
 
-State 48
+State 45
 
     6 program: program error •
    13 utasitas: error • UTASITASVEG
@@ -715,773 +667,737 @@ State 48
     $default  reduce using rule 6 (program)
 
 
-State 49
+State 46
 
     5 program: program utasitas •
 
     $default  reduce using rule 5 (program)
 
 
-State 50
+State 47
 
     7 utasitas: deklaracio UTASITASVEG •
 
     $default  reduce using rule 7 (utasitas)
 
 
-State 51
+State 48
 
     8 utasitas: ertekadas UTASITASVEG •
 
     $default  reduce using rule 8 (utasitas)
 
 
-State 52
+State 49
 
     9 utasitas: kiir UTASITASVEG •
 
     $default  reduce using rule 9 (utasitas)
 
 
-State 53
+State 50
 
    10 utasitas: beolvas UTASITASVEG •
 
     $default  reduce using rule 10 (utasitas)
 
 
-State 54
+State 51
 
    22 ertekadas: VALTOZO ERTEKAD kifejezes •
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
 
     $default  reduce using rule 22 (ertekadas)
 
 
+State 52
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+   48          | NEM kifejezes •
+
+    $default  reduce using rule 48 (kifejezes)
+
+
+State 53
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   45          | ZAROJELKEZD kifejezes • ZAROJELVEG
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    ZAROJELVEG      shift, and go to state 69
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+
+State 54
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   36          | MINUSZ kifejezes •
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+    $default  reduce using rule 36 (kifejezes)
+
+
 State 55
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-   51          | NEM kifejezes •
-
-    $default  reduce using rule 51 (kifejezes)
-
-
-State 56
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   48          | ZAROJELKEZD kifejezes • ZAROJELVEG
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    ZAROJELVEG      shift, and go to state 72
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-
-State 57
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   39          | MINUSZ kifejezes •
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-    $default  reduce using rule 39 (kifejezes)
-
-
-State 58
-
-   43 kifejezes: kifejezes NEMEGYENLO • kifejezes
+   40 kifejezes: kifejezes NEMEGYENLO • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 70
+
+
+State 56
+
+   39 kifejezes: kifejezes EGYENLO • kifejezes
+
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 71
+
+
+State 57
+
+   46 kifejezes: kifejezes ES • kifejezes
+
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
+
+    kifejezes  go to state 72
+
+
+State 58
+
+   47 kifejezes: kifejezes VAGY • kifejezes
+
+    SZAMERTEK    shift, and go to state 31
+    VALOSERTEK   shift, and go to state 32
+    VALTOZO      shift, and go to state 33
+    BETUERTEK    shift, and go to state 34
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 73
 
 
 State 59
 
-   42 kifejezes: kifejezes EGYENLO • kifejezes
+   34 kifejezes: kifejezes PLUSZ • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 74
 
 
 State 60
 
-   49 kifejezes: kifejezes ES • kifejezes
+   35 kifejezes: kifejezes MINUSZ • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 75
 
 
 State 61
 
-   50 kifejezes: kifejezes VAGY • kifejezes
+   37 kifejezes: kifejezes SZOROZ • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 76
 
 
 State 62
 
-   37 kifejezes: kifejezes PLUSZ • kifejezes
+   38 kifejezes: kifejezes OSZT • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 77
 
 
 State 63
 
-   38 kifejezes: kifejezes MINUSZ • kifejezes
+   41 kifejezes: kifejezes NAGYOBBEGYENLO • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 78
 
 
 State 64
 
-   40 kifejezes: kifejezes SZOROZ • kifejezes
+   42 kifejezes: kifejezes KISEBBEGYENLO • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 79
 
 
 State 65
 
-   41 kifejezes: kifejezes OSZT • kifejezes
+   43 kifejezes: kifejezes NAGYOBB • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 80
 
 
 State 66
 
-   44 kifejezes: kifejezes NAGYOBBEGYENLO • kifejezes
+   44 kifejezes: kifejezes KISEBB • kifejezes
 
     SZAMERTEK    shift, and go to state 31
     VALOSERTEK   shift, and go to state 32
     VALTOZO      shift, and go to state 33
     BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
+    IGAZ         shift, and go to state 35
+    HAMIS        shift, and go to state 36
+    NEM          shift, and go to state 37
+    ZAROJELKEZD  shift, and go to state 38
+    MINUSZ       shift, and go to state 39
 
     kifejezes  go to state 81
 
 
 State 67
 
-   45 kifejezes: kifejezes KISEBBEGYENLO • kifejezes
+   25 elagazas: HA ZAROJELKEZD kifejezes • ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
+   26         | HA ZAROJELKEZD kifejezes • ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 82
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    ZAROJELVEG      shift, and go to state 82
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
 
 
 State 68
 
-   46 kifejezes: kifejezes NAGYOBB • kifejezes
+   27 ciklus: AMIG ZAROJELKEZD kifejezes • ZAROJELVEG BLOKKKEZD blokk BLOKKVEG
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 83
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    ZAROJELVEG      shift, and go to state 83
+    PLUSZ           shift, and go to state 59
+    MINUSZ          shift, and go to state 60
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
 
 
 State 69
 
-   47 kifejezes: kifejezes KISEBB • kifejezes
+   45 kifejezes: ZAROJELKEZD kifejezes ZAROJELVEG •
 
-    SZAMERTEK    shift, and go to state 31
-    VALOSERTEK   shift, and go to state 32
-    VALTOZO      shift, and go to state 33
-    BETUERTEK    shift, and go to state 34
-    SZAM         shift, and go to state 35
-    VALOS        shift, and go to state 36
-    BETU         shift, and go to state 37
-    IGAZ         shift, and go to state 38
-    HAMIS        shift, and go to state 39
-    NEM          shift, and go to state 40
-    ZAROJELKEZD  shift, and go to state 41
-    MINUSZ       shift, and go to state 42
-
-    kifejezes  go to state 84
+    $default  reduce using rule 45 (kifejezes)
 
 
 State 70
 
-   25 elagazas: HA ZAROJELKEZD kifejezes • ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
-   26         | HA ZAROJELKEZD kifejezes • ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   40          | kifejezes NEMEGYENLO kifejezes •
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    ZAROJELVEG      shift, and go to state 85
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-
-State 71
-
-   27 ciklus: AMIG ZAROJELKEZD kifejezes • ZAROJELVEG BLOKKKEZD blokk BLOKKVEG
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    ZAROJELVEG      shift, and go to state 86
-    PLUSZ           shift, and go to state 62
-    MINUSZ          shift, and go to state 63
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-
-State 72
-
-   48 kifejezes: ZAROJELKEZD kifejezes ZAROJELVEG •
-
-    $default  reduce using rule 48 (kifejezes)
-
-
-State 73
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   43          | kifejezes NEMEGYENLO kifejezes •
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
-
-    $default  reduce using rule 43 (kifejezes)
-
-
-State 74
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   42          | kifejezes EGYENLO kifejezes •
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
-
-    $default  reduce using rule 42 (kifejezes)
-
-
-State 75
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   49          | kifejezes ES kifejezes •
-   50          | kifejezes • VAGY kifejezes
-
-    $default  reduce using rule 49 (kifejezes)
-
-
-State 76
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-   50          | kifejezes VAGY kifejezes •
-
-    $default  reduce using rule 50 (kifejezes)
-
-
-State 77
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   37          | kifejezes PLUSZ kifejezes •
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-    $default  reduce using rule 37 (kifejezes)
-
-
-State 78
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   38          | kifejezes MINUSZ kifejezes •
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    SZOROZ          shift, and go to state 64
-    OSZT            shift, and go to state 65
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
-
-    $default  reduce using rule 38 (kifejezes)
-
-
-State 79
-
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   40          | kifejezes SZOROZ kifejezes •
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
 
     $default  reduce using rule 40 (kifejezes)
 
 
-State 80
+State 71
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   41          | kifejezes OSZT kifejezes •
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   39          | kifejezes EGYENLO kifejezes •
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    NEMEGYENLO      shift, and go to state 58
-    EGYENLO         shift, and go to state 59
-    ES              shift, and go to state 60
-    VAGY            shift, and go to state 61
-    NAGYOBBEGYENLO  shift, and go to state 66
-    KISEBBEGYENLO   shift, and go to state 67
-    NAGYOBB         shift, and go to state 68
-    KISEBB          shift, and go to state 69
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
+
+    $default  reduce using rule 39 (kifejezes)
+
+
+State 72
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   46          | kifejezes ES kifejezes •
+   47          | kifejezes • VAGY kifejezes
+
+    $default  reduce using rule 46 (kifejezes)
+
+
+State 73
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+   47          | kifejezes VAGY kifejezes •
+
+    $default  reduce using rule 47 (kifejezes)
+
+
+State 74
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   34          | kifejezes PLUSZ kifejezes •
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+    $default  reduce using rule 34 (kifejezes)
+
+
+State 75
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   35          | kifejezes MINUSZ kifejezes •
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    SZOROZ          shift, and go to state 61
+    OSZT            shift, and go to state 62
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+    $default  reduce using rule 35 (kifejezes)
+
+
+State 76
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   37          | kifejezes SZOROZ kifejezes •
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+    $default  reduce using rule 37 (kifejezes)
+
+
+State 77
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   38          | kifejezes OSZT kifejezes •
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    NEMEGYENLO      shift, and go to state 55
+    EGYENLO         shift, and go to state 56
+    ES              shift, and go to state 57
+    VAGY            shift, and go to state 58
+    NAGYOBBEGYENLO  shift, and go to state 63
+    KISEBBEGYENLO   shift, and go to state 64
+    NAGYOBB         shift, and go to state 65
+    KISEBB          shift, and go to state 66
+
+    $default  reduce using rule 38 (kifejezes)
+
+
+State 78
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   41          | kifejezes NAGYOBBEGYENLO kifejezes •
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
 
     $default  reduce using rule 41 (kifejezes)
 
 
+State 79
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   42          | kifejezes KISEBBEGYENLO kifejezes •
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
+
+    $default  reduce using rule 42 (kifejezes)
+
+
+State 80
+
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   43          | kifejezes NAGYOBB kifejezes •
+   44          | kifejezes • KISEBB kifejezes
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
+
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
+
+    $default  reduce using rule 43 (kifejezes)
+
+
 State 81
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   44          | kifejezes NAGYOBBEGYENLO kifejezes •
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   34 kifejezes: kifejezes • PLUSZ kifejezes
+   35          | kifejezes • MINUSZ kifejezes
+   37          | kifejezes • SZOROZ kifejezes
+   38          | kifejezes • OSZT kifejezes
+   39          | kifejezes • EGYENLO kifejezes
+   40          | kifejezes • NEMEGYENLO kifejezes
+   41          | kifejezes • NAGYOBBEGYENLO kifejezes
+   42          | kifejezes • KISEBBEGYENLO kifejezes
+   43          | kifejezes • NAGYOBB kifejezes
+   44          | kifejezes • KISEBB kifejezes
+   44          | kifejezes KISEBB kifejezes •
+   46          | kifejezes • ES kifejezes
+   47          | kifejezes • VAGY kifejezes
 
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
+    ES    shift, and go to state 57
+    VAGY  shift, and go to state 58
 
     $default  reduce using rule 44 (kifejezes)
 
 
 State 82
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   45          | kifejezes KISEBBEGYENLO kifejezes •
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG • AKKOR BLOKKKEZD blokk BLOKKVEG
+   26         | HA ZAROJELKEZD kifejezes ZAROJELVEG • AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
 
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
-
-    $default  reduce using rule 45 (kifejezes)
+    AKKOR  shift, and go to state 84
 
 
 State 83
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   46          | kifejezes NAGYOBB kifejezes •
-   47          | kifejezes • KISEBB kifejezes
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
+   27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG • BLOKKKEZD blokk BLOKKVEG
 
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
-
-    $default  reduce using rule 46 (kifejezes)
+    BLOKKKEZD  shift, and go to state 85
 
 
 State 84
 
-   37 kifejezes: kifejezes • PLUSZ kifejezes
-   38          | kifejezes • MINUSZ kifejezes
-   40          | kifejezes • SZOROZ kifejezes
-   41          | kifejezes • OSZT kifejezes
-   42          | kifejezes • EGYENLO kifejezes
-   43          | kifejezes • NEMEGYENLO kifejezes
-   44          | kifejezes • NAGYOBBEGYENLO kifejezes
-   45          | kifejezes • KISEBBEGYENLO kifejezes
-   46          | kifejezes • NAGYOBB kifejezes
-   47          | kifejezes • KISEBB kifejezes
-   47          | kifejezes KISEBB kifejezes •
-   49          | kifejezes • ES kifejezes
-   50          | kifejezes • VAGY kifejezes
-
-    ES    shift, and go to state 60
-    VAGY  shift, and go to state 61
-
-    $default  reduce using rule 47 (kifejezes)
-
-
-State 85
-
-   25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG • AKKOR BLOKKKEZD blokk BLOKKVEG
-   26         | HA ZAROJELKEZD kifejezes ZAROJELVEG • AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
-
-    AKKOR  shift, and go to state 87
-
-
-State 86
-
-   27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG • BLOKKKEZD blokk BLOKKVEG
-
-    BLOKKKEZD  shift, and go to state 88
-
-
-State 87
-
    25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR • BLOKKKEZD blokk BLOKKVEG
    26         | HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR • BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
 
-    BLOKKKEZD  shift, and go to state 89
+    BLOKKKEZD  shift, and go to state 86
 
 
-State 88
+State 85
 
    27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD • blokk BLOKKVEG
 
@@ -1498,7 +1414,7 @@ State 88
 
     BLOKKVEG  reduce using rule 2 (blokk)
 
-    blokk       go to state 90
+    blokk       go to state 87
     program     go to state 13
     utasitas    go to state 14
     deklaracio  go to state 15
@@ -1509,7 +1425,7 @@ State 88
     ciklus      go to state 20
 
 
-State 89
+State 86
 
    25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD • blokk BLOKKVEG
    26         | HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD • blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
@@ -1527,7 +1443,7 @@ State 89
 
     BLOKKVEG  reduce using rule 2 (blokk)
 
-    blokk       go to state 91
+    blokk       go to state 88
     program     go to state 13
     utasitas    go to state 14
     deklaracio  go to state 15
@@ -1538,46 +1454,46 @@ State 89
     ciklus      go to state 20
 
 
-State 90
+State 87
 
    27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk • BLOKKVEG
 
-    BLOKKVEG  shift, and go to state 92
+    BLOKKVEG  shift, and go to state 89
 
 
-State 91
+State 88
 
    25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk • BLOKKVEG
    26         | HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk • BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG
 
-    BLOKKVEG  shift, and go to state 93
+    BLOKKVEG  shift, and go to state 90
 
 
-State 92
+State 89
 
    27 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG •
 
     $default  reduce using rule 27 (ciklus)
 
 
-State 93
+State 90
 
    25 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG •
    26         | HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG • KULONBEN BLOKKKEZD blokk BLOKKVEG
 
-    KULONBEN  shift, and go to state 94
+    KULONBEN  shift, and go to state 91
 
     $default  reduce using rule 25 (elagazas)
 
 
-State 94
+State 91
 
    26 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN • BLOKKKEZD blokk BLOKKVEG
 
-    BLOKKKEZD  shift, and go to state 95
+    BLOKKKEZD  shift, and go to state 92
 
 
-State 95
+State 92
 
    26 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD • blokk BLOKKVEG
 
@@ -1594,7 +1510,7 @@ State 95
 
     BLOKKVEG  reduce using rule 2 (blokk)
 
-    blokk       go to state 96
+    blokk       go to state 93
     program     go to state 13
     utasitas    go to state 14
     deklaracio  go to state 15
@@ -1605,14 +1521,14 @@ State 95
     ciklus      go to state 20
 
 
-State 96
+State 93
 
    26 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk • BLOKKVEG
 
-    BLOKKVEG  shift, and go to state 97
+    BLOKKVEG  shift, and go to state 94
 
 
-State 97
+State 94
 
    26 elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG •
 
