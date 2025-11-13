@@ -196,7 +196,7 @@ int utf8_strlen(const std::string& str) {
     int startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Blokk vége: " << yytext << endl;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Zárójel vége: " << yytext << endl;
 }
 
     /* Assignment operator */
@@ -280,14 +280,6 @@ int utf8_strlen(const std::string& str) {
     out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Azonosító: " << yytext << endl;
 }
 
-    /* Integer number */
-[+-]?[0-9]+ {
-    int startcol = colno;
-    int charlen = utf8_strlen(yytext);
-    colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Egész szám: " << yytext << endl;
-}
-
     /* Real number */
 [+-]?(?:\d*\.\d+|\d+\.\d*) {
     int startcol = colno;
@@ -296,8 +288,16 @@ int utf8_strlen(const std::string& str) {
     out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Valós szám: " << yytext << endl;
 }
 
+    /* Integer number */
+[+-]?[0-9]+ {
+    int startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Egész szám: " << yytext << endl;
+}
+
     /* Character literal */
-'(\\.|[^\\'])' {
+'(\\\\.|[^\\\\'])' {
     int startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -305,7 +305,7 @@ int utf8_strlen(const std::string& str) {
 }
 
     /* End of file */
-<<EOF>> { out.close(); return 0; }
+<<EOF>> { out.close(); yyterminate(); }
 
     /* Anything else */
 . {
