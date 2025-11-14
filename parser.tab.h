@@ -57,38 +57,39 @@ extern int yydebug;
     SZAMERTEK = 258,               /* SZAMERTEK  */
     VALOSERTEK = 259,              /* VALOSERTEK  */
     VALTOZO = 260,                 /* VALTOZO  */
-    BETUERTEK = 261,               /* BETUERTEK  */
-    SZAM = 262,                    /* SZAM  */
-    VALOS = 263,                   /* VALOS  */
-    BETU = 264,                    /* BETU  */
-    LOGIKAI = 265,                 /* LOGIKAI  */
-    IGAZ = 266,                    /* IGAZ  */
-    HAMIS = 267,                   /* HAMIS  */
-    BEOLVAS = 268,                 /* BEOLVAS  */
-    KIIR = 269,                    /* KIIR  */
-    HA = 270,                      /* HA  */
-    AKKOR = 271,                   /* AKKOR  */
-    KULONBEN = 272,                /* KULONBEN  */
-    AMIG = 273,                    /* AMIG  */
-    NEMEGYENLO = 274,              /* NEMEGYENLO  */
-    EGYENLO = 275,                 /* EGYENLO  */
-    NEM = 276,                     /* NEM  */
-    ES = 277,                      /* ES  */
-    VAGY = 278,                    /* VAGY  */
-    UTASITASVEG = 279,             /* UTASITASVEG  */
-    BLOKKKEZD = 280,               /* BLOKKKEZD  */
-    BLOKKVEG = 281,                /* BLOKKVEG  */
-    ZAROJELKEZD = 282,             /* ZAROJELKEZD  */
-    ZAROJELVEG = 283,              /* ZAROJELVEG  */
-    PLUSZ = 284,                   /* PLUSZ  */
-    MINUSZ = 285,                  /* MINUSZ  */
-    SZOROZ = 286,                  /* SZOROZ  */
-    OSZT = 287,                    /* OSZT  */
-    ERTEKAD = 288,                 /* ERTEKAD  */
-    NAGYOBBEGYENLO = 289,          /* NAGYOBBEGYENLO  */
-    KISEBBEGYENLO = 290,           /* KISEBBEGYENLO  */
-    NAGYOBB = 291,                 /* NAGYOBB  */
-    KISEBB = 292                   /* KISEBB  */
+    KIFEJEZES = 261,               /* KIFEJEZES  */
+    BETUERTEK = 262,               /* BETUERTEK  */
+    SZAM = 263,                    /* SZAM  */
+    VALOS = 264,                   /* VALOS  */
+    BETU = 265,                    /* BETU  */
+    LOGIKAI = 266,                 /* LOGIKAI  */
+    IGAZ = 267,                    /* IGAZ  */
+    HAMIS = 268,                   /* HAMIS  */
+    BEOLVAS = 269,                 /* BEOLVAS  */
+    KIIR = 270,                    /* KIIR  */
+    HA = 271,                      /* HA  */
+    AKKOR = 272,                   /* AKKOR  */
+    KULONBEN = 273,                /* KULONBEN  */
+    AMIG = 274,                    /* AMIG  */
+    NEMEGYENLO = 275,              /* NEMEGYENLO  */
+    EGYENLO = 276,                 /* EGYENLO  */
+    NEM = 277,                     /* NEM  */
+    ES = 278,                      /* ES  */
+    VAGY = 279,                    /* VAGY  */
+    UTASITASVEG = 280,             /* UTASITASVEG  */
+    BLOKKKEZD = 281,               /* BLOKKKEZD  */
+    BLOKKVEG = 282,                /* BLOKKVEG  */
+    ZAROJELKEZD = 283,             /* ZAROJELKEZD  */
+    ZAROJELVEG = 284,              /* ZAROJELVEG  */
+    PLUSZ = 285,                   /* PLUSZ  */
+    MINUSZ = 286,                  /* MINUSZ  */
+    SZOROZ = 287,                  /* SZOROZ  */
+    OSZT = 288,                    /* OSZT  */
+    ERTEKAD = 289,                 /* ERTEKAD  */
+    NAGYOBBEGYENLO = 290,          /* NAGYOBBEGYENLO  */
+    KISEBBEGYENLO = 291,           /* KISEBBEGYENLO  */
+    NAGYOBB = 292,                 /* NAGYOBB  */
+    KISEBB = 293                   /* KISEBB  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -97,14 +98,15 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "parser.y"
+#line 28 "parser.y"
 
 	int egesz_ertek;
 	float valos_ertek;
 	char betu_ertek;
 	std::string* valtozonev;
+	std::string* tipus;
 
-#line 108 "parser.tab.h"
+#line 110 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
