@@ -116,6 +116,7 @@ int main() {
 	yyparse();
 }
 
+/* Called by yyparse on error */
 void yyerror(const string s) {
     cerr << "Syntax error at line " << yylineno
               << ", column " << startcol << ": " << s << endl;
