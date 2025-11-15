@@ -4,7 +4,7 @@ szám count = 5;
 count = count - 1;
 
 // 0 1 1 2 3 5 8 13
-amíg (count > igaz)
+amíg (count > 0)
 {
     szám current = fibo0 + fibo1;
     fibo0 = fibo1;

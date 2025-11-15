@@ -77,10 +77,10 @@
 using namespace std;
 
 struct Symbol {
-	string type; // type of the variable
-	int line; // the line of the declaration
-	int col; // the column of the declaration
-	bool initialized; // was it initialized
+	string type;
+	int line;
+	int col;
+	bool initialized;
 };
 
 map<string, Symbol> symbol_table;
@@ -90,15 +90,17 @@ void semantic_error(string s, int line, int col);
 void check_variable_declared(string varname, int line, int col);
 void check_variable_redeclared(string varname, int line, int col);
 void check_type_compatibility(string type1, string type2, int line, int col);
+void check_numeric_types(string type1, string type2, int line, int col);
+void check_boolean_types(string type1, string type2, int line, int col);
+void check_relational_operand_type(string type, int line, int col);
 string get_variable_type(string varname);
 void print_symbol_table();
-
 
 extern int yylex();
 extern int yylineno;
 extern int startcol;
 
-#line 102 "parser.tab.c"
+#line 104 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -566,11 +568,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    73,    73,    78,    79,    82,    83,    84,    87,    88,
-      89,    90,    91,    92,    93,    96,   109,   131,   132,   133,
-     134,   137,   152,   154,   156,   157,   160,   162,   163,   164,
-     165,   166,   167,   173,   183,   193,   200,   210,   220,   228,
-     236,   247,   258,   269,   280,   284,   294,   304
+       0,    74,    74,    79,    80,    83,    84,    85,    88,    89,
+      90,    91,    92,    93,    94,    97,   106,   122,   123,   124,
+     125,   128,   142,   144,   146,   147,   150,   152,   153,   154,
+     155,   156,   157,   163,   170,   177,   184,   191,   198,   206,
+     214,   223,   232,   241,   250,   253,   261,   269
 };
 #endif
 
@@ -1481,87 +1483,76 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* s: blokk  */
-#line 73 "parser.y"
+#line 74 "parser.y"
          {
 	print_symbol_table();
 }
-#line 1489 "parser.tab.c"
+#line 1491 "parser.tab.c"
     break;
 
   case 15: /* deklaracio: tipus VALTOZO  */
-#line 96 "parser.y"
+#line 97 "parser.y"
                           {
 	string type = *(yyvsp[-1].tipus);
 	string varname = *(yyvsp[0].valtozonev);
 	check_variable_redeclared(varname, yylineno, startcol);
-	Symbol sym;
-	sym.type = type;
-	sym.line = yylineno;
-	sym.col = startcol;
-	sym.initialized = false;
+	Symbol sym = {type, yylineno, startcol, false};
 	symbol_table[varname] = sym;
 	delete (yyvsp[-1].tipus);
 	delete (yyvsp[0].valtozonev);
 }
-#line 1507 "parser.tab.c"
+#line 1505 "parser.tab.c"
     break;
 
   case 16: /* deklaracio: tipus VALTOZO ERTEKAD kifejezes  */
-#line 109 "parser.y"
+#line 106 "parser.y"
                                   {
 	string type = *(yyvsp[-3].tipus);
 	string varname = *(yyvsp[-2].valtozonev);
 	string exprtype = *(yyvsp[0].tipus);
 
 	check_variable_redeclared(varname, yylineno, startcol);
-
-	// Type validation at initialization
 	check_type_compatibility(type, exprtype, yylineno, startcol);
 
-	Symbol sym;
-	sym.type = type;
-	sym.line = yylineno;
-	sym.col = startcol;
-	sym.initialized = true;
+	Symbol sym = {type, yylineno, startcol, true};
 	symbol_table[varname] = sym;
 	delete (yyvsp[-3].tipus);
 	delete (yyvsp[-2].valtozonev);
 	delete (yyvsp[0].tipus);
 }
-#line 1532 "parser.tab.c"
+#line 1524 "parser.tab.c"
     break;
 
   case 17: /* tipus: SZAM  */
-#line 131 "parser.y"
+#line 122 "parser.y"
             { (yyval.tipus) = new string("szám"); }
-#line 1538 "parser.tab.c"
+#line 1530 "parser.tab.c"
     break;
 
   case 18: /* tipus: VALOS  */
-#line 132 "parser.y"
+#line 123 "parser.y"
                  { (yyval.tipus) = new string("valós"); }
-#line 1544 "parser.tab.c"
+#line 1536 "parser.tab.c"
     break;
 
   case 19: /* tipus: BETU  */
-#line 133 "parser.y"
+#line 124 "parser.y"
                 { (yyval.tipus) = new string("betü"); }
-#line 1550 "parser.tab.c"
+#line 1542 "parser.tab.c"
     break;
 
   case 20: /* tipus: LOGIKAI  */
-#line 134 "parser.y"
-                   {(yyval.tipus) = new string("vajon"); }
-#line 1556 "parser.tab.c"
+#line 125 "parser.y"
+                   { (yyval.tipus) = new string("vajon"); }
+#line 1548 "parser.tab.c"
     break;
 
   case 21: /* ertekadas: VALTOZO ERTEKAD kifejezes  */
-#line 137 "parser.y"
+#line 128 "parser.y"
                                      {
 	string varname = *(yyvsp[-2].valtozonev);
 	string exprtype = *(yyvsp[0].tipus);
 	
-	/* Just assignment to existing variable */
 	check_variable_declared(varname, yylineno, startcol);
 	string vartype = get_variable_type(varname);
 	check_type_compatibility(vartype, exprtype, yylineno, startcol);
@@ -1570,265 +1561,240 @@ yyreduce:
 	delete (yyvsp[-2].valtozonev);
 	delete (yyvsp[0].tipus);
 }
-#line 1574 "parser.tab.c"
+#line 1565 "parser.tab.c"
     break;
 
   case 27: /* kifejezes: IGAZ  */
-#line 162 "parser.y"
+#line 152 "parser.y"
                 { (yyval.tipus) = new string("vajon"); }
-#line 1580 "parser.tab.c"
+#line 1571 "parser.tab.c"
     break;
 
   case 28: /* kifejezes: HAMIS  */
-#line 163 "parser.y"
+#line 153 "parser.y"
                 { (yyval.tipus) = new string("vajon"); }
-#line 1586 "parser.tab.c"
+#line 1577 "parser.tab.c"
     break;
 
   case 29: /* kifejezes: SZAMERTEK  */
-#line 164 "parser.y"
+#line 154 "parser.y"
                     { (yyval.tipus) = new string("szám"); }
-#line 1592 "parser.tab.c"
+#line 1583 "parser.tab.c"
     break;
 
   case 30: /* kifejezes: VALOSERTEK  */
-#line 165 "parser.y"
+#line 155 "parser.y"
                      { (yyval.tipus) = new string("valós"); }
-#line 1598 "parser.tab.c"
+#line 1589 "parser.tab.c"
     break;
 
   case 31: /* kifejezes: BETUERTEK  */
-#line 166 "parser.y"
+#line 156 "parser.y"
                     { (yyval.tipus) = new string("betü"); }
-#line 1604 "parser.tab.c"
+#line 1595 "parser.tab.c"
     break;
 
   case 32: /* kifejezes: VALTOZO  */
-#line 167 "parser.y"
+#line 157 "parser.y"
                   {
-	string varname = *(yyvsp[0].valtozonev);
-	check_variable_declared(varname, yylineno, startcol);
-	(yyval.tipus) = new string(get_variable_type(varname));
-	delete (yyvsp[0].valtozonev);
+		string varname = *(yyvsp[0].valtozonev);
+		check_variable_declared(varname, yylineno, startcol);
+		(yyval.tipus) = new string(get_variable_type(varname));
+		delete (yyvsp[0].valtozonev);
 	}
-#line 1615 "parser.tab.c"
+#line 1606 "parser.tab.c"
     break;
 
   case 33: /* kifejezes: kifejezes PLUSZ kifejezes  */
-#line 173 "parser.y"
+#line 163 "parser.y"
                                     {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_numeric_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
+#line 1618 "parser.tab.c"
+    break;
+
+  case 34: /* kifejezes: kifejezes MINUSZ kifejezes  */
+#line 170 "parser.y"
+                                     {
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_numeric_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
 #line 1630 "parser.tab.c"
     break;
 
-  case 34: /* kifejezes: kifejezes MINUSZ kifejezes  */
-#line 183 "parser.y"
-                                     {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
-	}
-	(yyval.tipus) = (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1645 "parser.tab.c"
-    break;
-
   case 35: /* kifejezes: MINUSZ kifejezes  */
-#line 193 "parser.y"
+#line 177 "parser.y"
                            {
-	string exprtype = *(yyvsp[0].tipus);
-	if (exprtype != "szám" && exprtype != "valós") {
-		semantic_error("unary minus requires numeric type", yylineno, startcol);
+		string exprtype = *(yyvsp[0].tipus);
+		if (exprtype != "szám" && exprtype != "valós") {
+			semantic_error("unary minus requires numeric type", yylineno, startcol);
+		}
+		(yyval.tipus) = (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = (yyvsp[0].tipus);
-	}
-#line 1657 "parser.tab.c"
+#line 1642 "parser.tab.c"
     break;
 
   case 36: /* kifejezes: kifejezes SZOROZ kifejezes  */
-#line 200 "parser.y"
+#line 184 "parser.y"
                                      {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_numeric_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1672 "parser.tab.c"
+#line 1654 "parser.tab.c"
     break;
 
   case 37: /* kifejezes: kifejezes OSZT kifejezes  */
-#line 210 "parser.y"
+#line 191 "parser.y"
                                    {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_numeric_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1687 "parser.tab.c"
+#line 1666 "parser.tab.c"
     break;
 
   case 38: /* kifejezes: kifejezes EGYENLO kifejezes  */
-#line 220 "parser.y"
+#line 198 "parser.y"
                                       {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-#line 1700 "parser.tab.c"
+#line 1679 "parser.tab.c"
     break;
 
   case 39: /* kifejezes: kifejezes NEMEGYENLO kifejezes  */
-#line 228 "parser.y"
+#line 206 "parser.y"
                                          {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-#line 1713 "parser.tab.c"
+#line 1692 "parser.tab.c"
     break;
 
   case 40: /* kifejezes: kifejezes NAGYOBBEGYENLO kifejezes  */
-#line 236 "parser.y"
+#line 214 "parser.y"
                                              {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 == "vajon") {
-		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		check_relational_operand_type(exprtype1, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1729 "parser.tab.c"
+#line 1706 "parser.tab.c"
     break;
 
   case 41: /* kifejezes: kifejezes KISEBBEGYENLO kifejezes  */
-#line 247 "parser.y"
+#line 223 "parser.y"
                                             {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 == "vajon") {
-		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		check_relational_operand_type(exprtype1, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1745 "parser.tab.c"
+#line 1720 "parser.tab.c"
     break;
 
   case 42: /* kifejezes: kifejezes NAGYOBB kifejezes  */
-#line 258 "parser.y"
+#line 232 "parser.y"
                                       {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 == "vajon") {
-		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		check_relational_operand_type(exprtype1, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1761 "parser.tab.c"
+#line 1734 "parser.tab.c"
     break;
 
   case 43: /* kifejezes: kifejezes KISEBB kifejezes  */
-#line 269 "parser.y"
+#line 241 "parser.y"
                                      {
-				string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 == "vajon") {
-		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+		check_relational_operand_type(exprtype1, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1777 "parser.tab.c"
+#line 1748 "parser.tab.c"
     break;
 
   case 44: /* kifejezes: ZAROJELKEZD kifejezes ZAROJELVEG  */
-#line 280 "parser.y"
+#line 250 "parser.y"
                                            {
-	string exprtype = *(yyvsp[-1].tipus);
-	(yyval.tipus) = (yyvsp[-1].tipus);
+		(yyval.tipus) = (yyvsp[-1].tipus);
 	}
-#line 1786 "parser.tab.c"
+#line 1756 "parser.tab.c"
     break;
 
   case 45: /* kifejezes: kifejezes ES kifejezes  */
-#line 284 "parser.y"
+#line 253 "parser.y"
                                  {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	if (exprtype1 != "vajon" || exprtype2 != "vajon") {
-		semantic_error("logical operation requires boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_boolean_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1801 "parser.tab.c"
+#line 1769 "parser.tab.c"
     break;
 
   case 46: /* kifejezes: kifejezes VAGY kifejezes  */
-#line 294 "parser.y"
+#line 261 "parser.y"
                                    {
-	string exprtype1 = *(yyvsp[-2].tipus);
-	string exprtype2 = *(yyvsp[0].tipus);
-	if (exprtype1 != "vajon" || exprtype2 != "vajon") {
-		semantic_error("logical operation requires boolean type", yylineno, startcol);
+		string exprtype1 = *(yyvsp[-2].tipus);
+		string exprtype2 = *(yyvsp[0].tipus);
+		check_boolean_types(exprtype1, exprtype2, yylineno, startcol);
+		(yyval.tipus) = new string("vajon");
+		delete (yyvsp[-2].tipus);
+		delete (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = new string("vajon");
-	delete (yyvsp[-2].tipus);
-	delete (yyvsp[0].tipus);
-	}
-#line 1816 "parser.tab.c"
+#line 1782 "parser.tab.c"
     break;
 
   case 47: /* kifejezes: NEM kifejezes  */
-#line 304 "parser.y"
+#line 269 "parser.y"
                         {
-	string exprtype = *(yyvsp[0].tipus);
-	if (exprtype != "vajon") {
-		semantic_error("negation requires boolean type", yylineno, startcol);
+		string exprtype = *(yyvsp[0].tipus);
+		if (exprtype != "vajon") {
+			semantic_error("negation requires boolean type", yylineno, startcol);
+		}
+		(yyval.tipus) = (yyvsp[0].tipus);
 	}
-	(yyval.tipus) = (yyvsp[0].tipus);
-	}
-#line 1828 "parser.tab.c"
+#line 1794 "parser.tab.c"
     break;
 
 
-#line 1832 "parser.tab.c"
+#line 1798 "parser.tab.c"
 
       default: break;
     }
@@ -2052,7 +2018,8 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 312 "parser.y"
+#line 278 "parser.y"
+
 
 int main() {
 	yyparse();
@@ -2060,12 +2027,12 @@ int main() {
 
 void yyerror(const string s) {
     cerr << "Syntax error at line " << yylineno
-    << ", column " << startcol << ": " << s << endl;
+         << ", column " << startcol << ": " << s << endl;
 }
 
 void semantic_error(string s, int line, int col) {
 	cerr << "Semantic error at line " << line
-	<< ", column " << col << ": " << s << endl;
+	     << ", column " << col << ": " << s << endl;
 }
 
 void check_variable_declared(string varname, int line, int col) {
@@ -2077,8 +2044,34 @@ void check_variable_declared(string varname, int line, int col) {
 void check_variable_redeclared(string varname, int line, int col) {
 	if (symbol_table.find(varname) != symbol_table.end()) {
 		semantic_error("variable '" + varname + "' redeclared (first declared at line "
-		+ to_string(symbol_table[varname].line) + ", column "
-		+ to_string(symbol_table[varname].col) + ")", line, col);
+		               + to_string(symbol_table[varname].line) + ", column "
+		               + to_string(symbol_table[varname].col) + ")", line, col);
+	}
+}
+
+void check_type_compatibility(string type1, string type2, int line, int col) {
+	if (type1 != type2) {
+		semantic_error("type mismatch: expected '" + type1
+		               + "' but got '" + type2 + "' instead", line, col);
+	}
+}
+
+void check_numeric_types(string type1, string type2, int line, int col) {
+	check_type_compatibility(type1, type2, line, col);
+	if (type1 != "szám" && type1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", line, col);
+	}
+}
+
+void check_boolean_types(string type1, string type2, int line, int col) {
+	if (type1 != "vajon" || type2 != "vajon") {
+		semantic_error("logical operation requires boolean type", line, col);
+	}
+}
+
+void check_relational_operand_type(string type, int line, int col) {
+	if (type == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", line, col);
 	}
 }
 
@@ -2094,13 +2087,6 @@ void print_symbol_table() {
 		     << (symbol.second.initialized ? "Yes" : "No") << endl;
 	}
 	cout << endl;
-}
-
-void check_type_compatibility(string type1, string type2, int line, int col) {
-	if (type1 != type2) {
-		semantic_error("type mismatch: expected '" + type1
-		+ "' but got '" + type2 + "' instead", line, col);
-	}
 }
 
 string get_variable_type(string varname) {
