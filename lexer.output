@@ -1,243 +1,53 @@
+[sor: 1, oszlop: 1, hossz: 4] Típus: szám
+[sor: 1, oszlop: 6, hossz: 5] Változó: fibo0
+[sor: 1, oszlop: 12, hossz: 1] Operátor: =
+[sor: 1, oszlop: 14, hossz: 1] Egész szám: 0
+[sor: 1, oszlop: 15, hossz: 1] Utasítás vége: ;
 [sor: 2, oszlop: 1, hossz: 4] Típus: szám
-[sor: 2, oszlop: 6, hossz: 5] Változó: fibo0
+[sor: 2, oszlop: 6, hossz: 5] Változó: fibo1
 [sor: 2, oszlop: 12, hossz: 1] Operátor: =
-[sor: 2, oszlop: 14, hossz: 1] Egész szám: 0
+[sor: 2, oszlop: 14, hossz: 1] Egész szám: 1
 [sor: 2, oszlop: 15, hossz: 1] Utasítás vége: ;
 [sor: 3, oszlop: 1, hossz: 4] Típus: szám
-[sor: 3, oszlop: 6, hossz: 5] Változó: fibo1
+[sor: 3, oszlop: 6, hossz: 5] Változó: count
 [sor: 3, oszlop: 12, hossz: 1] Operátor: =
-[sor: 3, oszlop: 14, hossz: 1] Egész szám: 1
+[sor: 3, oszlop: 14, hossz: 1] Egész szám: 5
 [sor: 3, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 4, oszlop: 1, hossz: 5] Típus: valós
-[sor: 4, oszlop: 7, hossz: 2] Változó: pi
-[sor: 4, oszlop: 10, hossz: 1] Operátor: =
-[sor: 4, oszlop: 12, hossz: 6] Valós szám: 3.1415
+[sor: 4, oszlop: 1, hossz: 5] Változó: count
+[sor: 4, oszlop: 7, hossz: 1] Operátor: =
+[sor: 4, oszlop: 9, hossz: 5] Változó: count
+[sor: 4, oszlop: 15, hossz: 1] Operátor: -
+[sor: 4, oszlop: 17, hossz: 1] Egész szám: 1
 [sor: 4, oszlop: 18, hossz: 1] Utasítás vége: ;
-[sor: 5, oszlop: 1, hossz: 4] Típus: betü
-[sor: 5, oszlop: 6, hossz: 6] Változó: letter
-[sor: 5, oszlop: 13, hossz: 1] Operátor: =
-[sor: 5, oszlop: 15, hossz: 3] Karakterlánc: 'x'
-[sor: 5, oszlop: 18, hossz: 1] Utasítás vége: ;
-[sor: 6, oszlop: 1, hossz: 5] Típus: vajon
-[sor: 6, oszlop: 7, hossz: 4] Változó: flag
-[sor: 6, oszlop: 12, hossz: 1] Operátor: =
-[sor: 6, oszlop: 14, hossz: 4] Logikai érték: igaz
-[sor: 6, oszlop: 18, hossz: 1] Utasítás vége: ;
-[sor: 9, oszlop: 1, hossz: 5] Változó: fibo0
-[sor: 9, oszlop: 7, hossz: 1] Operátor: =
-[sor: 9, oszlop: 9, hossz: 5] Változó: fibo0
-[sor: 9, oszlop: 15, hossz: 1] Operátor: +
-[sor: 9, oszlop: 17, hossz: 1] Egész szám: 5
-[sor: 9, oszlop: 18, hossz: 1] Utasítás vége: ;
-[sor: 10, oszlop: 1, hossz: 5] Változó: fibo1
-[sor: 10, oszlop: 7, hossz: 1] Operátor: =
-[sor: 10, oszlop: 9, hossz: 1] Operátor: -
-[sor: 10, oszlop: 10, hossz: 5] Változó: fibo1
-[sor: 10, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 11, oszlop: 1, hossz: 2] Változó: pi
-[sor: 11, oszlop: 4, hossz: 1] Operátor: =
-[sor: 11, oszlop: 6, hossz: 2] Változó: pi
-[sor: 11, oszlop: 9, hossz: 1] Operátor: -
-[sor: 11, oszlop: 11, hossz: 3] Valós szám: 1.0
-[sor: 11, oszlop: 14, hossz: 1] Utasítás vége: ;
-[sor: 12, oszlop: 1, hossz: 6] Változó: letter
-[sor: 12, oszlop: 8, hossz: 1] Operátor: =
-[sor: 12, oszlop: 10, hossz: 3] Karakterlánc: 'y'
-[sor: 12, oszlop: 13, hossz: 1] Utasítás vége: ;
-[sor: 13, oszlop: 1, hossz: 4] Változó: flag
-[sor: 13, oszlop: 6, hossz: 1] Operátor: =
-[sor: 13, oszlop: 8, hossz: 5] Logikai érték: hamis
-[sor: 13, oszlop: 13, hossz: 1] Utasítás vége: ;
-[sor: 16, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 16, oszlop: 6, hossz: 5] Változó: fibo0
-[sor: 16, oszlop: 11, hossz: 1] Utasítás vége: ;
-[sor: 17, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 17, oszlop: 6, hossz: 2] Változó: pi
-[sor: 17, oszlop: 8, hossz: 1] Utasítás vége: ;
-[sor: 18, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 18, oszlop: 6, hossz: 3] Karakterlánc: 'z'
-[sor: 18, oszlop: 9, hossz: 1] Utasítás vége: ;
-[sor: 19, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 19, oszlop: 6, hossz: 4] Logikai érték: igaz
-[sor: 19, oszlop: 10, hossz: 1] Utasítás vége: ;
-[sor: 20, oszlop: 1, hossz: 7] Bemeneti-kimeneti parancs: beolvas
-[sor: 20, oszlop: 9, hossz: 5] Változó: fibo1
-[sor: 20, oszlop: 14, hossz: 1] Utasítás vége: ;
-[sor: 21, oszlop: 1, hossz: 7] Bemeneti-kimeneti parancs: beolvas
-[sor: 21, oszlop: 9, hossz: 2] Változó: pi
-[sor: 21, oszlop: 11, hossz: 1] Utasítás vége: ;
-[sor: 24, oszlop: 1, hossz: 4] Típus: szám
-[sor: 24, oszlop: 6, hossz: 6] Változó: result
-[sor: 24, oszlop: 13, hossz: 1] Operátor: =
-[sor: 24, oszlop: 15, hossz: 1] Zárójel kezdő: (
-[sor: 24, oszlop: 16, hossz: 1] Zárójel kezdő: (
-[sor: 24, oszlop: 17, hossz: 5] Változó: fibo0
-[sor: 24, oszlop: 23, hossz: 1] Operátor: +
-[sor: 24, oszlop: 25, hossz: 5] Változó: fibo1
-[sor: 24, oszlop: 30, hossz: 1] Zárójel vége: )
-[sor: 24, oszlop: 32, hossz: 1] Operátor: *
-[sor: 24, oszlop: 34, hossz: 1] Zárójel kezdő: (
-[sor: 24, oszlop: 35, hossz: 5] Változó: fibo0
-[sor: 24, oszlop: 41, hossz: 1] Operátor: -
-[sor: 24, oszlop: 43, hossz: 5] Változó: fibo1
-[sor: 24, oszlop: 48, hossz: 1] Zárójel vége: )
-[sor: 24, oszlop: 49, hossz: 1] Zárójel vége: )
-[sor: 24, oszlop: 51, hossz: 1] Operátor: /
-[sor: 24, oszlop: 53, hossz: 1] Egész szám: 2
-[sor: 24, oszlop: 54, hossz: 1] Utasítás vége: ;
-[sor: 27, oszlop: 1, hossz: 5] Típus: vajon
-[sor: 27, oszlop: 7, hossz: 5] Változó: check
-[sor: 27, oszlop: 13, hossz: 1] Operátor: =
-[sor: 27, oszlop: 15, hossz: 1] Zárójel kezdő: (
-[sor: 27, oszlop: 16, hossz: 5] Változó: fibo0
-[sor: 27, oszlop: 22, hossz: 2] Operátor: >=
-[sor: 27, oszlop: 25, hossz: 5] Változó: fibo1
-[sor: 27, oszlop: 30, hossz: 1] Zárójel vége: )
-[sor: 27, oszlop: 32, hossz: 2] Logikai kifejezés: és
-[sor: 27, oszlop: 35, hossz: 1] Zárójel kezdő: (
-[sor: 27, oszlop: 36, hossz: 4] Változó: flag
-[sor: 27, oszlop: 41, hossz: 4] Logikai kifejezés: vagy
-[sor: 27, oszlop: 46, hossz: 3] Logikai kifejezés: nem
-[sor: 27, oszlop: 50, hossz: 4] Változó: flag
-[sor: 27, oszlop: 54, hossz: 1] Zárójel vége: )
-[sor: 27, oszlop: 55, hossz: 1] Utasítás vége: ;
-[sor: 28, oszlop: 1, hossz: 5] Típus: vajon
-[sor: 28, oszlop: 7, hossz: 3] Változó: neg
-[sor: 28, oszlop: 11, hossz: 1] Operátor: =
-[sor: 28, oszlop: 13, hossz: 3] Logikai kifejezés: nem
-[sor: 28, oszlop: 17, hossz: 1] Zárójel kezdő: (
-[sor: 28, oszlop: 18, hossz: 5] Változó: fibo0
-[sor: 28, oszlop: 24, hossz: 1] Operátor: <
-[sor: 28, oszlop: 26, hossz: 5] Változó: fibo1
-[sor: 28, oszlop: 32, hossz: 4] Logikai kifejezés: vagy
-[sor: 28, oszlop: 37, hossz: 5] Logikai érték: hamis
-[sor: 28, oszlop: 42, hossz: 1] Zárójel vége: )
-[sor: 28, oszlop: 43, hossz: 1] Utasítás vége: ;
-[sor: 29, oszlop: 1, hossz: 5] Típus: vajon
-[sor: 29, oszlop: 7, hossz: 7] Változó: complex
-[sor: 29, oszlop: 15, hossz: 1] Operátor: =
-[sor: 29, oszlop: 17, hossz: 1] Zárójel kezdő: (
-[sor: 29, oszlop: 18, hossz: 5] Változó: fibo0
-[sor: 29, oszlop: 24, hossz: 11] Logikai kifejezés: nem egyenlő
-[sor: 29, oszlop: 36, hossz: 5] Változó: fibo1
-[sor: 29, oszlop: 41, hossz: 1] Zárójel vége: )
-[sor: 29, oszlop: 43, hossz: 2] Logikai kifejezés: és
-[sor: 29, oszlop: 46, hossz: 1] Zárójel kezdő: (
-[sor: 29, oszlop: 47, hossz: 3] Logikai kifejezés: nem
-[sor: 29, oszlop: 51, hossz: 4] Logikai érték: igaz
-[sor: 29, oszlop: 56, hossz: 4] Logikai kifejezés: vagy
-[sor: 29, oszlop: 61, hossz: 5] Logikai érték: hamis
-[sor: 29, oszlop: 66, hossz: 1] Zárójel vége: )
-[sor: 29, oszlop: 67, hossz: 1] Utasítás vége: ;
-[sor: 32, oszlop: 1, hossz: 2] ha
-[sor: 32, oszlop: 4, hossz: 1] Zárójel kezdő: (
-[sor: 32, oszlop: 5, hossz: 5] Változó: fibo0
-[sor: 32, oszlop: 11, hossz: 7] Logikai kifejezés: egyenlő
-[sor: 32, oszlop: 19, hossz: 1] Egész szám: 5
-[sor: 32, oszlop: 20, hossz: 1] Zárójel vége: )
-[sor: 32, oszlop: 22, hossz: 5] akkor
-[sor: 32, oszlop: 28, hossz: 1] Blokk kezdő: {
-[sor: 33, oszlop: 5, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 33, oszlop: 10, hossz: 5] Változó: fibo0
-[sor: 33, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 34, oszlop: 1, hossz: 1] Blokk vége: }
-[sor: 34, oszlop: 3, hossz: 8] különben
-[sor: 34, oszlop: 12, hossz: 1] Blokk kezdő: {
-[sor: 35, oszlop: 5, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 35, oszlop: 10, hossz: 5] Változó: fibo1
-[sor: 35, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 36, oszlop: 1, hossz: 1] Blokk vége: }
-[sor: 38, oszlop: 1, hossz: 2] ha
-[sor: 38, oszlop: 4, hossz: 1] Zárójel kezdő: (
-[sor: 38, oszlop: 5, hossz: 4] Változó: flag
-[sor: 38, oszlop: 10, hossz: 2] Logikai kifejezés: és
-[sor: 38, oszlop: 13, hossz: 3] Logikai kifejezés: nem
-[sor: 38, oszlop: 17, hossz: 4] Logikai érték: igaz
-[sor: 38, oszlop: 21, hossz: 1] Zárójel vége: )
-[sor: 38, oszlop: 23, hossz: 5] akkor
-[sor: 38, oszlop: 29, hossz: 1] Blokk kezdő: {
-[sor: 39, oszlop: 5, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 39, oszlop: 10, hossz: 6] Változó: letter
-[sor: 39, oszlop: 16, hossz: 1] Utasítás vége: ;
-[sor: 40, oszlop: 1, hossz: 1] Blokk vége: }
-[sor: 43, oszlop: 1, hossz: 4] Típus: szám
-[sor: 43, oszlop: 6, hossz: 5] Változó: count
-[sor: 43, oszlop: 12, hossz: 1] Operátor: =
-[sor: 43, oszlop: 14, hossz: 1] Egész szám: 3
-[sor: 43, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 44, oszlop: 1, hossz: 4] Ciklus kezdő: amíg
-[sor: 44, oszlop: 6, hossz: 1] Zárójel kezdő: (
-[sor: 44, oszlop: 7, hossz: 5] Változó: count
-[sor: 44, oszlop: 13, hossz: 1] Operátor: >
-[sor: 44, oszlop: 15, hossz: 1] Egész szám: 0
-[sor: 44, oszlop: 16, hossz: 1] Zárójel vége: )
-[sor: 44, oszlop: 18, hossz: 1] Blokk kezdő: {
-[sor: 45, oszlop: 5, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 45, oszlop: 10, hossz: 5] Változó: count
-[sor: 45, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 46, oszlop: 5, hossz: 5] Változó: count
-[sor: 46, oszlop: 11, hossz: 1] Operátor: =
-[sor: 46, oszlop: 13, hossz: 5] Változó: count
-[sor: 46, oszlop: 19, hossz: 1] Operátor: -
-[sor: 46, oszlop: 21, hossz: 1] Egész szám: 1
-[sor: 46, oszlop: 22, hossz: 1] Utasítás vége: ;
-[sor: 47, oszlop: 5, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 47, oszlop: 10, hossz: 5] Változó: count
-[sor: 47, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 48, oszlop: 1, hossz: 1] Blokk vége: }
-[sor: 51, oszlop: 1, hossz: 5] Típus: valós
-[sor: 51, oszlop: 7, hossz: 11] Változó: complexCalc
-[sor: 51, oszlop: 19, hossz: 1] Operátor: =
-[sor: 51, oszlop: 21, hossz: 1] Zárójel kezdő: (
-[sor: 51, oszlop: 22, hossz: 1] Zárójel kezdő: (
-[sor: 51, oszlop: 23, hossz: 2] Változó: pi
-[sor: 51, oszlop: 26, hossz: 1] Operátor: +
-[sor: 51, oszlop: 28, hossz: 3] Valós szám: 2.0
-[sor: 51, oszlop: 31, hossz: 1] Zárójel vége: )
-[sor: 51, oszlop: 33, hossz: 1] Operátor: *
-[sor: 51, oszlop: 35, hossz: 1] Zárójel kezdő: (
-[sor: 51, oszlop: 36, hossz: 5] Változó: fibo0
-[sor: 51, oszlop: 42, hossz: 1] Operátor: -
-[sor: 51, oszlop: 44, hossz: 1] Egész szám: 3
-[sor: 51, oszlop: 45, hossz: 1] Zárójel vége: )
-[sor: 51, oszlop: 46, hossz: 1] Zárójel vége: )
-[sor: 51, oszlop: 48, hossz: 1] Operátor: /
-[sor: 51, oszlop: 50, hossz: 4] Valós szám: -2.5
-[sor: 51, oszlop: 54, hossz: 1] Utasítás vége: ;
-[sor: 54, oszlop: 1, hossz: 2] ha
-[sor: 54, oszlop: 4, hossz: 1] Zárójel kezdő: (
-[sor: 54, oszlop: 5, hossz: 5] Változó: fibo0
-[sor: 54, oszlop: 11, hossz: 7] Logikai kifejezés: egyenlő
-[sor: 54, oszlop: 19, hossz: 1] Egész szám: 0
-[sor: 54, oszlop: 20, hossz: 1] Zárójel vége: )
-[sor: 54, oszlop: 22, hossz: 5] akkor
-[sor: 54, oszlop: 28, hossz: 1] Blokk kezdő: {
-[sor: 56, oszlop: 5, hossz: 4] Ciklus kezdő: amíg
-[sor: 56, oszlop: 10, hossz: 1] Zárójel kezdő: (
-[sor: 56, oszlop: 11, hossz: 4] Változó: alma
-[sor: 56, oszlop: 16, hossz: 2] Operátor: >=
-[sor: 56, oszlop: 19, hossz: 5] Változó: korte
-[sor: 56, oszlop: 24, hossz: 1] Zárójel vége: )
-[sor: 56, oszlop: 26, hossz: 1] Blokk kezdő: {
-[sor: 56, oszlop: 28, hossz: 1] Blokk vége: }
-[sor: 57, oszlop: 2, hossz: 1] Blokk vége: }
-[sor: 58, oszlop: 1, hossz: 4] Típus: szám
-[sor: 58, oszlop: 6, hossz: 3] Változó: neg
-[sor: 58, oszlop: 10, hossz: 1] Operátor: =
-[sor: 58, oszlop: 12, hossz: 3] Egész szám: -10
-[sor: 58, oszlop: 15, hossz: 1] Utasítás vége: ;
-[sor: 61, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 61, oszlop: 6, hossz: 2] Egész szám: 42
-[sor: 61, oszlop: 8, hossz: 1] Utasítás vége: ;
-[sor: 62, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 62, oszlop: 6, hossz: 4] Valós szám: 3.14
-[sor: 62, oszlop: 10, hossz: 1] Utasítás vége: ;
-[sor: 63, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 63, oszlop: 6, hossz: 3] Karakterlánc: 'a'
-[sor: 63, oszlop: 9, hossz: 1] Utasítás vége: ;
-[sor: 64, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 64, oszlop: 6, hossz: 5] Logikai érték: hamis
-[sor: 64, oszlop: 11, hossz: 1] Utasítás vége: ;
-[sor: 65, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
-[sor: 65, oszlop: 6, hossz: 4] Logikai érték: igaz
-[sor: 65, oszlop: 10, hossz: 1] Utasítás vége: ;
+[sor: 7, oszlop: 1, hossz: 4] Ciklus kezdő: amíg
+[sor: 7, oszlop: 6, hossz: 1] Zárójel kezdő: (
+[sor: 7, oszlop: 7, hossz: 5] Változó: count
+[sor: 7, oszlop: 13, hossz: 1] Operátor: >
+[sor: 7, oszlop: 15, hossz: 4] Logikai érték: igaz
+[sor: 7, oszlop: 19, hossz: 1] Zárójel vége: )
+[sor: 8, oszlop: 1, hossz: 1] Blokk kezdő: {
+[sor: 9, oszlop: 5, hossz: 4] Típus: szám
+[sor: 9, oszlop: 10, hossz: 7] Változó: current
+[sor: 9, oszlop: 18, hossz: 1] Operátor: =
+[sor: 9, oszlop: 20, hossz: 5] Változó: fibo0
+[sor: 9, oszlop: 26, hossz: 1] Operátor: +
+[sor: 9, oszlop: 28, hossz: 5] Változó: fibo1
+[sor: 9, oszlop: 33, hossz: 1] Utasítás vége: ;
+[sor: 10, oszlop: 5, hossz: 5] Változó: fibo0
+[sor: 10, oszlop: 11, hossz: 1] Operátor: =
+[sor: 10, oszlop: 13, hossz: 5] Változó: fibo1
+[sor: 10, oszlop: 18, hossz: 1] Utasítás vége: ;
+[sor: 11, oszlop: 5, hossz: 5] Változó: fibo1
+[sor: 11, oszlop: 11, hossz: 1] Operátor: =
+[sor: 11, oszlop: 13, hossz: 7] Változó: current
+[sor: 11, oszlop: 20, hossz: 1] Utasítás vége: ;
+[sor: 12, oszlop: 5, hossz: 5] Változó: count
+[sor: 12, oszlop: 11, hossz: 1] Operátor: =
+[sor: 12, oszlop: 13, hossz: 5] Változó: count
+[sor: 12, oszlop: 19, hossz: 1] Operátor: -
+[sor: 12, oszlop: 21, hossz: 1] Egész szám: 1
+[sor: 12, oszlop: 22, hossz: 1] Utasítás vége: ;
+[sor: 13, oszlop: 1, hossz: 1] Blokk vége: }
+[sor: 14, oszlop: 1, hossz: 4] Bemeneti-kimeneti parancs: kiír
+[sor: 14, oszlop: 6, hossz: 5] Változó: fibo1
+[sor: 14, oszlop: 11, hossz: 1] Utasítás vége: ;

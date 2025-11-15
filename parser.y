@@ -1,5 +1,6 @@
 %{
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <map>
 
@@ -18,7 +19,10 @@ void yyerror(string s);
 void semantic_error(string s, int line, int col);
 void check_variable_declared(string varname, int line, int col);
 void check_variable_redeclared(string varname, int line, int col);
+void check_type_compatibility(string type1, string type2, int line, int col);
+string get_variable_type(string varname);
 void print_symbol_table();
+
 
 extern int yylex();
 extern int yylineno;
@@ -36,7 +40,6 @@ extern int startcol;
 %token <egesz_ertek> SZAMERTEK
 %token <valos_ertek> VALOSERTEK
 %token <valtozonev> VALTOZO
-%token <valtozonev> KIFEJEZES /* for type checking */
 %token <betu_ertek> BETUERTEK
 %token SZAM VALOS BETU LOGIKAI
 %token IGAZ HAMIS
@@ -48,7 +51,8 @@ extern int startcol;
 %token BLOKKKEZD BLOKKVEG ZAROJELKEZD ZAROJELVEG
 %token PLUSZ MINUSZ SZOROZ OSZT ERTEKAD NAGYOBBEGYENLO KISEBBEGYENLO NAGYOBB KISEBB
 
-%type<tipus> tipus
+%type <tipus> tipus
+%type <tipus> kifejezes
 
 %left PLUSZ MINUSZ
 %left SZOROZ OSZT
@@ -92,7 +96,7 @@ utasitas: deklaracio UTASITASVEG
 deklaracio: tipus VALTOZO {
 	string type = *$1;
 	string varname = *$2;
-	check_variable_redeclared(type, yylineno, startcol);
+	check_variable_redeclared(varname, yylineno, startcol);
 	Symbol sym;
 	sym.type = type;
 	sym.line = yylineno;
@@ -105,7 +109,13 @@ deklaracio: tipus VALTOZO {
 | tipus VALTOZO ERTEKAD kifejezes {
 	string type = *$1;
 	string varname = *$2;
+	string exprtype = *$4;
+
 	check_variable_redeclared(varname, yylineno, startcol);
+
+	// Type validation at initialization
+	check_type_compatibility(type, exprtype, yylineno, startcol);
+
 	Symbol sym;
 	sym.type = type;
 	sym.line = yylineno;
@@ -114,6 +124,7 @@ deklaracio: tipus VALTOZO {
 	symbol_table[varname] = sym;
 	delete $1;
 	delete $2;
+	delete $4;
 }
 ;
 
@@ -125,10 +136,16 @@ tipus: SZAM { $$ = new string("szám"); }
 
 ertekadas: VALTOZO ERTEKAD kifejezes {
 	string varname = *$1;
-	// Just assignment to existing variable
+	string exprtype = *$3;
+	
+	/* Just assignment to existing variable */
 	check_variable_declared(varname, yylineno, startcol);
+	string vartype = get_variable_type(varname);
+	check_type_compatibility(vartype, exprtype, yylineno, startcol);
+
 	symbol_table[varname].initialized = true;
 	delete $1;
+	delete $3;
 }
 ;
 
@@ -142,27 +159,155 @@ elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG
 
 ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG ;
 
-kifejezes: IGAZ
-		 | HAMIS
-		 | SZAMERTEK
-		 | VALOSERTEK
-		 | BETUERTEK
-		 | VALTOZO
-		 | kifejezes PLUSZ kifejezes
-		 | kifejezes MINUSZ kifejezes
-		 | MINUSZ kifejezes
-		 | kifejezes SZOROZ kifejezes
-		 | kifejezes OSZT kifejezes
-		 | kifejezes EGYENLO kifejezes
-		 | kifejezes NEMEGYENLO kifejezes
-		 | kifejezes NAGYOBBEGYENLO kifejezes
-		 | kifejezes KISEBBEGYENLO kifejezes
-		 | kifejezes NAGYOBB kifejezes
-		 | kifejezes KISEBB kifejezes
-		 | ZAROJELKEZD kifejezes ZAROJELVEG
-		 | kifejezes ES kifejezes
-		 | kifejezes VAGY kifejezes
-		 | NEM kifejezes
+kifejezes: IGAZ { $$ = new string("vajon"); }
+	| HAMIS { $$ = new string("vajon"); }
+	| SZAMERTEK { $$ = new string("szám"); }
+	| VALOSERTEK { $$ = new string("valós"); }
+	| BETUERTEK { $$ = new string("betü"); }
+	| VALTOZO {
+	string varname = *$1;
+	check_variable_declared(varname, yylineno, startcol);
+	$$ = new string(get_variable_type(varname));
+	delete $1;
+	}
+	| kifejezes PLUSZ kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype2 != "valós") {
+		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	}
+	$$ = $1;
+	delete $3;
+	}
+	| kifejezes MINUSZ kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype2 != "valós") {
+		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	}
+	$$ = $1;
+	delete $3;
+	}
+	| MINUSZ kifejezes {
+	string exprtype = *$2;
+	if (exprtype != "szám" && exprtype != "valós") {
+		semantic_error("unary minus requires numeric type", yylineno, startcol);
+	}
+	$$ = $2;
+	}
+	| kifejezes SZOROZ kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype2 != "valós") {
+		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	}
+	$$ = $1;
+	delete $3;
+	}
+	| kifejezes OSZT kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype2 != "valós") {
+		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	}
+	$$ = $1;
+	delete $3;
+	}
+	| kifejezes EGYENLO kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes NEMEGYENLO kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes NAGYOBBEGYENLO kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes KISEBBEGYENLO kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes NAGYOBB kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes KISEBB kifejezes {
+				string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
+	if (exprtype1 == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| ZAROJELKEZD kifejezes ZAROJELVEG {
+	string exprtype = *$2;
+	$$ = $2;
+	}
+	| kifejezes ES kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	if (exprtype1 != "vajon" || exprtype2 != "vajon") {
+		semantic_error("logical operation requires boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| kifejezes VAGY kifejezes {
+	string exprtype1 = *$1;
+	string exprtype2 = *$3;
+	if (exprtype1 != "vajon" || exprtype2 != "vajon") {
+		semantic_error("logical operation requires boolean type", yylineno, startcol);
+	}
+	$$ = new string("vajon");
+	delete $1;
+	delete $3;
+	}
+	| NEM kifejezes {
+	string exprtype = *$2;
+	if (exprtype != "vajon") {
+		semantic_error("negation requires boolean type", yylineno, startcol);
+	}
+	$$ = $2;
+	}
 
 %%
 int main() {
@@ -181,13 +326,13 @@ void semantic_error(string s, int line, int col) {
 
 void check_variable_declared(string varname, int line, int col) {
 	if (symbol_table.find(varname) == symbol_table.end()) {
-		semantic_error("Variable '" + varname + "' used before declaration", line, col);
+		semantic_error("variable '" + varname + "' used before declaration", line, col);
 	}
 }
 
 void check_variable_redeclared(string varname, int line, int col) {
 	if (symbol_table.find(varname) != symbol_table.end()) {
-		semantic_error("Variable '" + varname + "' redeclared (first declared at line "
+		semantic_error("variable '" + varname + "' redeclared (first declared at line "
 		+ to_string(symbol_table[varname].line) + ", column "
 		+ to_string(symbol_table[varname].col) + ")", line, col);
 	}
@@ -204,4 +349,19 @@ void print_symbol_table() {
 		     << symbol.second.line << ":" << symbol.second.col << "\t\t" 
 		     << (symbol.second.initialized ? "Yes" : "No") << endl;
 	}
+	cout << endl;
+}
+
+void check_type_compatibility(string type1, string type2, int line, int col) {
+	if (type1 != type2) {
+		semantic_error("type mismatch: expected '" + type1
+		+ "' but got '" + type2 + "' instead", line, col);
+	}
+}
+
+string get_variable_type(string varname) {
+	if (symbol_table.find(varname) != symbol_table.end()) {
+		return symbol_table[varname].type;
+	}
+	return "";
 }

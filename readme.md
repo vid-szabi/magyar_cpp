@@ -47,7 +47,7 @@ kiír fibo1;
 ```text
 ├── lexer.l              # Flex lexical analyzer specification
 ├── parser.y             # Bison parser specification
-├── fibonacci.magyar     # Example program in Magyar C++
+├── fibonacci.hun        # Example program in Magyar C++
 ├── fibonacci.cpp        # Equivalent C++ reference implementation
 ├── lex.yy.c             # Generated C code from Flex
 ├── parser.tab.c/.h      # Generated parser code from Bison
@@ -74,7 +74,7 @@ bison -dvt parser.y
 g++ lex.yy.c parser.tab.c -o magyar_cpp
 
 # Run with input
-./magyar_cpp < fibonacci.magyar
+./magyar_cpp < fibonacci.hun
 ```
 
 ### Build with Diagnostic Output
@@ -91,13 +91,13 @@ This produces:
 
 ## Files Overview
 
-| File               | Purpose                                                   |
-| ------------------ | --------------------------------------------------------- |
-| `lexer.l`          | Defines tokens and lexical rules for the Hungarian syntax |
-| `parser.y`         | Defines grammar rules and syntax validation               |
-| `lex.yy.c`         | Auto-generated lexer implementation (don't edit)          |
-| `parser.tab.c/.h`  | Auto-generated parser implementation (don't edit)         |
-| `fibonacci.magyar` | Example program demonstrating language features           |
+| File              | Purpose                                                   |
+| ----------------- | --------------------------------------------------------- |
+| `lexer.l`         | Defines tokens and lexical rules for the Hungarian syntax |
+| `parser.y`        | Defines grammar rules and syntax validation               |
+| `lex.yy.c`        | Auto-generated lexer implementation (don't edit)          |
+| `parser.tab.c/.h` | Auto-generated parser implementation (don't edit)         |
+| `fibonacci.hun`   | Example program demonstrating language features           |
 
 ## Key Implementation Details
 
@@ -123,5 +123,5 @@ This is a compiler project for compiler construction coursework, implementing:
 - improving the creativity of some keywords (legyen)
 - array/vector type
 - local variables
-- type conversion
+- type conversion (and giving error for possible value loss)
 - other advanced feature (for example string interpolation)
