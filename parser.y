@@ -174,8 +174,8 @@ kifejezes: IGAZ { $$ = new string("vajon"); }
 	string exprtype1 = *$1;
 	string exprtype2 = *$3;
 	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", yylineno, startcol);
 	}
 	$$ = $1;
 	delete $3;
@@ -184,8 +184,8 @@ kifejezes: IGAZ { $$ = new string("vajon"); }
 	string exprtype1 = *$1;
 	string exprtype2 = *$3;
 	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", yylineno, startcol);
 	}
 	$$ = $1;
 	delete $3;
@@ -201,8 +201,8 @@ kifejezes: IGAZ { $$ = new string("vajon"); }
 	string exprtype1 = *$1;
 	string exprtype2 = *$3;
 	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", yylineno, startcol);
 	}
 	$$ = $1;
 	delete $3;
@@ -211,8 +211,8 @@ kifejezes: IGAZ { $$ = new string("vajon"); }
 	string exprtype1 = *$1;
 	string exprtype2 = *$3;
 	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
-	if (exprtype1 != "szám" && exprtype2 != "valós") {
-		semantic_error("aritmetic operation requires numeric type", yylineno, startcol);
+	if (exprtype1 != "szám" && exprtype1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", yylineno, startcol);
 	}
 	$$ = $1;
 	delete $3;
@@ -267,7 +267,7 @@ kifejezes: IGAZ { $$ = new string("vajon"); }
 	delete $3;
 	}
 	| kifejezes KISEBB kifejezes {
-				string exprtype1 = *$1;
+	string exprtype1 = *$1;
 	string exprtype2 = *$3;
 	check_type_compatibility(exprtype1, exprtype2, yylineno, startcol);
 	if (exprtype1 == "vajon") {
