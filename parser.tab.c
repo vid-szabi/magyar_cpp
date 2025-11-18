@@ -111,8 +111,9 @@ string map_type_to_cpp(string type);
 extern int yylex();
 extern int yylineno;
 extern int startcol;
+extern bool has_error;
 
-#line 116 "parser.tab.c"
+#line 117 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -580,11 +581,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    96,    96,   104,   105,   108,   109,   110,   113,   114,
-     115,   116,   117,   118,   119,   122,   135,   155,   156,   157,
-     158,   161,   178,   185,   192,   201,   216,   227,   228,   229,
-     233,   237,   241,   248,   256,   264,   272,   280,   288,   296,
-     304,   313,   322,   331,   340,   343,   351,   359
+       0,    97,    97,   110,   111,   114,   115,   116,   119,   120,
+     121,   122,   123,   124,   125,   128,   141,   161,   162,   163,
+     164,   167,   184,   191,   198,   207,   222,   233,   234,   235,
+     239,   243,   247,   254,   262,   270,   278,   286,   294,   302,
+     310,   319,   328,   337,   346,   349,   357,   365
 };
 #endif
 
@@ -1495,18 +1496,23 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* s: blokk  */
-#line 96 "parser.y"
+#line 97 "parser.y"
          {
 	print_symbol_table();
 	generated_code << endl << indent() << "return 0;" << endl << "}";
 	indent_level--;
-	print_generated_code(); /* Only generate code if no errors */
+	if (!has_error) {
+		print_generated_code(); /* Only generate code if no errors */
+	}
+	else {
+		cerr << "No code generated because of errors" << endl;
+	}
 }
-#line 1506 "parser.tab.c"
+#line 1512 "parser.tab.c"
     break;
 
   case 15: /* deklaracio: tipus VALTOZO  */
-#line 122 "parser.y"
+#line 128 "parser.y"
                           {
 	string type = *(yyvsp[-1].tipus);
 	string varname = *(yyvsp[0].valtozonev);
@@ -1520,11 +1526,11 @@ yyreduce:
 	delete (yyvsp[-1].tipus);
 	delete (yyvsp[0].valtozonev);
 }
-#line 1524 "parser.tab.c"
+#line 1530 "parser.tab.c"
     break;
 
   case 16: /* deklaracio: tipus VALTOZO ERTEKAD kifejezes  */
-#line 135 "parser.y"
+#line 141 "parser.y"
                                   {
 	string type = *(yyvsp[-3].tipus);
 	string varname = *(yyvsp[-2].valtozonev);
@@ -1543,35 +1549,35 @@ yyreduce:
 	delete (yyvsp[-2].valtozonev);
 	delete expr;
 }
-#line 1547 "parser.tab.c"
-    break;
-
-  case 17: /* tipus: SZAM  */
-#line 155 "parser.y"
-            { (yyval.tipus) = new string("szám"); }
 #line 1553 "parser.tab.c"
     break;
 
-  case 18: /* tipus: VALOS  */
-#line 156 "parser.y"
-                 { (yyval.tipus) = new string("valós"); }
+  case 17: /* tipus: SZAM  */
+#line 161 "parser.y"
+            { (yyval.tipus) = new string("szám"); }
 #line 1559 "parser.tab.c"
     break;
 
-  case 19: /* tipus: BETU  */
-#line 157 "parser.y"
-                { (yyval.tipus) = new string("betü"); }
+  case 18: /* tipus: VALOS  */
+#line 162 "parser.y"
+                 { (yyval.tipus) = new string("valós"); }
 #line 1565 "parser.tab.c"
     break;
 
-  case 20: /* tipus: LOGIKAI  */
-#line 158 "parser.y"
-                   { (yyval.tipus) = new string("vajon"); }
+  case 19: /* tipus: BETU  */
+#line 163 "parser.y"
+                { (yyval.tipus) = new string("betü"); }
 #line 1571 "parser.tab.c"
     break;
 
+  case 20: /* tipus: LOGIKAI  */
+#line 164 "parser.y"
+                   { (yyval.tipus) = new string("vajon"); }
+#line 1577 "parser.tab.c"
+    break;
+
   case 21: /* ertekadas: VALTOZO ERTEKAD kifejezes  */
-#line 161 "parser.y"
+#line 167 "parser.y"
                                      {
 	string varname = *(yyvsp[-2].valtozonev);
 	ExprInfo* expr = (yyvsp[0].expr);
@@ -1587,31 +1593,31 @@ yyreduce:
 	delete (yyvsp[-2].valtozonev);
 	delete (yyvsp[0].expr);
 }
-#line 1591 "parser.tab.c"
+#line 1597 "parser.tab.c"
     break;
 
   case 22: /* kiir: KIIR kifejezes  */
-#line 178 "parser.y"
+#line 184 "parser.y"
                      {
 	ExprInfo* expr = (yyvsp[0].expr);
 	generated_code << indent() << "cout << " << expr->code << " << endl;" << endl;
 	delete expr;
 }
-#line 1601 "parser.tab.c"
+#line 1607 "parser.tab.c"
     break;
 
   case 23: /* beolvas: BEOLVAS kifejezes  */
-#line 185 "parser.y"
+#line 191 "parser.y"
                            {
 	ExprInfo* expr = (yyvsp[0].expr);
 	generated_code << indent() << "cin >> " << expr->code << ";" << endl;
 	delete expr;
 }
-#line 1611 "parser.tab.c"
+#line 1617 "parser.tab.c"
     break;
 
   case 24: /* elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG  */
-#line 192 "parser.y"
+#line 198 "parser.y"
                                                                              { 
 	ExprInfo* condition = (yyvsp[-5].expr);
 	generated_code << indent() << "if (" << condition->code << ") {" << endl;
@@ -1621,11 +1627,11 @@ yyreduce:
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
-#line 1625 "parser.tab.c"
+#line 1631 "parser.tab.c"
     break;
 
   case 25: /* elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG  */
-#line 201 "parser.y"
+#line 207 "parser.y"
                                                                                                       {
 	ExprInfo* condition = (yyvsp[-9].expr);
 	generated_code << indent() << "if (" << condition->code << ") {" << endl;
@@ -1639,11 +1645,11 @@ yyreduce:
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
-#line 1643 "parser.tab.c"
+#line 1649 "parser.tab.c"
     break;
 
   case 26: /* ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG  */
-#line 216 "parser.y"
+#line 222 "parser.y"
                                                                       {
 	ExprInfo* condition = (yyvsp[-4].expr);
 	generated_code << indent() << "while (" << condition->code << ") {" << endl;
@@ -1653,50 +1659,50 @@ yyreduce:
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
-#line 1657 "parser.tab.c"
-    break;
-
-  case 27: /* kifejezes: IGAZ  */
-#line 227 "parser.y"
-                { (yyval.expr) = new ExprInfo{"true", "vajon"}; }
 #line 1663 "parser.tab.c"
     break;
 
-  case 28: /* kifejezes: HAMIS  */
-#line 228 "parser.y"
-                { (yyval.expr) = new ExprInfo{"false", "vajon"}; }
+  case 27: /* kifejezes: IGAZ  */
+#line 233 "parser.y"
+                { (yyval.expr) = new ExprInfo{"true", "vajon"}; }
 #line 1669 "parser.tab.c"
     break;
 
+  case 28: /* kifejezes: HAMIS  */
+#line 234 "parser.y"
+                { (yyval.expr) = new ExprInfo{"false", "vajon"}; }
+#line 1675 "parser.tab.c"
+    break;
+
   case 29: /* kifejezes: SZAMERTEK  */
-#line 229 "parser.y"
+#line 235 "parser.y"
                     {
 		string value = to_string((yyvsp[0].egesz_ertek));
 		(yyval.expr) = new ExprInfo{value, "szám"}; 
 	}
-#line 1678 "parser.tab.c"
+#line 1684 "parser.tab.c"
     break;
 
   case 30: /* kifejezes: VALOSERTEK  */
-#line 233 "parser.y"
+#line 239 "parser.y"
                      {
 		string value = to_string((yyvsp[0].valos_ertek));
 		(yyval.expr) = new ExprInfo{value, "valós"};
 	}
-#line 1687 "parser.tab.c"
+#line 1693 "parser.tab.c"
     break;
 
   case 31: /* kifejezes: BETUERTEK  */
-#line 237 "parser.y"
+#line 243 "parser.y"
                     {
 		string value = to_string((yyvsp[0].betu_ertek));
 		(yyval.expr) = new ExprInfo{value, "betü"};
 	}
-#line 1696 "parser.tab.c"
+#line 1702 "parser.tab.c"
     break;
 
   case 32: /* kifejezes: VALTOZO  */
-#line 241 "parser.y"
+#line 247 "parser.y"
                   {
 		string varname = *(yyvsp[0].valtozonev);
 		check_variable_declared(varname, yylineno, startcol);
@@ -1704,11 +1710,11 @@ yyreduce:
 		(yyval.expr) = new ExprInfo{varname, vartype};
 		delete (yyvsp[0].valtozonev);
 	}
-#line 1708 "parser.tab.c"
+#line 1714 "parser.tab.c"
     break;
 
   case 33: /* kifejezes: kifejezes PLUSZ kifejezes  */
-#line 248 "parser.y"
+#line 254 "parser.y"
                                     {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1717,11 +1723,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1721 "parser.tab.c"
+#line 1727 "parser.tab.c"
     break;
 
   case 34: /* kifejezes: kifejezes MINUSZ kifejezes  */
-#line 256 "parser.y"
+#line 262 "parser.y"
                                      {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1730,11 +1736,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1734 "parser.tab.c"
+#line 1740 "parser.tab.c"
     break;
 
   case 35: /* kifejezes: MINUSZ kifejezes  */
-#line 264 "parser.y"
+#line 270 "parser.y"
                            {
 		ExprInfo* expr = (yyvsp[0].expr);
 		if (expr->type != "szám" && expr->type != "valós") {
@@ -1743,11 +1749,11 @@ yyreduce:
 		(yyval.expr) = new ExprInfo{"(-" + expr->code + ")", expr->type};
 		delete expr;
 	}
-#line 1747 "parser.tab.c"
+#line 1753 "parser.tab.c"
     break;
 
   case 36: /* kifejezes: kifejezes SZOROZ kifejezes  */
-#line 272 "parser.y"
+#line 278 "parser.y"
                                      {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1756,11 +1762,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1760 "parser.tab.c"
+#line 1766 "parser.tab.c"
     break;
 
   case 37: /* kifejezes: kifejezes OSZT kifejezes  */
-#line 280 "parser.y"
+#line 286 "parser.y"
                                    {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1769,11 +1775,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1773 "parser.tab.c"
+#line 1779 "parser.tab.c"
     break;
 
   case 38: /* kifejezes: kifejezes NEMEGYENLO kifejezes  */
-#line 288 "parser.y"
+#line 294 "parser.y"
                                          {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1782,11 +1788,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1786 "parser.tab.c"
+#line 1792 "parser.tab.c"
     break;
 
   case 39: /* kifejezes: kifejezes EGYENLO kifejezes  */
-#line 296 "parser.y"
+#line 302 "parser.y"
                                       {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1795,11 +1801,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1799 "parser.tab.c"
+#line 1805 "parser.tab.c"
     break;
 
   case 40: /* kifejezes: kifejezes NAGYOBBEGYENLO kifejezes  */
-#line 304 "parser.y"
+#line 310 "parser.y"
                                              {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1809,11 +1815,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1813 "parser.tab.c"
+#line 1819 "parser.tab.c"
     break;
 
   case 41: /* kifejezes: kifejezes KISEBBEGYENLO kifejezes  */
-#line 313 "parser.y"
+#line 319 "parser.y"
                                             {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1823,11 +1829,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1827 "parser.tab.c"
+#line 1833 "parser.tab.c"
     break;
 
   case 42: /* kifejezes: kifejezes NAGYOBB kifejezes  */
-#line 322 "parser.y"
+#line 328 "parser.y"
                                       {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1837,11 +1843,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1841 "parser.tab.c"
+#line 1847 "parser.tab.c"
     break;
 
   case 43: /* kifejezes: kifejezes KISEBB kifejezes  */
-#line 331 "parser.y"
+#line 337 "parser.y"
                                      {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1851,19 +1857,19 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1855 "parser.tab.c"
+#line 1861 "parser.tab.c"
     break;
 
   case 44: /* kifejezes: ZAROJELKEZD kifejezes ZAROJELVEG  */
-#line 340 "parser.y"
+#line 346 "parser.y"
                                            {
 		(yyval.expr) = (yyvsp[-1].expr);
 	}
-#line 1863 "parser.tab.c"
+#line 1869 "parser.tab.c"
     break;
 
   case 45: /* kifejezes: kifejezes ES kifejezes  */
-#line 343 "parser.y"
+#line 349 "parser.y"
                                  {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1872,11 +1878,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1876 "parser.tab.c"
+#line 1882 "parser.tab.c"
     break;
 
   case 46: /* kifejezes: kifejezes VAGY kifejezes  */
-#line 351 "parser.y"
+#line 357 "parser.y"
                                    {
 		ExprInfo* expr1 = (yyvsp[-2].expr);
 		ExprInfo* expr2 = (yyvsp[0].expr);
@@ -1885,11 +1891,11 @@ yyreduce:
 		delete expr1;
 		delete expr2;
 	}
-#line 1889 "parser.tab.c"
+#line 1895 "parser.tab.c"
     break;
 
   case 47: /* kifejezes: NEM kifejezes  */
-#line 359 "parser.y"
+#line 365 "parser.y"
                         {
 		ExprInfo* expr = (yyvsp[0].expr);
 		if (expr->type != "vajon") {
@@ -1898,11 +1904,11 @@ yyreduce:
 		(yyval.expr) = new ExprInfo{"(!" + expr->code + ")", "vajon"};
 		delete expr;
 	}
-#line 1902 "parser.tab.c"
+#line 1908 "parser.tab.c"
     break;
 
 
-#line 1906 "parser.tab.c"
+#line 1912 "parser.tab.c"
 
       default: break;
     }
@@ -2126,7 +2132,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 369 "parser.y"
+#line 375 "parser.y"
 
 
 int main() {
@@ -2138,11 +2144,13 @@ int main() {
 }
 
 void yyerror(const string s) {
+	has_error = true;
     cerr << "Syntax error at line " << yylineno
          << ", column " << startcol << ": " << s << endl;
 }
 
 void semantic_error(string s, int line, int col) {
+	has_error = true;
 	cerr << "Semantic error at line " << line
 	     << ", column " << col << ": " << s << endl;
 }

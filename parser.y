@@ -50,6 +50,7 @@ string map_type_to_cpp(string type);
 extern int yylex();
 extern int yylineno;
 extern int startcol;
+extern bool has_error;
 %}
 
 %union {
@@ -97,7 +98,12 @@ s: blokk {
 	print_symbol_table();
 	generated_code << endl << indent() << "return 0;" << endl << "}";
 	indent_level--;
-	print_generated_code(); /* Only generate code if no errors */
+	if (!has_error) {
+		print_generated_code(); /* Only generate code if no errors */
+	}
+	else {
+		cerr << "No code generated because of errors" << endl;
+	}
 }
 ;
 
@@ -377,11 +383,13 @@ int main() {
 }
 
 void yyerror(const string s) {
+	has_error = true;
     cerr << "Syntax error at line " << yylineno
          << ", column " << startcol << ": " << s << endl;
 }
 
 void semantic_error(string s, int line, int col) {
+	has_error = true;
 	cerr << "Semantic error at line " << line
 	     << ", column " << col << ": " << s << endl;
 }

@@ -10,6 +10,9 @@ int colno = 1; // column number
 int startcol = 1;
 ofstream out("lexer.output");
 
+// we keep track if there is an error to generate code only if not
+bool has_error = false;
+
 // We need this because of the Hungarian accents
 int utf8_strlen(const string& str) {
     int len = 0;
@@ -357,6 +360,7 @@ int utf8_strlen(const string& str) {
 . {
     startcol = colno;
     colno += yyleng;
+    has_error = true;
     out << "[sor: " << yylineno << ", oszlop: " << startcol
         << ", hossz: " << yyleng << "] " << "Lexikális hiba, ismeretlen szimbólum: " << yytext << endl;
     cerr << "Lexical error at line " << yylineno << ", column " << startcol
