@@ -49,8 +49,8 @@ Grammar
    34          | MINUSZ kifejezes
    35          | kifejezes SZOROZ kifejezes
    36          | kifejezes OSZT kifejezes
-   37          | kifejezes EGYENLO kifejezes
-   38          | kifejezes NEMEGYENLO kifejezes
+   37          | kifejezes NEMEGYENLO kifejezes
+   38          | kifejezes EGYENLO kifejezes
    39          | kifejezes NAGYOBBEGYENLO kifejezes
    40          | kifejezes KISEBBEGYENLO kifejezes
    41          | kifejezes NAGYOBB kifejezes
@@ -81,8 +81,8 @@ Terminals, with rules where they appear
     AKKOR (271) 23 24
     KULONBEN (272) 24
     AMIG (273) 25
-    NEMEGYENLO (274) 38
-    EGYENLO (275) 37
+    NEMEGYENLO (274) 37
+    EGYENLO (275) 38
     NEM (276) 46
     ES (277) 44
     VAGY (278) 45
@@ -139,7 +139,7 @@ Nonterminals, with rules where they appear
     ciklus (49)
         on left: 25
         on right: 12
-    kifejezes <tipus> (50)
+    kifejezes <expr> (50)
         on left: 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
         on right: 15 20 21 22 23 24 25 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
 
@@ -490,8 +490,8 @@ State 33
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -522,8 +522,8 @@ State 34
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -651,8 +651,8 @@ State 45
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -682,8 +682,8 @@ State 46
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -701,8 +701,8 @@ State 47
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -733,8 +733,8 @@ State 48
    34          | MINUSZ kifejezes •
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -758,7 +758,7 @@ State 48
 
 State 49
 
-   38 kifejezes: kifejezes NEMEGYENLO • kifejezes
+   37 kifejezes: kifejezes NEMEGYENLO • kifejezes
 
     SZAMERTEK    shift, and go to state 24
     VALOSERTEK   shift, and go to state 25
@@ -775,7 +775,7 @@ State 49
 
 State 50
 
-   37 kifejezes: kifejezes EGYENLO • kifejezes
+   38 kifejezes: kifejezes EGYENLO • kifejezes
 
     SZAMERTEK    shift, and go to state 24
     VALOSERTEK   shift, and go to state 25
@@ -968,8 +968,8 @@ State 61
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -999,8 +999,8 @@ State 62
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1053,31 +1053,9 @@ State 65
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
-   38          | kifejezes NEMEGYENLO kifejezes •
-   39          | kifejezes • NAGYOBBEGYENLO kifejezes
-   40          | kifejezes • KISEBBEGYENLO kifejezes
-   41          | kifejezes • NAGYOBB kifejezes
-   42          | kifejezes • KISEBB kifejezes
-   44          | kifejezes • ES kifejezes
-   45          | kifejezes • VAGY kifejezes
-
-    ES    shift, and go to state 51
-    VAGY  shift, and go to state 52
-
-    $default  reduce using rule 38 (kifejezes)
-
-
-State 66
-
-   32 kifejezes: kifejezes • PLUSZ kifejezes
-   33          | kifejezes • MINUSZ kifejezes
-   35          | kifejezes • SZOROZ kifejezes
-   36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   37          | kifejezes EGYENLO kifejezes •
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes NEMEGYENLO kifejezes •
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1091,14 +1069,36 @@ State 66
     $default  reduce using rule 37 (kifejezes)
 
 
+State 66
+
+   32 kifejezes: kifejezes • PLUSZ kifejezes
+   33          | kifejezes • MINUSZ kifejezes
+   35          | kifejezes • SZOROZ kifejezes
+   36          | kifejezes • OSZT kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
+   38          | kifejezes EGYENLO kifejezes •
+   39          | kifejezes • NAGYOBBEGYENLO kifejezes
+   40          | kifejezes • KISEBBEGYENLO kifejezes
+   41          | kifejezes • NAGYOBB kifejezes
+   42          | kifejezes • KISEBB kifejezes
+   44          | kifejezes • ES kifejezes
+   45          | kifejezes • VAGY kifejezes
+
+    ES    shift, and go to state 51
+    VAGY  shift, and go to state 52
+
+    $default  reduce using rule 38 (kifejezes)
+
+
 State 67
 
    32 kifejezes: kifejezes • PLUSZ kifejezes
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1116,8 +1116,8 @@ State 68
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1136,8 +1136,8 @@ State 69
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1166,8 +1166,8 @@ State 70
    33          | kifejezes MINUSZ kifejezes •
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1196,8 +1196,8 @@ State 71
    35          | kifejezes • SZOROZ kifejezes
    35          | kifejezes SZOROZ kifejezes •
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1224,8 +1224,8 @@ State 72
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
    36          | kifejezes OSZT kifejezes •
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1251,8 +1251,8 @@ State 73
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    39          | kifejezes NAGYOBBEGYENLO kifejezes •
    40          | kifejezes • KISEBBEGYENLO kifejezes
@@ -1273,8 +1273,8 @@ State 74
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    40          | kifejezes KISEBBEGYENLO kifejezes •
@@ -1295,8 +1295,8 @@ State 75
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1317,8 +1317,8 @@ State 76
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
@@ -1355,8 +1355,8 @@ State 79
    33          | kifejezes • MINUSZ kifejezes
    35          | kifejezes • SZOROZ kifejezes
    36          | kifejezes • OSZT kifejezes
-   37          | kifejezes • EGYENLO kifejezes
-   38          | kifejezes • NEMEGYENLO kifejezes
+   37          | kifejezes • NEMEGYENLO kifejezes
+   38          | kifejezes • EGYENLO kifejezes
    39          | kifejezes • NAGYOBBEGYENLO kifejezes
    40          | kifejezes • KISEBBEGYENLO kifejezes
    41          | kifejezes • NAGYOBB kifejezes
