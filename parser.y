@@ -95,7 +95,8 @@ extern int startcol;
 
 s: blokk {
 	print_symbol_table();
-	generated_code << endl << "return 0;" << endl << endl << "}";
+	generated_code << endl << indent() << "return 0;" << endl << "}";
+	indent_level--;
 	print_generated_code(); /* Only generate code if no errors */
 }
 ;
@@ -370,7 +371,8 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 int main() {
 	generated_code << "#include <iostream>" << endl << endl << "using namespace std;"
 	               << endl << endl << "int main() {" << endl;
-	
+	indent_level++;
+
 	yyparse();
 }
 
