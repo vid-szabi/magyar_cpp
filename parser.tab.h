@@ -44,6 +44,17 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "parser.y"
+
+#include <string>
+
+struct ExprInfo {
+	std::string code; // Generated code
+	std::string type; // Type for semantic checking
+};
+
+#line 58 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -97,14 +108,16 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "parser.y"
+#line 56 "parser.y"
 
 	int egesz_ertek;
 	float valos_ertek;
 	char betu_ertek;
 	std::string* valtozonev;
+	std::string* tipus;
+	ExprInfo* expr;
 
-#line 108 "parser.tab.h"
+#line 121 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -565,6 +565,9 @@ int colno = 1; // column number
 int startcol = 1;
 ofstream out("lexer.output");
 
+// we keep track if there is an error to generate code only if not
+bool has_error = false;
+
 // We need this because of the Hungarian accents
 int utf8_strlen(const string& str) {
     int len = 0;
@@ -573,11 +576,11 @@ int utf8_strlen(const string& str) {
     }
     return len;
 }
-#line 577 "lex.yy.c"
+#line 580 "lex.yy.c"
 /* noyywrap disables the need of a yywrap function */
 /* yylineno enables Flex to automatically track line numbers */
 /* yyleng is the length of the current matched token */
-#line 581 "lex.yy.c"
+#line 584 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -794,10 +797,10 @@ YY_DECL
 		}
 
 	{
-#line 29 "lexer.l"
+#line 32 "lexer.l"
 
 
-#line 801 "lex.yy.c"
+#line 804 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -866,19 +869,19 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "lexer.l"
+#line 34 "lexer.l"
 { /* single-line comment */ }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 32 "lexer.l"
+#line 35 "lexer.l"
 { /* multi-line comment */ }
 	YY_BREAK
 /* ignore whitespace */
 case 3:
 YY_RULE_SETUP
-#line 35 "lexer.l"
+#line 38 "lexer.l"
 {
     colno += yyleng;
 }
@@ -886,14 +889,14 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 39 "lexer.l"
+#line 42 "lexer.l"
 { colno = 1; }
 	YY_BREAK
 /* Valid string literals in the language */
 /* Types */
 case 5:
 YY_RULE_SETUP
-#line 43 "lexer.l"
+#line 46 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -904,7 +907,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 54 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -915,7 +918,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 59 "lexer.l"
+#line 62 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -926,7 +929,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 70 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -938,7 +941,7 @@ YY_RULE_SETUP
 /* Values for bool */
 case 9:
 YY_RULE_SETUP
-#line 76 "lexer.l"
+#line 79 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -949,7 +952,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 84 "lexer.l"
+#line 87 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -961,7 +964,7 @@ YY_RULE_SETUP
 /* IO functions */
 case 11:
 YY_RULE_SETUP
-#line 93 "lexer.l"
+#line 96 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -972,7 +975,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 101 "lexer.l"
+#line 104 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -984,7 +987,7 @@ YY_RULE_SETUP
 /* Conditional statement if-then-else */
 case 13:
 YY_RULE_SETUP
-#line 110 "lexer.l"
+#line 113 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -995,7 +998,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 118 "lexer.l"
+#line 121 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1006,7 +1009,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 126 "lexer.l"
+#line 129 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1018,7 +1021,7 @@ YY_RULE_SETUP
 /* Loop statement */
 case 16:
 YY_RULE_SETUP
-#line 135 "lexer.l"
+#line 138 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1030,7 +1033,7 @@ YY_RULE_SETUP
 /* Logical statements */
 case 17:
 YY_RULE_SETUP
-#line 144 "lexer.l"
+#line 147 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1041,7 +1044,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 152 "lexer.l"
+#line 155 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1052,7 +1055,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 160 "lexer.l"
+#line 163 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1063,7 +1066,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 168 "lexer.l"
+#line 171 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1074,7 +1077,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 176 "lexer.l"
+#line 179 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1086,7 +1089,7 @@ YY_RULE_SETUP
 /* Statement end */
 case 22:
 YY_RULE_SETUP
-#line 185 "lexer.l"
+#line 188 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1098,7 +1101,7 @@ YY_RULE_SETUP
 /* Block start */
 case 23:
 YY_RULE_SETUP
-#line 194 "lexer.l"
+#line 197 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1110,7 +1113,7 @@ YY_RULE_SETUP
 /* Block end */
 case 24:
 YY_RULE_SETUP
-#line 203 "lexer.l"
+#line 206 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1122,7 +1125,7 @@ YY_RULE_SETUP
 /* Parentheses start */
 case 25:
 YY_RULE_SETUP
-#line 212 "lexer.l"
+#line 215 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1134,7 +1137,7 @@ YY_RULE_SETUP
 /* Parentheses end */
 case 26:
 YY_RULE_SETUP
-#line 221 "lexer.l"
+#line 224 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1147,7 +1150,7 @@ YY_RULE_SETUP
 /* TODO: legyen */
 case 27:
 YY_RULE_SETUP
-#line 231 "lexer.l"
+#line 234 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1159,7 +1162,7 @@ YY_RULE_SETUP
 /* Addition */
 case 28:
 YY_RULE_SETUP
-#line 240 "lexer.l"
+#line 243 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1171,7 +1174,7 @@ YY_RULE_SETUP
 /* Subtraction */
 case 29:
 YY_RULE_SETUP
-#line 249 "lexer.l"
+#line 252 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1183,7 +1186,7 @@ YY_RULE_SETUP
 /* Multiplication */
 case 30:
 YY_RULE_SETUP
-#line 258 "lexer.l"
+#line 261 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1195,7 +1198,7 @@ YY_RULE_SETUP
 /* Division */
 case 31:
 YY_RULE_SETUP
-#line 267 "lexer.l"
+#line 270 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1207,7 +1210,7 @@ YY_RULE_SETUP
 /* Greater than or equal to */
 case 32:
 YY_RULE_SETUP
-#line 276 "lexer.l"
+#line 279 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1219,7 +1222,7 @@ YY_RULE_SETUP
 /* Less than or equal to */
 case 33:
 YY_RULE_SETUP
-#line 285 "lexer.l"
+#line 288 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1231,7 +1234,7 @@ YY_RULE_SETUP
 /* Greater than */
 case 34:
 YY_RULE_SETUP
-#line 294 "lexer.l"
+#line 297 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1243,7 +1246,7 @@ YY_RULE_SETUP
 /* Less than */
 case 35:
 YY_RULE_SETUP
-#line 303 "lexer.l"
+#line 306 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1257,7 +1260,7 @@ YY_RULE_SETUP
 /* TODO: [a-zA-Z_áÁéÉíÍóÓöÖőŐúÚüÜűŰ][a-zA-Z0-9_áÁéÉíÍóÓöÖőŐúÚüÜűŰ]* */
 case 36:
 YY_RULE_SETUP
-#line 314 "lexer.l"
+#line 317 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1270,7 +1273,7 @@ YY_RULE_SETUP
 /* Real number */
 case 37:
 YY_RULE_SETUP
-#line 324 "lexer.l"
+#line 327 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1283,7 +1286,7 @@ YY_RULE_SETUP
 /* Integer number */
 case 38:
 YY_RULE_SETUP
-#line 334 "lexer.l"
+#line 337 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1297,7 +1300,7 @@ YY_RULE_SETUP
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 344 "lexer.l"
+#line 347 "lexer.l"
 {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -1309,16 +1312,17 @@ YY_RULE_SETUP
 	YY_BREAK
 /* End of file */
 case YY_STATE_EOF(INITIAL):
-#line 354 "lexer.l"
+#line 357 "lexer.l"
 { out.close(); yyterminate(); }
 	YY_BREAK
 /* Anything else */
 case 40:
 YY_RULE_SETUP
-#line 357 "lexer.l"
+#line 360 "lexer.l"
 {
     startcol = colno;
     colno += yyleng;
+    has_error = true;
     out << "[sor: " << yylineno << ", oszlop: " << startcol
         << ", hossz: " << yyleng << "] " << "Lexikális hiba, ismeretlen szimbólum: " << yytext << endl;
     cerr << "Lexical error at line " << yylineno << ", column " << startcol
@@ -1327,10 +1331,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 365 "lexer.l"
+#line 369 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1334 "lex.yy.c"
+#line 1338 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2345,5 +2349,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 365 "lexer.l"
+#line 369 "lexer.l"
 

@@ -67,19 +67,53 @@
 
 
 /* First part of user prologue.  */
-#line 1 "parser.y"
+#line 10 "parser.y"
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <string>
+#include <map>
 
 using namespace std;
 
+struct Symbol {
+	string type;
+	int line;
+	int col;
+	bool initialized;
+};
+
+map<string, Symbol> symbol_table;
+
+/* Better than using a string because that would copy many times */
+ostringstream generated_code;
+ofstream code_out("code.cpp");
+int indent_level = 0;
+
 void yyerror(string s);
+
+void semantic_error(string s, int line, int col);
+void check_variable_declared(string varname, int line, int col);
+void check_variable_redeclared(string varname, int line, int col);
+void check_type_compatibility(string type1, string type2, int line, int col);
+void check_numeric_types(string type1, string type2, int line, int col);
+void check_boolean_types(string type1, string type2, int line, int col);
+void check_relational_operand_type(string type, int line, int col);
+string get_variable_type(string varname);
+void print_symbol_table();
+
+void print_generated_code();
+string indent();
+string map_type_to_cpp(string type);
+
 extern int yylex();
 extern int yylineno;
 extern int startcol;
+extern bool has_error;
 
-#line 83 "parser.tab.c"
+#line 117 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -151,12 +185,15 @@ enum yysymbol_kind_t
   YYSYMBOL_program = 41,                   /* program  */
   YYSYMBOL_utasitas = 42,                  /* utasitas  */
   YYSYMBOL_deklaracio = 43,                /* deklaracio  */
-  YYSYMBOL_ertekadas = 44,                 /* ertekadas  */
-  YYSYMBOL_kiir = 45,                      /* kiir  */
-  YYSYMBOL_beolvas = 46,                   /* beolvas  */
-  YYSYMBOL_elagazas = 47,                  /* elagazas  */
-  YYSYMBOL_ciklus = 48,                    /* ciklus  */
-  YYSYMBOL_kifejezes = 49                  /* kifejezes  */
+  YYSYMBOL_tipus = 44,                     /* tipus  */
+  YYSYMBOL_ertekadas = 45,                 /* ertekadas  */
+  YYSYMBOL_kiir = 46,                      /* kiir  */
+  YYSYMBOL_beolvas = 47,                   /* beolvas  */
+  YYSYMBOL_ha_feltetel = 48,               /* ha_feltetel  */
+  YYSYMBOL_elagazas = 49,                  /* elagazas  */
+  YYSYMBOL_amig_feltetel = 50,             /* amig_feltetel  */
+  YYSYMBOL_ciklus = 51,                    /* ciklus  */
+  YYSYMBOL_kifejezes = 52                  /* kifejezes  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -482,18 +519,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  44
+#define YYFINAL  39
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   204
+#define YYLAST   207
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  38
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  12
+#define YYNNTS  15
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  49
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  95
+#define YYNSTATES  93
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   292
@@ -544,13 +581,13 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    50,    50,    52,    53,    56,    57,    58,    61,    62,
-      63,    64,    65,    66,    67,    70,    71,    72,    73,    74,
-      75,    76,    77,    80,    82,    84,    86,    87,    90,    92,
-      93,    94,    95,    96,    97,    98,    99,   100,   101,   102,
-     103,   104,   105,   106,   107,   108,   109,   110,   111,   112
+       0,    94,    94,    97,    98,   101,   102,   103,   106,   107,
+     108,   109,   110,   111,   112,   115,   128,   148,   149,   150,
+     151,   154,   171,   178,   185,   193,   200,   213,   221,   230,
+     231,   232,   236,   240,   244,   251,   259,   267,   275,   283,
+     291,   299,   307,   316,   325,   334,   343,   346,   354,   362
 };
 #endif
 
@@ -573,7 +610,8 @@ static const char *const yytname[] =
   "BLOKKVEG", "ZAROJELKEZD", "ZAROJELVEG", "PLUSZ", "MINUSZ", "SZOROZ",
   "OSZT", "ERTEKAD", "NAGYOBBEGYENLO", "KISEBBEGYENLO", "NAGYOBB",
   "KISEBB", "$accept", "s", "blokk", "program", "utasitas", "deklaracio",
-  "ertekadas", "kiir", "beolvas", "elagazas", "ciklus", "kifejezes", YY_NULLPTR
+  "tipus", "ertekadas", "kiir", "beolvas", "ha_feltetel", "elagazas",
+  "amig_feltetel", "ciklus", "kifejezes", YY_NULLPTR
 };
 
 static const char *
@@ -583,7 +621,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-81)
+#define YYPACT_NINF (-47)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -597,16 +635,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     170,   -13,   -20,    15,    16,    17,    27,    -2,    -2,     6,
-       9,    37,   -81,    59,   -81,    18,    19,    20,    21,   -81,
-     -81,   -81,    -2,   -20,   -81,   -20,   -81,   -20,   -81,   -20,
-     -81,   -81,   -81,   -81,   -81,   -81,   -81,    -2,    -2,    -2,
-     132,   132,    -2,    -2,   -81,   -13,   -81,   -81,   -81,   -81,
-     -81,   132,   -81,    75,   167,    -2,    -2,    -2,    -2,    -2,
-      -2,    -2,    -2,    -2,    -2,    -2,    -2,    94,   113,   -81,
-     -15,   -15,   -81,   -81,   167,   167,     4,     4,   -15,   -15,
-     -15,   -15,    30,    36,    38,    74,    74,    39,    44,   -81,
-      45,    46,    74,    50,   -81
+     168,   -21,   -23,   -47,   -47,   -47,   -47,     1,     1,   -16,
+     -13,    15,   -47,    57,   -47,    -6,    11,    -5,    -4,    -3,
+      -2,   -47,     2,   -47,   -47,     1,   -47,   -47,   -47,   -47,
+     -47,   -47,     1,     1,     1,   130,   130,     1,     1,   -47,
+     -21,   -47,   -47,    -1,   -47,   -47,   -47,    72,    72,   130,
+     -47,    73,   165,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,    92,   111,     1,     7,     8,
+     -47,   -14,   -14,   -47,   -47,   165,   165,   170,   170,   -14,
+     -14,   -14,   -14,    19,   -47,   130,    20,   -47,   -47,    13,
+      72,    10,   -47
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -614,30 +652,30 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
+       0,     0,     0,    17,    18,    19,    20,     0,     0,     0,
+       0,     0,     2,     0,     5,     0,     0,     0,     0,     0,
+       0,    12,     0,    13,    14,     0,    31,    32,    34,    33,
+      29,    30,     0,     0,     0,    23,    22,     0,     0,     1,
+       7,     6,     8,    15,     9,    10,    11,     0,     0,    21,
+      49,     0,    37,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     2,     0,     5,     0,     0,     0,     0,    12,
-      13,    14,     0,    15,    16,    17,    18,    19,    20,    21,
-      22,    31,    32,    34,    33,    29,    30,     0,     0,     0,
-      25,    24,     0,     0,     1,     7,     6,     8,     9,    10,
-      11,    23,    49,     0,    37,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    46,
-      41,    40,    47,    48,    35,    36,    38,    39,    42,    43,
-      44,    45,     0,     0,     0,     0,     0,     0,     0,    28,
-      26,     0,     0,     0,    27
+      46,    40,    41,    47,    48,    35,    36,    38,    39,    42,
+      43,    44,    45,     0,    27,    16,    25,    28,    24,     0,
+       0,     0,    26
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -81,   -81,   -80,   -81,    65,   -81,    12,   -81,   -81,   -81,
-     -81,    -8
+     -47,   -47,   -46,   -47,    26,   -47,   -47,   -47,   -47,   -47,
+     -47,   -47,   -47,   -47,    -8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
        0,    11,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    40
+      20,    21,    22,    23,    35
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -645,52 +683,52 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      41,    31,    32,    33,    34,    87,    88,    57,    58,    35,
-      36,    21,    93,    22,    51,    24,    26,    28,    30,    37,
-      23,    25,    27,    55,    56,    38,    57,    58,    39,    52,
-      53,    54,    29,    42,    67,    68,    43,    44,    63,    64,
-      65,    66,    47,    48,    49,    50,    84,    70,    71,    72,
-      73,    74,    75,    76,    77,    78,    79,    80,    81,    -4,
-      45,    85,    91,    86,     2,    89,     3,     4,     5,     6,
-      90,    92,     7,     8,     9,     1,    94,    10,    46,     2,
-       0,     3,     4,     5,     6,    -4,     0,     7,     8,     9,
-       0,     0,    10,     0,    55,    56,     0,    57,    58,     0,
-      -3,     0,     0,    69,    59,    60,    61,    62,     0,    63,
-      64,    65,    66,    55,    56,     0,    57,    58,     0,     0,
-       0,     0,    82,    59,    60,    61,    62,     0,    63,    64,
-      65,    66,    55,    56,     0,    57,    58,     0,     0,     0,
-       0,    83,    59,    60,    61,    62,     0,    63,    64,    65,
-      66,    55,    56,     0,    57,    58,     0,     0,     0,     0,
-       0,    59,    60,    61,    62,     0,    63,    64,    65,    66,
-      -3,     1,     0,     0,     0,     2,     0,     3,     4,     5,
-       6,     0,     0,     7,     8,     9,    55,    56,    10,    57,
-      58,     0,     0,     0,     0,     0,     0,     0,    61,    62,
-       0,    63,    64,    65,    66
+      36,    68,    69,    24,    26,    27,    28,    29,    55,    56,
+      25,    37,    30,    31,    38,    39,    43,    49,    42,    44,
+      45,    46,    32,    47,    50,    51,    52,    48,    33,    65,
+      66,    34,    67,    86,    87,    88,    92,    89,    90,    41,
+       0,     0,     0,     0,    91,    71,    72,    73,    74,    75,
+      76,    77,    78,    79,    80,    81,    82,    -4,    40,    85,
+       0,     0,     2,     0,     3,     4,     5,     6,     0,     0,
+       7,     8,     9,     1,     0,    10,     0,     2,     0,     3,
+       4,     5,     6,    -4,     0,     7,     8,     9,     0,     0,
+      10,     0,    53,    54,     0,    55,    56,     0,    -3,     0,
+       0,    70,    57,    58,    59,    60,     0,    61,    62,    63,
+      64,    53,    54,     0,    55,    56,     0,     0,     0,     0,
+      83,    57,    58,    59,    60,     0,    61,    62,    63,    64,
+      53,    54,     0,    55,    56,     0,     0,     0,     0,    84,
+      57,    58,    59,    60,     0,    61,    62,    63,    64,    53,
+      54,     0,    55,    56,     0,     0,     0,     0,     0,    57,
+      58,    59,    60,     0,    61,    62,    63,    64,    -3,     1,
+       0,     0,     0,     2,     0,     3,     4,     5,     6,     0,
+       0,     7,     8,     9,    53,    54,    10,    55,    56,    53,
+      54,     0,    55,    56,     0,     0,    59,    60,     0,    61,
+      62,    63,    64,     0,    61,    62,    63,    64
 };
 
 static const yytype_int8 yycheck[] =
 {
-       8,     3,     4,     5,     6,    85,    86,    22,    23,    11,
-      12,    24,    92,    33,    22,     3,     4,     5,     6,    21,
-       5,     5,     5,    19,    20,    27,    22,    23,    30,    37,
-      38,    39,     5,    27,    42,    43,    27,     0,    34,    35,
-      36,    37,    24,    24,    24,    24,    16,    55,    56,    57,
-      58,    59,    60,    61,    62,    63,    64,    65,    66,     0,
-       1,    25,    17,    25,     5,    26,     7,     8,     9,    10,
-      26,    25,    13,    14,    15,     1,    26,    18,    13,     5,
-      -1,     7,     8,     9,    10,    26,    -1,    13,    14,    15,
-      -1,    -1,    18,    -1,    19,    20,    -1,    22,    23,    -1,
-      26,    -1,    -1,    28,    29,    30,    31,    32,    -1,    34,
-      35,    36,    37,    19,    20,    -1,    22,    23,    -1,    -1,
-      -1,    -1,    28,    29,    30,    31,    32,    -1,    34,    35,
-      36,    37,    19,    20,    -1,    22,    23,    -1,    -1,    -1,
+       8,    47,    48,    24,     3,     4,     5,     6,    22,    23,
+      33,    27,    11,    12,    27,     0,     5,    25,    24,    24,
+      24,    24,    21,    25,    32,    33,    34,    25,    27,    37,
+      38,    30,    33,    26,    26,    16,    26,    17,    25,    13,
+      -1,    -1,    -1,    -1,    90,    53,    54,    55,    56,    57,
+      58,    59,    60,    61,    62,    63,    64,     0,     1,    67,
+      -1,    -1,     5,    -1,     7,     8,     9,    10,    -1,    -1,
+      13,    14,    15,     1,    -1,    18,    -1,     5,    -1,     7,
+       8,     9,    10,    26,    -1,    13,    14,    15,    -1,    -1,
+      18,    -1,    19,    20,    -1,    22,    23,    -1,    26,    -1,
       -1,    28,    29,    30,    31,    32,    -1,    34,    35,    36,
       37,    19,    20,    -1,    22,    23,    -1,    -1,    -1,    -1,
-      -1,    29,    30,    31,    32,    -1,    34,    35,    36,    37,
-       0,     1,    -1,    -1,    -1,     5,    -1,     7,     8,     9,
-      10,    -1,    -1,    13,    14,    15,    19,    20,    18,    22,
-      23,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    31,    32,
-      -1,    34,    35,    36,    37
+      28,    29,    30,    31,    32,    -1,    34,    35,    36,    37,
+      19,    20,    -1,    22,    23,    -1,    -1,    -1,    -1,    28,
+      29,    30,    31,    32,    -1,    34,    35,    36,    37,    19,
+      20,    -1,    22,    23,    -1,    -1,    -1,    -1,    -1,    29,
+      30,    31,    32,    -1,    34,    35,    36,    37,     0,     1,
+      -1,    -1,    -1,     5,    -1,     7,     8,     9,    10,    -1,
+      -1,    13,    14,    15,    19,    20,    18,    22,    23,    19,
+      20,    -1,    22,    23,    -1,    -1,    31,    32,    -1,    34,
+      35,    36,    37,    -1,    34,    35,    36,    37
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -699,32 +737,32 @@ static const yytype_int8 yystos[] =
 {
        0,     1,     5,     7,     8,     9,    10,    13,    14,    15,
       18,    39,    40,    41,    42,    43,    44,    45,    46,    47,
-      48,    24,    33,     5,    44,     5,    44,     5,    44,     5,
-      44,     3,     4,     5,     6,    11,    12,    21,    27,    30,
-      49,    49,    27,    27,     0,     1,    42,    24,    24,    24,
-      24,    49,    49,    49,    49,    19,    20,    22,    23,    29,
-      30,    31,    32,    34,    35,    36,    37,    49,    49,    28,
-      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
-      49,    49,    28,    28,    16,    25,    25,    40,    40,    26,
-      26,    17,    25,    40,    26
+      48,    49,    50,    51,    24,    33,     3,     4,     5,     6,
+      11,    12,    21,    27,    30,    52,    52,    27,    27,     0,
+       1,    42,    24,     5,    24,    24,    24,    25,    25,    52,
+      52,    52,    52,    19,    20,    22,    23,    29,    30,    31,
+      32,    34,    35,    36,    37,    52,    52,    33,    40,    40,
+      28,    52,    52,    52,    52,    52,    52,    52,    52,    52,
+      52,    52,    52,    28,    28,    52,    26,    26,    16,    17,
+      25,    40,    26
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    38,    39,    40,    40,    41,    41,    41,    42,    42,
-      42,    42,    42,    42,    42,    43,    43,    43,    43,    43,
-      43,    43,    43,    44,    45,    46,    47,    47,    48,    49,
-      49,    49,    49,    49,    49,    49,    49,    49,    49,    49,
-      49,    49,    49,    49,    49,    49,    49,    49,    49,    49
+      42,    42,    42,    42,    42,    43,    43,    44,    44,    44,
+      44,    45,    46,    47,    48,    49,    49,    50,    51,    52,
+      52,    52,    52,    52,    52,    52,    52,    52,    52,    52,
+      52,    52,    52,    52,    52,    52,    52,    52,    52,    52
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     0,     1,     1,     2,     2,     2,     2,
-       2,     2,     1,     1,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     3,     2,     2,     8,    12,     7,     1,
+       2,     2,     1,     1,     2,     2,     4,     1,     1,     1,
+       1,     3,     2,     2,     5,     4,     8,     4,     4,     1,
        1,     1,     1,     1,     1,     3,     3,     2,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     2
 };
@@ -1459,8 +1497,420 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 15: /* deklaracio: tipus VALTOZO  */
+#line 115 "parser.y"
+                          {
+	string type = *(yyvsp[-1].tipus);
+	string varname = *(yyvsp[0].valtozonev);
+	check_variable_redeclared(varname, yylineno, startcol);
+	Symbol sym = {type, yylineno, startcol, false};
+	symbol_table[varname] = sym;
 
-#line 1464 "parser.tab.c"
+	generated_code << indent() << map_type_to_cpp(type)
+				   << " " << varname << ";" << endl;
+
+	delete (yyvsp[-1].tipus);
+	delete (yyvsp[0].valtozonev);
+}
+#line 1516 "parser.tab.c"
+    break;
+
+  case 16: /* deklaracio: tipus VALTOZO ERTEKAD kifejezes  */
+#line 128 "parser.y"
+                                  {
+	string type = *(yyvsp[-3].tipus);
+	string varname = *(yyvsp[-2].valtozonev);
+	ExprInfo* expr = (yyvsp[0].expr);
+
+	check_variable_redeclared(varname, yylineno, startcol);
+	check_type_compatibility(type, expr->type, yylineno, startcol);
+
+	Symbol sym = {type, yylineno, startcol, true};
+	symbol_table[varname] = sym;
+
+	generated_code << indent() << map_type_to_cpp(type) << " "
+				   << varname << " = " << expr->code << ";" << endl;
+
+	delete (yyvsp[-3].tipus);
+	delete (yyvsp[-2].valtozonev);
+	delete expr;
+}
+#line 1539 "parser.tab.c"
+    break;
+
+  case 17: /* tipus: SZAM  */
+#line 148 "parser.y"
+            { (yyval.tipus) = new string("szám"); }
+#line 1545 "parser.tab.c"
+    break;
+
+  case 18: /* tipus: VALOS  */
+#line 149 "parser.y"
+                 { (yyval.tipus) = new string("valós"); }
+#line 1551 "parser.tab.c"
+    break;
+
+  case 19: /* tipus: BETU  */
+#line 150 "parser.y"
+                { (yyval.tipus) = new string("betü"); }
+#line 1557 "parser.tab.c"
+    break;
+
+  case 20: /* tipus: LOGIKAI  */
+#line 151 "parser.y"
+                   { (yyval.tipus) = new string("vajon"); }
+#line 1563 "parser.tab.c"
+    break;
+
+  case 21: /* ertekadas: VALTOZO ERTEKAD kifejezes  */
+#line 154 "parser.y"
+                                     {
+	string varname = *(yyvsp[-2].valtozonev);
+	ExprInfo* expr = (yyvsp[0].expr);
+	
+	check_variable_declared(varname, yylineno, startcol);
+	string vartype = get_variable_type(varname);
+	check_type_compatibility(vartype, expr->type, yylineno, startcol);
+
+	symbol_table[varname].initialized = true;
+
+	generated_code << indent() << varname << " = " << expr->code << ";" << endl;
+
+	delete (yyvsp[-2].valtozonev);
+	delete (yyvsp[0].expr);
+}
+#line 1583 "parser.tab.c"
+    break;
+
+  case 22: /* kiir: KIIR kifejezes  */
+#line 171 "parser.y"
+                     {
+	ExprInfo* expr = (yyvsp[0].expr);
+	generated_code << indent() << "cout << " << expr->code << " << endl;" << endl;
+	delete expr;
+}
+#line 1593 "parser.tab.c"
+    break;
+
+  case 23: /* beolvas: BEOLVAS kifejezes  */
+#line 178 "parser.y"
+                           {
+	ExprInfo* expr = (yyvsp[0].expr);
+	generated_code << indent() << "cin >> " << expr->code << ";" << endl;
+	delete expr;
+}
+#line 1603 "parser.tab.c"
+    break;
+
+  case 24: /* ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR  */
+#line 185 "parser.y"
+                                                       {
+	ExprInfo* condition = (yyvsp[-2].expr);
+	generated_code << indent() << "if (" << condition->code << ") {" << endl;
+	indent_level++;
+	(yyval.expr) = condition;
+}
+#line 1614 "parser.tab.c"
+    break;
+
+  case 25: /* elagazas: ha_feltetel BLOKKKEZD blokk BLOKKVEG  */
+#line 193 "parser.y"
+                                               { 
+	ExprInfo* condition = (yyvsp[-3].expr);
+	/* blokk already generated */
+	indent_level--;
+	generated_code << indent() << "}" << endl;
+	delete condition;
+}
+#line 1626 "parser.tab.c"
+    break;
+
+  case 26: /* elagazas: ha_feltetel BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG  */
+#line 200 "parser.y"
+                                                                         {
+	ExprInfo* condition = (yyvsp[-7].expr);
+	/* blokk already generated */
+	indent_level--;
+	generated_code << indent() << "} else {" << endl;
+	indent_level++;
+	/* second blokk already generated */
+	indent_level--;
+	generated_code << indent() << "}" << endl;
+	delete condition;
+}
+#line 1642 "parser.tab.c"
+    break;
+
+  case 27: /* amig_feltetel: AMIG ZAROJELKEZD kifejezes ZAROJELVEG  */
+#line 213 "parser.y"
+                                                     {
+	ExprInfo* condition = (yyvsp[-1].expr);
+	generated_code << indent() << "while (" << condition->code << ") {" << endl;
+	indent_level++;
+	(yyval.expr) = condition;
+}
+#line 1653 "parser.tab.c"
+    break;
+
+  case 28: /* ciklus: amig_feltetel BLOKKKEZD blokk BLOKKVEG  */
+#line 221 "parser.y"
+                                               {
+	ExprInfo* condition = (yyvsp[-3].expr);
+	/* blokk already generated */
+	indent_level--;
+	generated_code << indent() << "}" << endl;
+	delete condition;
+}
+#line 1665 "parser.tab.c"
+    break;
+
+  case 29: /* kifejezes: IGAZ  */
+#line 230 "parser.y"
+                { (yyval.expr) = new ExprInfo{"true", "vajon"}; }
+#line 1671 "parser.tab.c"
+    break;
+
+  case 30: /* kifejezes: HAMIS  */
+#line 231 "parser.y"
+                { (yyval.expr) = new ExprInfo{"false", "vajon"}; }
+#line 1677 "parser.tab.c"
+    break;
+
+  case 31: /* kifejezes: SZAMERTEK  */
+#line 232 "parser.y"
+                    {
+		string value = to_string((yyvsp[0].egesz_ertek));
+		(yyval.expr) = new ExprInfo{value, "szám"}; 
+	}
+#line 1686 "parser.tab.c"
+    break;
+
+  case 32: /* kifejezes: VALOSERTEK  */
+#line 236 "parser.y"
+                     {
+		string value = to_string((yyvsp[0].valos_ertek));
+		(yyval.expr) = new ExprInfo{value, "valós"};
+	}
+#line 1695 "parser.tab.c"
+    break;
+
+  case 33: /* kifejezes: BETUERTEK  */
+#line 240 "parser.y"
+                    {
+		string value = to_string((yyvsp[0].betu_ertek));
+		(yyval.expr) = new ExprInfo{value, "betü"};
+	}
+#line 1704 "parser.tab.c"
+    break;
+
+  case 34: /* kifejezes: VALTOZO  */
+#line 244 "parser.y"
+                  {
+		string varname = *(yyvsp[0].valtozonev);
+		check_variable_declared(varname, yylineno, startcol);
+		string vartype = get_variable_type(varname);
+		(yyval.expr) = new ExprInfo{varname, vartype};
+		delete (yyvsp[0].valtozonev);
+	}
+#line 1716 "parser.tab.c"
+    break;
+
+  case 35: /* kifejezes: kifejezes PLUSZ kifejezes  */
+#line 251 "parser.y"
+                                    {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_numeric_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " + " + expr2->code + ")", expr1->type};
+		delete expr1;
+		delete expr2;
+	}
+#line 1729 "parser.tab.c"
+    break;
+
+  case 36: /* kifejezes: kifejezes MINUSZ kifejezes  */
+#line 259 "parser.y"
+                                     {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_numeric_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " - " + expr2->code + ")", expr1->type};
+		delete expr1;
+		delete expr2;
+	}
+#line 1742 "parser.tab.c"
+    break;
+
+  case 37: /* kifejezes: MINUSZ kifejezes  */
+#line 267 "parser.y"
+                           {
+		ExprInfo* expr = (yyvsp[0].expr);
+		if (expr->type != "szám" && expr->type != "valós") {
+			semantic_error("unary minus requires numeric type", yylineno, startcol);
+		}
+		(yyval.expr) = new ExprInfo{"(-" + expr->code + ")", expr->type};
+		delete expr;
+	}
+#line 1755 "parser.tab.c"
+    break;
+
+  case 38: /* kifejezes: kifejezes SZOROZ kifejezes  */
+#line 275 "parser.y"
+                                     {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_numeric_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " * " + expr2->code + ")", expr1->type};
+		delete expr1;
+		delete expr2;
+	}
+#line 1768 "parser.tab.c"
+    break;
+
+  case 39: /* kifejezes: kifejezes OSZT kifejezes  */
+#line 283 "parser.y"
+                                   {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_numeric_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " / " + expr2->code + ")", expr1->type};
+		delete expr1;
+		delete expr2;
+	}
+#line 1781 "parser.tab.c"
+    break;
+
+  case 40: /* kifejezes: kifejezes NEMEGYENLO kifejezes  */
+#line 291 "parser.y"
+                                         {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " != " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1794 "parser.tab.c"
+    break;
+
+  case 41: /* kifejezes: kifejezes EGYENLO kifejezes  */
+#line 299 "parser.y"
+                                      {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " == " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1807 "parser.tab.c"
+    break;
+
+  case 42: /* kifejezes: kifejezes NAGYOBBEGYENLO kifejezes  */
+#line 307 "parser.y"
+                                             {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		check_relational_operand_type(expr1->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " >= " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1821 "parser.tab.c"
+    break;
+
+  case 43: /* kifejezes: kifejezes KISEBBEGYENLO kifejezes  */
+#line 316 "parser.y"
+                                            {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		check_relational_operand_type(expr1->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " <= " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1835 "parser.tab.c"
+    break;
+
+  case 44: /* kifejezes: kifejezes NAGYOBB kifejezes  */
+#line 325 "parser.y"
+                                      {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		check_relational_operand_type(expr1->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " > " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1849 "parser.tab.c"
+    break;
+
+  case 45: /* kifejezes: kifejezes KISEBB kifejezes  */
+#line 334 "parser.y"
+                                     {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_type_compatibility(expr1->type, expr2->type, yylineno, startcol);
+		check_relational_operand_type(expr1->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " < " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1863 "parser.tab.c"
+    break;
+
+  case 46: /* kifejezes: ZAROJELKEZD kifejezes ZAROJELVEG  */
+#line 343 "parser.y"
+                                           {
+		(yyval.expr) = (yyvsp[-1].expr);
+	}
+#line 1871 "parser.tab.c"
+    break;
+
+  case 47: /* kifejezes: kifejezes ES kifejezes  */
+#line 346 "parser.y"
+                                 {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_boolean_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " && " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1884 "parser.tab.c"
+    break;
+
+  case 48: /* kifejezes: kifejezes VAGY kifejezes  */
+#line 354 "parser.y"
+                                   {
+		ExprInfo* expr1 = (yyvsp[-2].expr);
+		ExprInfo* expr2 = (yyvsp[0].expr);
+		check_boolean_types(expr1->type, expr2->type, yylineno, startcol);
+		(yyval.expr) = new ExprInfo{"(" + expr1->code + " || " + expr2->code + ")", "vajon"};
+		delete expr1;
+		delete expr2;
+	}
+#line 1897 "parser.tab.c"
+    break;
+
+  case 49: /* kifejezes: NEM kifejezes  */
+#line 362 "parser.y"
+                        {
+		ExprInfo* expr = (yyvsp[0].expr);
+		if (expr->type != "vajon") {
+			semantic_error("negation requires boolean type", yylineno, startcol);
+		}
+		(yyval.expr) = new ExprInfo{"(!" + expr->code + ")", "vajon"};
+		delete expr;
+	}
+#line 1910 "parser.tab.c"
+    break;
+
+
+#line 1914 "parser.tab.c"
 
       default: break;
     }
@@ -1684,13 +2134,115 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 114 "parser.y"
+#line 372 "parser.y"
+
 
 int main() {
+	generated_code << "#include <iostream>" << endl << endl << "using namespace std;"
+	               << endl << endl << "int main() {" << endl;
+	indent_level++;
+
 	yyparse();
+
+	generated_code << endl << indent() << "return 0;" << endl << "}";
+	indent_level--;
+	if (!has_error) {
+		print_symbol_table();
+		print_generated_code(); /* Only generate code if no errors */
+	}
+	else {
+		cerr << "No code generated because of errors" << endl;
+	}
 }
 
 void yyerror(const string s) {
+	has_error = true;
     cerr << "Syntax error at line " << yylineno
-              << ", column " << startcol << ": " << s << endl;
+         << ", column " << startcol << ": " << s << endl;
+}
+
+void semantic_error(string s, int line, int col) {
+	has_error = true;
+	cerr << "Semantic error at line " << line
+	     << ", column " << col << ": " << s << endl;
+}
+
+void check_variable_declared(string varname, int line, int col) {
+	if (symbol_table.find(varname) == symbol_table.end()) {
+		semantic_error("variable '" + varname + "' used before declaration", line, col);
+	}
+}
+
+void check_variable_redeclared(string varname, int line, int col) {
+	if (symbol_table.find(varname) != symbol_table.end()) {
+		semantic_error("variable '" + varname + "' redeclared (first declared at line "
+		               + to_string(symbol_table[varname].line) + ", column "
+		               + to_string(symbol_table[varname].col) + ")", line, col);
+	}
+}
+
+void check_type_compatibility(string type1, string type2, int line, int col) {
+	if (type1 != type2) {
+		semantic_error("type mismatch: expected '" + type1
+		               + "' but got '" + type2 + "' instead", line, col);
+	}
+}
+
+void check_numeric_types(string type1, string type2, int line, int col) {
+	check_type_compatibility(type1, type2, line, col);
+	if (type1 != "szám" && type1 != "valós") {
+		semantic_error("arithmetic operation requires numeric type", line, col);
+	}
+}
+
+void check_boolean_types(string type1, string type2, int line, int col) {
+	if (type1 != "vajon" || type2 != "vajon") {
+		semantic_error("logical operation requires boolean type", line, col);
+	}
+}
+
+void check_relational_operand_type(string type, int line, int col) {
+	if (type == "vajon") {
+		semantic_error("relational comparison not allowed on boolean type", line, col);
+	}
+}
+
+void print_symbol_table() {
+	cout << endl;
+	cout << "=== Symbol Table ===" << endl;
+	cout << "Variable\tType\t\tLine:Col\tInitialized" << endl;
+	cout << "--------\t----\t\t--------\t-----------" << endl;
+	for (auto& symbol : symbol_table) {
+		cout << symbol.first << "\t\t" 
+		     << symbol.second.type << "\t\t" 
+		     << symbol.second.line << ":" << symbol.second.col << "\t\t" 
+		     << (symbol.second.initialized ? "Yes" : "No") << endl;
+	}
+	cout << endl;
+}
+
+string get_variable_type(string varname) {
+	if (symbol_table.find(varname) != symbol_table.end()) {
+		return symbol_table[varname].type;
+	}
+	return "";
+}
+
+void print_generated_code() {
+	cout << "=== Generated C++ Code ===" << endl;
+	string generated_code_string = generated_code.str();
+	cout << generated_code_string << endl;
+	code_out << generated_code_string << endl;
+}
+
+string indent() {
+	return string(indent_level * 4, ' ');
+}
+
+string map_type_to_cpp(string type) {
+	if (type == "szám") return "int";
+	if (type == "valós") return "float";
+	if (type == "betü") return "char";
+	if (type == "vajon") return "bool";
+	return "void";
 }
