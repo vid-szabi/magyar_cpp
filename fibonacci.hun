@@ -1,14 +1,15 @@
-szám fibo0 = 0;
-szám fibo1 = 1
-szám count = 5;
-count = count - 1;
+szám fibo0 legyen 0;
+szám fibo1 legyen 1;
+szám count;
+beolvas count;
+count legyen count mínusz 1;
 
 // 0 1 1 2 3 5 8 13
-amíg (count = 0)
+amíg (count nem egyenlő 0)
 {
-    szám current = fibo0 + fibo1
-    fibo0 = fibo1;
-    fibo1 = current;
-    count = count - 1;
+    szám jelenlegi legyen fibo0 meg fibo1;
+    fibo0 legyen fibo1;
+    fibo1 legyen jelenlegi;
+    count legyen count mínusz 1;
+    kiír jelenlegi;
 }
-kiír fibo1;
