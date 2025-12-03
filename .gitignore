@@ -1,8 +1,12 @@
 # Test folder
 test
 
-# Lexer file
-lex.yy.c
+# Lexer generated file
+*.yy.c
+
+# Parser generated files
+*.tab.c
+*.tab.h
 
 # The generated compiler
 compiler
