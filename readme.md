@@ -118,7 +118,7 @@ This is a compiler project for compiler construction coursework, implementing:
 ## Future enhancements
 
 - exponentiation
-- improving the creativity of some keywords (legyen, accents in variables names)
+- improving the creativity of some keywords (and accents in variables names)
 - array/vector type
 - local variables
 - type conversion (and giving error for possible value loss)

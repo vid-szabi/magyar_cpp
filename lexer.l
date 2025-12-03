@@ -230,8 +230,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Assignment operator */
-    /* TODO: legyen */
-"=" {
+"legyen" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -240,7 +239,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Addition */
-"+" {
+"meg" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -249,7 +248,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Subtraction */
-"-" {
+"mínusz" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -258,7 +257,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Multiplication */
-"*" {
+"szorozva" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
@@ -267,7 +266,7 @@ int utf8_strlen(const string& str) {
 }
 
     /* Division */
-"/" {
+"osztva" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
