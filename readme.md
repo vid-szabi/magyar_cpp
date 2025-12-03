@@ -20,8 +20,8 @@ A compiler for a Hungarian variant of C++ built using **Flex** (lexical analyzer
   - `amíg` (while loops)
 - **Boolean Values**: `igaz` (true), `hamis` (false)
 - **Operators**:
-  - Arithmetic: `+`, `-`, `*`, `/`
-  - Comparison: `==`, `!=`, `<`, `>`, `<=`, `>=`
+  - Arithmetic: meg (`+`), mínusz (`-`), szorozva (`*`), osztva (`/`)
+  - Comparison: egyenlő (`==`), nem egyenlő (`!=`), `<`, `>`, `<=`, `>=`
   - Logical: `és` (and), `vagy` (or), `nem` (not)
 
 ### Example Program
@@ -117,7 +117,6 @@ This is a compiler project for compiler construction coursework, implementing:
 
 ## Future enhancements
 
-- exponentiation
 - improving the creativity of some keywords (and accents in variables names)
 - array/vector type
 - local variables
