@@ -77,7 +77,7 @@ extern bool has_error;
 %token PLUSZ MINUSZ SZOROZ OSZT ERTEKAD NAGYOBBEGYENLO KISEBBEGYENLO NAGYOBB KISEBB
 
 %type <tipus> tipus
-%type <expr> kifejezes
+%type <expr> kifejezes ha_feltetel amig_feltetel
 
 %left PLUSZ MINUSZ
 %left SZOROZ OSZT
@@ -85,26 +85,13 @@ extern bool has_error;
 %left ES VAGY
 %left NEM
 
-%nonassoc AKKOR
-%nonassoc KULONBEN
-
 %start s
 
 %define parse.error verbose
 
 %%
 
-s: blokk {
-	print_symbol_table();
-	generated_code << endl << indent() << "return 0;" << endl << "}";
-	indent_level--;
-	if (!has_error) {
-		print_generated_code(); /* Only generate code if no errors */
-	}
-	else {
-		cerr << "No code generated because of errors" << endl;
-	}
-}
+s: blokk
 ;
 
 blokk: /* eps */
@@ -195,35 +182,45 @@ beolvas: BEOLVAS kifejezes {
 }
 ;
 
-elagazas: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG { 
+ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR {
 	ExprInfo* condition = $3;
 	generated_code << indent() << "if (" << condition->code << ") {" << endl;
 	indent_level++;
-	/* blokk statements are already generated */
+	$$ = condition;
+}
+;
+
+elagazas: ha_feltetel BLOKKKEZD blokk BLOKKVEG { 
+	ExprInfo* condition = $1;
+	/* blokk already generated */
 	indent_level--;
 	generated_code << indent() << "}" << endl;
 	delete condition;
-} %prec AKKOR
-| HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG{
-	ExprInfo* condition = $3;
-	generated_code << indent() << "if (" << condition->code << ") {" << endl;
-	indent_level++;
-	/* first blokk statements are already generated */
+}
+| ha_feltetel BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG {
+	ExprInfo* condition = $1;
+	/* blokk already generated */
 	indent_level--;
 	generated_code << indent() << "} else {" << endl;
 	indent_level++;
-	/* second blokk statements are already generated */
+	/* second blokk already generated */
 	indent_level--;
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
 ;
 
-ciklus: AMIG ZAROJELKEZD kifejezes ZAROJELVEG BLOKKKEZD blokk BLOKKVEG{
+amig_feltetel: AMIG ZAROJELKEZD kifejezes ZAROJELVEG {
 	ExprInfo* condition = $3;
 	generated_code << indent() << "while (" << condition->code << ") {" << endl;
 	indent_level++;
-	/* blokk statements are already generated */
+	$$ = condition;
+}
+;
+
+ciklus: amig_feltetel BLOKKKEZD blokk BLOKKVEG {
+	ExprInfo* condition = $1;
+	/* blokk already generated */
 	indent_level--;
 	generated_code << indent() << "}" << endl;
 	delete condition;
@@ -380,6 +377,16 @@ int main() {
 	indent_level++;
 
 	yyparse();
+
+	generated_code << endl << indent() << "return 0;" << endl << "}";
+	indent_level--;
+	if (!has_error) {
+		print_symbol_table();
+		print_generated_code(); /* Only generate code if no errors */
+	}
+	else {
+		cerr << "No code generated because of errors" << endl;
+	}
 }
 
 void yyerror(const string s) {

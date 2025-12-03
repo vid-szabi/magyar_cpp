@@ -1,12 +1,12 @@
 szám fibo0 = 0;
-szám fibo1 = 1;
+szám fibo1 = 1
 szám count = 5;
 count = count - 1;
 
 // 0 1 1 2 3 5 8 13
-amíg (count > 0)
+amíg (count = 0)
 {
-    szám current = fibo0 + fibo1;
+    szám current = fibo0 + fibo1
     fibo0 = fibo1;
     fibo1 = current;
     count = count - 1;

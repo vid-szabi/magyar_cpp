@@ -117,8 +117,6 @@ This is a compiler project for compiler construction coursework, implementing:
 
 ## Future enhancements
 
-- semantic analysis
-- code generation
 - exponentiation
 - improving the creativity of some keywords (legyen, accents in variables names)
 - array/vector type
