@@ -1,3 +1,15 @@
+# Test folder
 test
 
+# Lexer file
+lex.yy.c
+
+# The generated compiler
+compiler
+
+# Generated C++ file
+*.cpp
+
+# Output files
 *.out
+*.output
