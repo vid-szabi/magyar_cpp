@@ -394,8 +394,7 @@ int utf8_strlen(const string& str) {
 
     /* Token types */
     /* Variable name */
-    /* TODO: [a-zA-Z_áÁéÉíÍóÓöÖőŐúÚüÜűŰ][a-zA-Z0-9_áÁéÉíÍóÓöÖőŐúÚüÜűŰ]* */
-[a-zA-Z_][a-zA-Z0-9_]* {
+[a-zA-Z_áÁéÉíÍóÓöÖőŐúÚüÜűŰ][a-zA-Z0-9_áÁéÉíÍóÓöÖőŐúÚüÜűŰ]* {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;

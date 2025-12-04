@@ -5,3 +5,6 @@ kiír x;
 valós prime legyen 4.0;
 vajon prim legyen (prime mint vajon);
 kiír prim;
+
+szám prímszám legyen 37;
+kiír prímszám;

@@ -183,6 +183,5 @@ This is a compiler project for compiler construction coursework, implementing:
 
 ## Future enhancements
 
-- add Hungarian accents to variables names
 - vector initialization
 - string interpolation

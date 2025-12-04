@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wno-unused-function
-
+CXXFLAGS_UTF8 = -std=c++11 -Wall -O2 -finput-charset=UTF-8 -fexec-charset=UTF-8
 all: compiler
 
 lex.yy.c: lexer.l
@@ -20,6 +20,6 @@ ifndef INPUT
 	$(error You must specify an INPUT file, e.g. 'make buildcode INPUT=example.txt')
 endif
 	./compiler < $(INPUT)
-	$(CXX) $(CXXFLAGS) -o program code.cpp
+	$(CXX) $(CXXFLAGS_UTF8) -o program code.cpp
 
 .PHONY: all clean buildcode
