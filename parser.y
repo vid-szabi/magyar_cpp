@@ -365,15 +365,6 @@ vektor_muvelet: HOZZAAD VALTOZO kifejezes UTASITASVEG {
 
 	delete $2;
 }
-| HOSSZ VALTOZO UTASITASVEG {
-	string varname = *$2;
-
-	check_variable_declared(varname, yylineno, startcol);
-
-	generated_code << indent() << varname << ".length();" << endl;
-
-	delete $2;
-}
 ;
 
 kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
@@ -586,7 +577,7 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 int main() {
 	generated_code << "#include <iostream>" << endl
 				   << "#include <vector>" << endl
-				   << "#include <vector>" << endl
+				   << "#include <string>" << endl
 				   << "#include <locale>" << endl << endl
 				   << "using namespace std;" << endl << endl
 				   << "int main() {" << endl;
