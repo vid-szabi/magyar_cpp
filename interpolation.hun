@@ -1,0 +1,16 @@
+szám életkor legyen 25;
+szöveg név legyen "János";
+valós magasság legyen 1.75;
+vajon diák legyen igaz;
+
+// Automatikusan interpolált, mert tartalmaz ${} jelölést
+szöveg bemutatkozás legyen "Helló! A nevem ${név}, ${életkor} éves vagyok.";
+kiírsor bemutatkozás;
+
+// Ez is interpolált
+szöveg info legyen "Magasság: ${magasság}m, diák: ${diák}";
+kiírsor info;
+
+// Ez normál string, nincs interpoláció
+szöveg egyszerű legyen "Ez egy sima szöveg.";
+kiírsor egyszerű;

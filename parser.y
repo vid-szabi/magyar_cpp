@@ -5,9 +5,6 @@ struct ExprInfo {
 	std::string code; // Generated code
 	std::string type; // Type for semantic checking
 };
-
-// Forward declaration for vector helper
-std::string extract_vector_element_type(const std::string& type);
 }
 
 %{
@@ -50,6 +47,15 @@ void print_generated_code();
 string indent();
 string map_type_to_cpp(string type);
 
+string extract_vector_element_type(const string& type);
+bool is_vector_type(const string& type, string& inner);
+
+bool can_convert(string from, string to);
+string generate_conversion_code(string from_type, string to_type, string code);
+void warn_conversion(string from, string to, int line, int col);
+
+string process_interpolated_string(const string& str, int line, int col);
+
 extern int yylex();
 extern int yylineno;
 extern int startcol;
@@ -71,12 +77,15 @@ extern bool has_error;
 %token <betu_ertek> BETUERTEK
 %token SZAM VALOS BETU
 
-%token VEKTOR SABLONKEZD SABLONVEG INDEXKEZD INDEXVEG
+%token VEKTOR SABLONKEZD SABLONVEG INDEXKEZD INDEXVEG VESSZO
 %token HOZZAAD KIVESZ HOSSZ
 
 %token LOGIKAI IGAZ HAMIS
-%token BEOLVAS KIIR
-%token HA AKKOR KULONBEN
+
+%token MINT
+
+%token BEOLVAS KIIR KIIRSOR UJSOR
+%token HA KULONBEN
 %token AMIG
 %token NEMEGYENLO EGYENLO NEM ES VAGY
 %token UTASITASVEG
@@ -85,6 +94,11 @@ extern bool has_error;
 
 %type <tipus> tipus
 %type <expr> kifejezes ha_feltetel amig_feltetel
+%type <valtozonev> inicializalo_lista
+
+%token SZOVEG
+%token <valtozonev> SZOVEGERTEK INTERPOLALT_SZOVEGERTEK
+
 
 %left PLUSZ MINUSZ
 %left SZOROZ OSZT
@@ -113,6 +127,8 @@ program: utasitas
 utasitas: deklaracio UTASITASVEG
 		| ertekadas UTASITASVEG
 		| kiir UTASITASVEG
+		| kiirsor UTASITASVEG
+		| ujsor UTASITASVEG
 		| beolvas UTASITASVEG
 		| elagazas 
 		| ciklus
@@ -151,17 +167,54 @@ deklaracio: tipus VALTOZO {
 	delete $2;
 	delete expr;
 }
+| tipus VALTOZO ERTEKAD BLOKKKEZD inicializalo_lista BLOKKVEG {
+	string type = *$1;
+	string varname = *$2;
+	string init_list = *$5;
+
+	check_variable_redeclared(varname, yylineno, startcol);
+
+	string inner;
+	if (!is_vector_type(type, inner)) {
+		semantic_error("initializer list can only be used with vector types", yylineno, startcol);
+	}
+
+	Symbol sym = {type, yylineno, startcol, true};
+	symbol_table[varname] = sym;
+
+	generated_code << indent() << map_type_to_cpp(type) << " "
+		<< varname << " = {" << init_list << "};" << endl; 
+}
 ;
 
 tipus: SZAM { $$ = new string("szám"); }
 	 | VALOS { $$ = new string("valós"); }
 	 | BETU { $$ = new string("betü"); }
 	 | LOGIKAI { $$ = new string("vajon"); }
+	 | SZOVEG { $$ = new string("szöveg"); }
 	 | VEKTOR SABLONKEZD tipus SABLONVEG {
 		string inner_type = *$3;
 		$$ = new string("vektor<" + inner_type + ">");
 		delete $3;
 	 }
+;
+
+inicializalo_lista: kifejezes {
+	ExprInfo* expr = $1;
+	
+	$$ = new string(expr->code);
+	
+	delete expr;
+}
+| inicializalo_lista VESSZO kifejezes {
+	string* list = $1;
+	ExprInfo* expr = $3;
+	
+	$$ = new string(*list + ", " + expr->code);
+	
+	delete list;
+	delete expr;
+}
 ;
 
 ertekadas: VALTOZO ERTEKAD kifejezes {
@@ -206,20 +259,40 @@ ertekadas: VALTOZO ERTEKAD kifejezes {
 ;
 
 kiir: KIIR kifejezes {
-	ExprInfo* expr = $2;
-	generated_code << indent() << "cout << " << expr->code << " << endl;" << endl;
-	delete expr;
+    ExprInfo* expr = $2;
+        
+	generated_code << indent() << "wcout << " << expr->code << ";" << endl;
+
+    delete expr;
 }
 ;
+
+kiirsor: KIIRSOR kifejezes {
+	ExprInfo* expr = $2;
+
+    generated_code << indent() << "wcout << " << expr->code << " << endl;" << endl;
+    
+	delete expr;
+}
+
+ujsor: UJSOR {
+	generated_code << indent() << "wcout << endl;" << endl;
+}
 
 beolvas: BEOLVAS kifejezes {
-	ExprInfo* expr = $2;
-	generated_code << indent() << "cin >> " << expr->code << ";" << endl;
-	delete expr;
+    ExprInfo* expr = $2;
+    if (expr->type == "szöveg") {
+        // Clear buffer if needed, then read full line
+        generated_code << indent() << "if (wcin.peek() == '\\n') wcin.ignore();" << endl;
+        generated_code << indent() << "getline(wcin, " << expr->code << ");" << endl;
+    } else {
+        generated_code << indent() << "wcin >> " << expr->code << ";" << endl;
+    }
+    delete expr;
 }
 ;
 
-ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR {
+ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG {
 	ExprInfo* condition = $3;
 	generated_code << indent() << "if (" << condition->code << ") {" << endl;
 	indent_level++;
@@ -234,16 +307,21 @@ elagazas: ha_feltetel BLOKKKEZD blokk BLOKKVEG {
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
-| ha_feltetel BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG {
+| ha_feltetel BLOKKKEZD blokk BLOKKVEG kulonben_kezd BLOKKKEZD blokk BLOKKVEG {
 	ExprInfo* condition = $1;
-	/* blokk already generated */
-	indent_level--;
-	generated_code << indent() << "} else {" << endl;
-	indent_level++;
+	/* first blokk already generated */
+	// kulonben_kezd already wrote "} else {"
 	/* second blokk already generated */
 	indent_level--;
 	generated_code << indent() << "}" << endl;
 	delete condition;
+}
+;
+
+kulonben_kezd: KULONBEN {
+	indent_level--;
+	generated_code << indent() << "} else {" << endl;
+	indent_level++;
 }
 ;
 
@@ -287,15 +365,6 @@ vektor_muvelet: HOZZAAD VALTOZO kifejezes UTASITASVEG {
 
 	delete $2;
 }
-| HOSSZ VALTOZO UTASITASVEG {
-	string varname = *$2;
-
-	check_variable_declared(varname, yylineno, startcol);
-
-	generated_code << indent() << varname << ".length();" << endl;
-
-	delete $2;
-}
 ;
 
 kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
@@ -311,6 +380,19 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 	| BETUERTEK {
 		string value = to_string($1);
 		$$ = new ExprInfo{value, "betü"};
+	}
+	| SZOVEGERTEK {
+		string value = *$1;
+		// Add L prefix for wide string literals
+		value = "L" + value;
+		$$ = new ExprInfo{value, "szöveg"};
+		delete $1;
+	}
+	| INTERPOLALT_SZOVEGERTEK {
+		string str = *$1;
+		string processed = process_interpolated_string(str, yylineno, startcol);
+		$$ = new ExprInfo{processed, "szöveg"};
+		delete $1;
 	}
 	| VALTOZO {
 		string varname = *$1;
@@ -333,7 +415,13 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 			semantic_error("vector index must be numeric type", yylineno, startcol);
 		}
 
-		$$ = new ExprInfo{varname + "[" + index->code + "]", element_type};
+		if (vartype == "szöveg") {
+			$$ = new ExprInfo{"wstring(1, " + varname + "[" + index->code + "])", "szöveg"};
+		}
+		else {
+			$$ = new ExprInfo{varname + "[" + index->code + "]", element_type};
+		}
+
 		delete $1;
 		delete index;
 	}
@@ -342,10 +430,26 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
     check_variable_declared(varname, yylineno, startcol);
     string vartype = get_variable_type(varname);
 
-    string element_type = extract_vector_element_type(vartype); // Actually you may not need this
     // The type of 'hossz' is always szám
     $$ = new ExprInfo{varname + ".size()", "szám"};
     delete $2;
+	}
+	| ZAROJELKEZD kifejezes MINT tipus ZAROJELVEG {
+		ExprInfo* expr = $2;
+		string* target_type = $4;
+
+		if (!can_convert(expr->type, *target_type)) {
+			semantic_error("cannot convert '" + expr->type + "' to '" +
+			*target_type + "'", yylineno, startcol);
+		}
+
+		warn_conversion(expr->type, *target_type, yylineno, startcol);
+
+		string result_code = generate_conversion_code(expr->type, *target_type, expr->code);
+		$$ = new ExprInfo{result_code, *target_type};
+		
+		delete expr;
+		delete target_type;
 	}
 	| kifejezes PLUSZ kifejezes {
 		ExprInfo* expr1 = $1;
@@ -472,10 +576,18 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 
 int main() {
 	generated_code << "#include <iostream>" << endl
-				   << "#include <vector>" << endl << endl
+				   << "#include <vector>" << endl
+				   << "#include <string>" << endl
+				   << "#include <locale>" << endl << endl
 				   << "using namespace std;" << endl << endl
 				   << "int main() {" << endl;
 	indent_level++;
+	
+	// Add Hungarian locale setup
+	generated_code << indent() << "locale::global(locale(\"\"));" << endl;
+	generated_code << indent() << "wcin.imbue(locale());" << endl;
+	generated_code << indent() << "wcout.imbue(locale());" << endl;
+	generated_code << endl;
 
 	yyparse();
 
@@ -589,8 +701,16 @@ bool is_vector_type(const string& type, string& inner) {
 
 string extract_vector_element_type(const string& type) {
     string inner;
-    if (is_vector_type(type, inner)) return inner;
-    semantic_error("type is not a vector: " + type, yylineno, startcol);
+
+    if (is_vector_type(type, inner)) {
+		return inner;
+	}
+
+	if (type == "szöveg") {
+		return "szöveg";
+	}
+	
+	semantic_error("type is not a vector: " + type, yylineno, startcol);
     return "void";
 }
 
@@ -599,6 +719,7 @@ string map_type_to_cpp(string type) {
 	if (type == "valós") return "float";
 	if (type == "betü") return "char";
 	if (type == "vajon") return "bool";
+	if (type == "szöveg") return "wstring";
 
     string inner;
     if (is_vector_type(type, inner)) {
@@ -606,4 +727,181 @@ string map_type_to_cpp(string type) {
     }
 
 	return "void";
+}
+
+bool can_convert(string from, string to) {
+    if (from == to) return true;
+    
+    // Pure numeric types: szám <-> valós
+    if ((from == "szám" || from == "valós") &&
+        (to == "szám" || to == "valós")) {
+        return true;
+    }
+    
+    // Numeric <-> betü (char/ASCII conversions)
+    if ((from == "szám" || from == "valós") && to == "betü") {
+        return true;
+    }
+    if (from == "betü" && (to == "szám" || to == "valós")) {
+        return true;
+    }
+    
+    // Bool <-> numeric types
+    if (from == "vajon" && (to == "szám" || to == "valós")) {
+        return true;
+    }
+    if ((from == "szám" || from == "valós") && to == "vajon") {
+        return true;
+    }
+    
+    return false;
+}
+
+string generate_conversion_code(string from_type, string to_type, string code) {
+    if (from_type == to_type) return code;
+
+    // Convert TO szám (int)
+    if (to_type == "szám") {
+        if (from_type == "valós")
+            return "static_cast<int>(" + code + ")";
+        if (from_type == "betü")
+            return "static_cast<int>(" + code + ")";  // ASCII value
+        if (from_type == "vajon")
+            return "(" + code + " ? 1 : 0)";
+    }
+
+    // Convert TO valós (float)
+    if (to_type == "valós") {
+        if (from_type == "szám")
+            return "static_cast<float>(" + code + ")";
+        if (from_type == "betü")
+            return "static_cast<float>(" + code + ")";
+        if (from_type == "vajon")
+            return "(" + code + " ? 1.0f : 0.0f)";
+    }
+
+    // Convert TO betü (char)
+    if (to_type == "betü") {
+        if (from_type == "szám")
+            return "static_cast<char>(" + code + ")";
+        if (from_type == "valós")
+            return "static_cast<char>( static_cast<int>(" + code + ") )";
+        // no conversion from bool -> char
+    }
+
+    // Convert TO vajon (bool)
+    if (to_type == "vajon") {
+        if (from_type == "szám")
+            return "(" + code + " != 0)";
+        if (from_type == "valós")
+            return "(" + code + " != 0.0f)";
+        // no conversion from char -> bool
+    }
+
+    return code;
+}
+
+
+void warn_conversion(string from, string to, int line, int col) {
+    if (from == to) return;
+
+    // valós -> szám loses fractional part
+    if (from == "valós" && to == "szám") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'valós' to 'szám' may lose precision" << endl;
+    }
+
+    // szám -> betü loses range except 0..255
+    if (from == "szám" && to == "betü") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'szám' to 'betü' may lose data (out-of-range to char)" 
+             << endl;
+    }
+
+    // valós -> betü truncates fractional and range
+    if (from == "valós" && to == "betü") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'valós' to 'betü' may lose precision and range"
+             << endl;
+    }
+
+    // vajon -> szám / valós is safe (bool→numeric)
+    // szám/valós -> vajon loses info because nonzero becomes "true"
+    if ((from == "szám" || from == "valós") && to == "vajon") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting numeric value to boolean loses magnitude information" 
+             << endl;
+    }
+
+    // betü -> szám / valós, safe ASCII mapping: no warning
+
+    // numeric widening valós <- szám — no warning
+}
+
+string process_interpolated_string(const string& str, int line, int col) {
+    // Remove leading and trailing quotes
+    string content = str.substr(1, str.length() - 2);
+    string result = "wstring(L\"";
+    
+    size_t pos = 0;
+    
+    while (pos < content.length()) {
+        size_t start = content.find("${", pos);
+        
+        if (start == string::npos) {
+            // No more interpolations, add the rest of the string
+            result += content.substr(pos);
+            break;
+        }
+        
+        // Add the string part before the interpolation
+        if (start > pos) {
+            result += content.substr(pos, start - pos);
+        }
+        result += "\") + ";
+        
+        // Find the end of the interpolation
+        size_t end = content.find("}", start);
+        if (end == string::npos) {
+            semantic_error("unclosed interpolation in string", line, col);
+            return "L\"\"";
+        }
+        
+        // Extract the variable name/expression
+        string varname = content.substr(start + 2, end - start - 2);
+        
+        // Remove whitespace
+        varname.erase(0, varname.find_first_not_of(" \t\n\r"));
+        varname.erase(varname.find_last_not_of(" \t\n\r") + 1);
+        
+        if (varname.empty()) {
+            semantic_error("empty interpolation in string", line, col);
+            return "L\"\"";
+        }
+        
+        // Check if the variable exists
+        check_variable_declared(varname, line, col);
+        string vartype = get_variable_type(varname);
+        
+        // Convert to wstring based on type
+        if (vartype == "szöveg") {
+            result += varname;
+        } else if (vartype == "szám") {
+            result += "to_wstring(" + varname + ")";
+        } else if (vartype == "valós") {
+            result += "to_wstring(" + varname + ")";
+        } else if (vartype == "betü") {
+            result += "wstring(1, " + varname + ")";
+        } else if (vartype == "vajon") {
+            result += "(" + varname + " ? L\"igaz\" : L\"hamis\")";
+        } else {
+            semantic_error("type '" + vartype + "' cannot be interpolated into string", line, col);
+        }
+        
+        result += " + wstring(L\"";
+        pos = end + 1;
+    }
+    
+    result += "\")";
+    return result;
 }

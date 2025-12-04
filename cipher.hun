@@ -1,0 +1,55 @@
+vektor<szöveg> ábécé legyen {"a","á","b","c","cs","d","dz","dzs","e","é","f","g","gy","h","i","í","j","k","l","ly","m","n","ny","o","ó","ö","ő","p","q","r","s","sz","t","ty","u","ú","ü","ű","v","w","x","y","z","zs"};
+
+kiír "Adj meg egy eltolást: ";
+szám eltolás;
+beolvas eltolás;
+
+kiírsor "Adj meg egy szöveget:";
+szöveg eredeti_szöveg;
+beolvas eredeti_szöveg;
+
+vektor<szöveg> titkosított_szöveg;
+
+szám i legyen 0;
+amíg (i kisebb hossz eredeti_szöveg)
+{
+    szöveg jelenlegi_betü legyen eredeti_szöveg[i];
+    szám index legyen -1;
+    szám j legyen 0;
+
+    amíg (j kisebb hossz ábécé)
+    {
+        ha (ábécé[j] egyenlő jelenlegi_betü)
+        {
+            index legyen j;
+            j legyen hossz ábécé;
+        }
+        j legyen j meg 1;
+    }
+    
+    ha (index nem egyenlő -1)
+    {
+        szám új_index legyen index meg eltolás;
+        amíg (új_index nagyobb egyenlő hossz ábécé)
+        {
+            új_index legyen új_index mínusz hossz ábécé;
+        }
+        hozzáad titkosított_szöveg ábécé[új_index];
+    }
+    különben
+    {
+        hozzáad titkosított_szöveg jelenlegi_betü;
+    }
+    
+    i legyen i meg 1;
+}
+
+kiírsor "A titkosított szöveg:";
+
+i legyen 0;
+amíg (i kisebb hossz titkosított_szöveg)
+{
+    kiír titkosított_szöveg[i];
+    i legyen i meg 1;
+}
+újsor;

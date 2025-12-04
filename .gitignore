@@ -8,8 +8,9 @@ test
 *.tab.c
 *.tab.h
 
-# The generated compiler
+# Generated executables
 compiler
+program
 
 # Generated C++ file
 *.cpp

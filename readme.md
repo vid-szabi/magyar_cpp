@@ -8,13 +8,15 @@ A compiler for a Hungarian variant of C++ built using **Flex** (lexical analyzer
 
 - **szám** - Integer type
 - **valós** - Floating-point type
-- **betü** - Character type
+- **betü** - Character type (single character — only non-accented characters are accepted)
+- **szöveg** - String/text type (supports string interpolation with `${variable}` syntax)
 - **vajon** - Boolean type
 
 ### Keywords & Operations
 
 - **Variable Declaration & Assignment**: `szám x = 5;`
-- **I/O Operations**: `beolvas` (input), `kiír` (output)
+- **I/O Operations**: `beolvas` (input), `kiír` (output), `kiírsor` (output with newline), `újsor` (newline only)
+- **String Interpolation**: strings support `${variable}` syntax for automatic variable-to-string conversion
 - **Control Flow**:
   - `ha-akkor-különben` (if-then-else)
   - `amíg` (while loops)
@@ -49,8 +51,13 @@ kiír fibo1;
 ├── parser.y             # Bison parser specification
 ├── fibonacci.hun        # Example program in Magyar C++
 ├── fibonacci.cpp        # Equivalent C++ reference implementation
+├── cipher.hun           # Cipher example in Magyar C++
+├── elagazas.hun         # Small if/else example
+├── code.cpp             # Generated C++ output (emitted by the compiler)
 ├── lex.yy.c             # Generated C code from Flex
 ├── parser.tab.c/.h      # Generated parser code from Bison
+├── lexer.output         # Lexer diagnostic output (generated)
+├── parser.output        # Parser diagnostic output (generated)
 ```
 
 ## Building & Running
@@ -61,7 +68,31 @@ kiír fibo1;
 - **Bison** - Parser generator
 - **G++** - C++ compiler
 
-### Build Instructions
+## Build Instructions
+
+### 1. Build the Compiler
+
+To generate the lexer, parser, and compile the `compiler` executable:
+
+```bash
+make
+```
+
+or
+
+```bash
+make all
+```
+
+### 2. Generate and Compile C++ Code from an Input File
+
+Use the buildcode target to run the compiler on a Magyar C++ source file and automatically compile the generated C++ code:
+
+```bash
+make buildcode INPUT=example.hun
+```
+
+## Alternative: Build Instructions
 
 ```bash
 # Generate lexer from Flex specification
@@ -71,11 +102,19 @@ flex lexer.l
 bison -dvt parser.y
 
 # Compile everything together
-g++ lex.yy.c parser.tab.c -o magyar_cpp
+g++ lex.yy.c parser.tab.c -o compiler
 
 # Run with input
-./magyar_cpp < fibonacci.hun
+./compiler < fibonacci.hun
+
+# Compile generated code
+g++ code.cpp -o program
+
+# Run program
+./program
 ```
+
+> Note: running the compiler or the build targets will generate several files (lexer/parser artifacts and generated C++). Typical generated files: `lex.yy.c`, `parser.tab.c`, `parser.tab.h`, `parser.output`, `lexer.output`, and `code.cpp`. Consider adding these to `.gitignore` if you don't intend to commit generated artifacts.
 
 ### Build with Diagnostic Output
 
@@ -91,13 +130,18 @@ This produces:
 
 ## Files Overview
 
-| File              | Purpose                                                   |
-| ----------------- | --------------------------------------------------------- |
-| `lexer.l`         | Defines tokens and lexical rules for the Hungarian syntax |
-| `parser.y`        | Defines grammar rules and syntax validation               |
-| `lex.yy.c`        | Auto-generated lexer implementation (don't edit)          |
-| `parser.tab.c/.h` | Auto-generated parser implementation (don't edit)         |
-| `fibonacci.hun`   | Example program demonstrating language features           |
+| File                | Purpose                                                           |
+| ------------------- | ----------------------------------------------------------------- |
+| `lexer.l`           | Defines tokens and lexical rules for the Hungarian syntax         |
+| `parser.y`          | Defines grammar rules and syntax validation                       |
+| Makefile            | Contains pre-written building rules                               |
+| `fibonacci.hun`     | Example program demonstrating language features                   |
+| `cipher.hun`        | Cipher example demonstrating `vektor<szöveg>` usage               |
+| `elagazas.hun`      | Small example demonstrating `ha...különben` flow                  |
+| `interpolation.hun` | Example demonstrating string interpolation (`${variable}` syntax) |
+| `code.cpp`          | Generated C++ code emitted by the compiler                        |
+| `lexer.output`      | Lexer diagnostic output (token positions)                         |
+| `parser.output`     | Parser diagnostic output (states / conflicts)                     |
 
 ## Key Implementation Details
 
@@ -106,6 +150,8 @@ This produces:
 - **Operator Precedence**: Correct precedence for arithmetic, comparison, and logical operators
 - **Comment Support**: Both `//` single-line and `/* */` multi-line comments
 - **Detailed Output**: Lexer produces detailed analysis output with token positions
+- **Wide-string & locale support**: Generated C++ uses `wstring`, `L"..."` literals and configures the locale (via `locale::global`) so `wcin`/`wcout` correctly handle Hungarian characters.
+- **Generated artifacts**: The compiler emits helper files such as `code.cpp`, `lexer.output` and `parser.output` during analysis and code generation.
 
 ## Current Status
 
@@ -123,6 +169,7 @@ This is a compiler project for compiler construction coursework, implementing:
 
 - `vektor<tipus>` now supported
 - Example: `vektor<szám> tomb;`
+- Initializer lists supported: `vektor<szám> v = {1, 2, 3};` (parsed as an initializer list)
 
 #### Element Access & Assignment
 
@@ -151,10 +198,16 @@ This is a compiler project for compiler construction coursework, implementing:
 
 - Vector elements can be used in expressions: `kiír tomb[0];`
 - Vector length can be used in expressions or assigned to variables: `szám tombhossz legyen hossz tomb;`
+- Indexing into a `szöveg` (string) returns a single-character `wstring` (code generation emits an expression that produces a `wstring` of length 1 for string indexing).
 
-## Future enhancements
+### String Interpolation
 
-- improve vector semantic analysis
-- add Hungarian accents to variables names
-- type conversion (and giving error for possible value loss)
-- string interpolation
+- Strings can contain `${variable}` placeholders that are replaced with variable values at compile-time code generation.
+- Supported types in interpolation:
+  - `szöveg`: inserted directly into the concatenation
+  - `szám`, `valós`: converted to string via `to_wstring()`
+  - `betü`: converted to single-character `wstring`
+  - `vajon`: converted to `"igaz"` or `"hamis"`
+- Example: `szöveg msg legyen "Person: ${name}, Age: ${age}";`
+- Generated C++ code concatenates strings using `+` operator, producing a `wstring`.
+- Lexer detects interpolation patterns and emits `INTERPOLALT_SZOVEGERTEK` token; parser calls `process_interpolated_string()` to generate code.
