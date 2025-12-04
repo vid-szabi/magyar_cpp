@@ -8,7 +8,7 @@ vektor<szám> tomb;
 hozzáad tomb 674;
 kivesz tomb;
 hozzáad tomb 673;
-tomb[0] legyen 12;
+tomb[0] legyen 5;
 kiír tomb[0];
 kiír hossz tomb;
 

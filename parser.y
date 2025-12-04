@@ -5,9 +5,6 @@ struct ExprInfo {
 	std::string code; // Generated code
 	std::string type; // Type for semantic checking
 };
-
-// Forward declaration for vector helper
-std::string extract_vector_element_type(const std::string& type);
 }
 
 %{
@@ -50,6 +47,12 @@ void print_generated_code();
 string indent();
 string map_type_to_cpp(string type);
 
+string extract_vector_element_type(const string& type);
+
+bool can_convert(string from, string to);
+string generate_conversion_code(string from_type, string to_type, string code);
+void warn_conversion(string from, string to, int line, int col);
+
 extern int yylex();
 extern int yylineno;
 extern int startcol;
@@ -75,6 +78,9 @@ extern bool has_error;
 %token HOZZAAD KIVESZ HOSSZ
 
 %token LOGIKAI IGAZ HAMIS
+
+%token MINT
+
 %token BEOLVAS KIIR
 %token HA AKKOR KULONBEN
 %token AMIG
@@ -347,6 +353,23 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
     $$ = new ExprInfo{varname + ".size()", "szám"};
     delete $2;
 	}
+	| ZAROJELKEZD kifejezes MINT tipus ZAROJELVEG {
+		ExprInfo* expr = $2;
+		string* target_type = $4;
+
+		if (!can_convert(expr->type, *target_type)) {
+			semantic_error("cannot convert '" + expr->type + "' to '" +
+			*target_type + "'", yylineno, startcol);
+		}
+
+		warn_conversion(expr->type, *target_type, yylineno, startcol);
+
+		string result_code = generate_conversion_code(expr->type, *target_type, expr->code);
+		$$ = new ExprInfo{result_code, *target_type};
+		
+		delete expr;
+		delete target_type;
+	}
 	| kifejezes PLUSZ kifejezes {
 		ExprInfo* expr1 = $1;
 		ExprInfo* expr2 = $3;
@@ -606,4 +629,113 @@ string map_type_to_cpp(string type) {
     }
 
 	return "void";
+}
+
+bool can_convert(string from, string to) {
+    if (from == to) return true;
+    
+    // Pure numeric types: szám <-> valós
+    if ((from == "szám" || from == "valós") &&
+        (to == "szám" || to == "valós")) {
+        return true;
+    }
+    
+    // Numeric <-> betü (char/ASCII conversions)
+    if ((from == "szám" || from == "valós") && to == "betü") {
+        return true;
+    }
+    if (from == "betü" && (to == "szám" || to == "valós")) {
+        return true;
+    }
+    
+    // Bool <-> numeric types
+    if (from == "vajon" && (to == "szám" || to == "valós")) {
+        return true;
+    }
+    if ((from == "szám" || from == "valós") && to == "vajon") {
+        return true;
+    }
+    
+    return false;
+}
+
+string generate_conversion_code(string from_type, string to_type, string code) {
+    if (from_type == to_type) return code;
+
+    // Convert TO szám (int)
+    if (to_type == "szám") {
+        if (from_type == "valós")
+            return "static_cast<int>(" + code + ")";
+        if (from_type == "betü")
+            return "static_cast<int>(" + code + ")";  // ASCII value
+        if (from_type == "vajon")
+            return "(" + code + " ? 1 : 0)";
+    }
+
+    // Convert TO valós (float)
+    if (to_type == "valós") {
+        if (from_type == "szám")
+            return "static_cast<float>(" + code + ")";
+        if (from_type == "betü")
+            return "static_cast<float>(" + code + ")";
+        if (from_type == "vajon")
+            return "(" + code + " ? 1.0f : 0.0f)";
+    }
+
+    // Convert TO betü (char)
+    if (to_type == "betü") {
+        if (from_type == "szám")
+            return "static_cast<char>(" + code + ")";
+        if (from_type == "valós")
+            return "static_cast<char>( static_cast<int>(" + code + ") )";
+        // no conversion from bool -> char
+    }
+
+    // Convert TO vajon (bool)
+    if (to_type == "vajon") {
+        if (from_type == "szám")
+            return "(" + code + " != 0)";
+        if (from_type == "valós")
+            return "(" + code + " != 0.0f)";
+        // no conversion from char -> bool
+    }
+
+    return code;
+}
+
+
+void warn_conversion(string from, string to, int line, int col) {
+    if (from == to) return;
+
+    // valós -> szám loses fractional part
+    if (from == "valós" && to == "szám") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'valós' to 'szám' may lose precision" << endl;
+    }
+
+    // szám -> betü loses range except 0..255
+    if (from == "szám" && to == "betü") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'szám' to 'betü' may lose data (out-of-range to char)" 
+             << endl;
+    }
+
+    // valós -> betü truncates fractional and range
+    if (from == "valós" && to == "betü") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting 'valós' to 'betü' may lose precision and range"
+             << endl;
+    }
+
+    // vajon -> szám / valós is safe (bool→numeric)
+    // szám/valós -> vajon loses info because nonzero becomes "true"
+    if ((from == "szám" || from == "valós") && to == "vajon") {
+        cerr << "Warning at line " << line << ", column " << col
+             << ": converting numeric value to boolean loses magnitude information" 
+             << endl;
+    }
+
+    // betü -> szám / valós, safe ASCII mapping: no warning
+
+    // numeric widening valós <- szám — no warning
 }

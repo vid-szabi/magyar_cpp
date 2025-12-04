@@ -61,7 +61,31 @@ kiír fibo1;
 - **Bison** - Parser generator
 - **G++** - C++ compiler
 
-### Build Instructions
+## Build Instructions
+
+### 1. Build the Compiler
+
+To generate the lexer, parser, and compile the `compiler` executable:
+
+```bash
+make
+```
+
+or
+
+```bash
+make all
+```
+
+### 2. Generate and Compile C++ Code from an Input File
+
+Use the buildcode target to run the compiler on a Magyar C++ source file and automatically compile the generated C++ code:
+
+```bash
+make buildcode INPUT=example.hun
+```
+
+## Alternative: Build Instructions
 
 ```bash
 # Generate lexer from Flex specification
@@ -71,10 +95,16 @@ flex lexer.l
 bison -dvt parser.y
 
 # Compile everything together
-g++ lex.yy.c parser.tab.c -o magyar_cpp
+g++ lex.yy.c parser.tab.c -o compiler
 
 # Run with input
-./magyar_cpp < fibonacci.hun
+./compiler < fibonacci.hun
+
+# Compile generated code
+g++ code.cpp -o program
+
+# Run program
+./program
 ```
 
 ### Build with Diagnostic Output
@@ -91,13 +121,12 @@ This produces:
 
 ## Files Overview
 
-| File              | Purpose                                                   |
-| ----------------- | --------------------------------------------------------- |
-| `lexer.l`         | Defines tokens and lexical rules for the Hungarian syntax |
-| `parser.y`        | Defines grammar rules and syntax validation               |
-| `lex.yy.c`        | Auto-generated lexer implementation (don't edit)          |
-| `parser.tab.c/.h` | Auto-generated parser implementation (don't edit)         |
-| `fibonacci.hun`   | Example program demonstrating language features           |
+| File            | Purpose                                                   |
+| --------------- | --------------------------------------------------------- |
+| `lexer.l`       | Defines tokens and lexical rules for the Hungarian syntax |
+| `parser.y`      | Defines grammar rules and syntax validation               |
+| Makefile        | Contains pre-written building rules                       |
+| `fibonacci.hun` | Example program demonstrating language features           |
 
 ## Key Implementation Details
 
@@ -154,7 +183,6 @@ This is a compiler project for compiler construction coursework, implementing:
 
 ## Future enhancements
 
-- improve vector semantic analysis
 - add Hungarian accents to variables names
-- type conversion (and giving error for possible value loss)
+- vector initialization
 - string interpolation

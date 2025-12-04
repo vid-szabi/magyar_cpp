@@ -1,0 +1,7 @@
+valós b legyen 2.4;
+szám x legyen (b mint szám);
+kiír x;
+
+valós prime legyen 4.0;
+vajon prim legyen (prime mint vajon);
+kiír prim;

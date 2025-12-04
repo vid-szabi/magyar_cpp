@@ -136,6 +136,16 @@ int utf8_strlen(const string& str) {
     return INDEXVEG;
 }
 
+    /* Type conversion (expression as type) */
+"mint" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol 
+        << ", hossz: " << charlen << "] " << "Konverzió kulcsszó: " << yytext << endl;
+    return MINT;
+}
+
     /* IO functions */
 "beolvas" {
     startcol = colno;
