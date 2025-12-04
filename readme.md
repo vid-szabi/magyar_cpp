@@ -114,11 +114,47 @@ This is a compiler project for compiler construction coursework, implementing:
 - Lexical analysis (tokenization)
 - Syntactic analysis (parsing)
 - Basic syntax validation
+- Semantic anaylsis
+- C++ code generation
+
+### Vector Feature Additions
+
+#### Vector Type Declaration
+
+- `vektor<tipus>` now supported
+- Example: `vektor<szám> tomb;`
+
+#### Element Access & Assignment
+
+- Can access element: `tomb[0]`
+- Can assign value to element: `tomb[0] legyen 12;`
+- Type checked against vector element type
+
+#### Vector Operations
+
+- `hozzáad tomb 674;` → adds element (`push_back`)
+- `kivesz tomb;` → removes last element (`pop_back`)
+- `hossz tomb` → gets size of vector (`size()`)
+
+#### Semantic Checks
+
+- Variable must be declared
+- Index must be numeric
+- Assigned value must match element type
+
+#### Code Generation
+
+- Generates proper C++ STL code (`push_back`, `pop_back`, `size`, array access)
+- Tracks initialization in symbol table
+
+#### Expression Integration
+
+- Vector elements can be used in expressions: `kiír tomb[0];`
+- Vector length can be used in expressions or assigned to variables: `szám tombhossz legyen hossz tomb;`
 
 ## Future enhancements
 
-- improving the creativity of some keywords (and accents in variables names)
-- array/vector type
-- local variables
+- improve vector semantic analysis
+- add Hungarian accents to variables names
 - type conversion (and giving error for possible value loss)
-- other advanced feature (for example string interpolation)
+- string interpolation

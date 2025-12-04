@@ -4,6 +4,14 @@ szám count;
 beolvas count;
 count legyen count mínusz 1;
 
+vektor<szám> tomb;
+hozzáad tomb 674;
+kivesz tomb;
+hozzáad tomb 673;
+tomb[0] legyen 12;
+kiír tomb[0];
+kiír hossz tomb;
+
 // 0 1 1 2 3 5 8 13
 amíg (count nem egyenlő 0)
 {

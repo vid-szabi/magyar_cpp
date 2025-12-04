@@ -92,6 +92,50 @@ int utf8_strlen(const string& str) {
     return HAMIS;
 }
 
+    /* Vector */
+    /* Vector template */
+"<" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Sablon kezdő: " << yytext << endl;
+    return SABLONKEZD;
+}
+
+">" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Sablon vége: " << yytext << endl;
+    return SABLONVEG;
+}
+
+    /* Vector type */
+"vektor" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
+    return VEKTOR;
+}
+
+    /* Vector index */
+"[" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Index kezdő: " << yytext << endl;
+    return INDEXKEZD;
+}
+
+"]" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Index vége: " << yytext << endl;
+    return INDEXVEG;
+}
+
     /* IO functions */
 "beolvas" {
     startcol = colno;
@@ -144,6 +188,42 @@ int utf8_strlen(const string& str) {
 }
 
     /* Logical statements */
+    /* Greater than or equal to */
+"nagyobb egyenlő" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+    return NAGYOBBEGYENLO;
+}
+
+    /* Less than or equal to */
+"kisebb egyenlő" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+    return KISEBBEGYENLO;
+}
+
+    /* Greater than */
+"nagyobb" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+    return NAGYOBB;
+}
+
+    /* Less than */
+"kisebb" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
+    return KISEBB;
+}
+
 "nem egyenlő" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -274,40 +354,32 @@ int utf8_strlen(const string& str) {
     return OSZT;
 }
 
-    /* Greater than or equal to */
-">=" {
+    /* Vector operators */
+"hozzáad" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
-    return NAGYOBBEGYENLO;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol
+        << ", hossz: " << charlen << "] " << "Vektor hozzáadás parancs: " << yytext << endl;
+    return HOZZAAD;
 }
 
-    /* Less than or equal to */
-"<=" {
+"kivesz" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
-    return KISEBBEGYENLO;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol
+        << ", hossz: " << charlen << "] " << "Vektor kivevés parancs: " << yytext << endl;
+    return KIVESZ;
 }
 
-    /* Greater than */
-">" {
+"hossz" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
-    return NAGYOBB;
-}
-
-    /* Less than */
-"<" {
-    startcol = colno;
-    int charlen = utf8_strlen(yytext);
-    colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Operátor: " << yytext << endl;
-    return KISEBB;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol
+        << ", hossz: " << charlen << "] " << "Vektor hossz parancs: " << yytext << endl;
+    return HOSSZ;
 }
 
     /* Token types */

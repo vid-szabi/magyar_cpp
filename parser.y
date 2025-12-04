@@ -5,6 +5,9 @@ struct ExprInfo {
 	std::string code; // Generated code
 	std::string type; // Type for semantic checking
 };
+
+// Forward declaration for vector helper
+std::string extract_vector_element_type(const std::string& type);
 }
 
 %{
@@ -66,8 +69,12 @@ extern bool has_error;
 %token <valos_ertek> VALOSERTEK
 %token <valtozonev> VALTOZO
 %token <betu_ertek> BETUERTEK
-%token SZAM VALOS BETU LOGIKAI
-%token IGAZ HAMIS
+%token SZAM VALOS BETU
+
+%token VEKTOR SABLONKEZD SABLONVEG INDEXKEZD INDEXVEG
+%token HOZZAAD KIVESZ HOSSZ
+
+%token LOGIKAI IGAZ HAMIS
 %token BEOLVAS KIIR
 %token HA AKKOR KULONBEN
 %token AMIG
@@ -109,6 +116,7 @@ utasitas: deklaracio UTASITASVEG
 		| beolvas UTASITASVEG
 		| elagazas 
 		| ciklus
+		| vektor_muvelet
 		| error UTASITASVEG
 ;
 
@@ -149,6 +157,11 @@ tipus: SZAM { $$ = new string("szám"); }
 	 | VALOS { $$ = new string("valós"); }
 	 | BETU { $$ = new string("betü"); }
 	 | LOGIKAI { $$ = new string("vajon"); }
+	 | VEKTOR SABLONKEZD tipus SABLONVEG {
+		string inner_type = *$3;
+		$$ = new string("vektor<" + inner_type + ">");
+		delete $3;
+	 }
 ;
 
 ertekadas: VALTOZO ERTEKAD kifejezes {
@@ -165,6 +178,30 @@ ertekadas: VALTOZO ERTEKAD kifejezes {
 
 	delete $1;
 	delete $3;
+}
+| VALTOZO INDEXKEZD kifejezes INDEXVEG ERTEKAD kifejezes {
+	string varname = *$1;
+	ExprInfo* index = $3;
+	ExprInfo* expr = $6;
+	
+	check_variable_declared(varname, yylineno, startcol);
+	string vartype = get_variable_type(varname);
+
+	string element_type = extract_vector_element_type(vartype);
+	check_type_compatibility(element_type, expr->type, yylineno, startcol);
+	
+	if (index->type != "szám") {
+		semantic_error("vector index must be numeric type", yylineno, startcol);
+	}
+	
+	generated_code << indent() << varname << "[" << index->code 
+					<< "] = " << expr->code << ";" << endl;
+	
+    symbol_table[varname].initialized = true;
+
+	delete $1;
+	delete index;
+	delete expr;
 }
 ;
 
@@ -227,6 +264,40 @@ ciklus: amig_feltetel BLOKKKEZD blokk BLOKKVEG {
 }
 ;
 
+vektor_muvelet: HOZZAAD VALTOZO kifejezes UTASITASVEG {
+	string varname = *$2;
+	ExprInfo* expr = $3;
+
+	check_variable_declared(varname, yylineno, startcol);
+	string vartype = get_variable_type(varname);
+	string element_type = extract_vector_element_type(vartype);
+	check_type_compatibility(element_type, expr->type, yylineno, startcol);
+
+	generated_code << indent() << varname << ".push_back(" << expr->code << ");" << endl;
+
+	delete $2;
+	delete expr;
+}
+| KIVESZ VALTOZO UTASITASVEG {
+	string varname = *$2;
+
+	check_variable_declared(varname, yylineno, startcol);
+
+	generated_code << indent() << varname << ".pop_back();" << endl;
+
+	delete $2;
+}
+| HOSSZ VALTOZO UTASITASVEG {
+	string varname = *$2;
+
+	check_variable_declared(varname, yylineno, startcol);
+
+	generated_code << indent() << varname << ".length();" << endl;
+
+	delete $2;
+}
+;
+
 kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 	| HAMIS { $$ = new ExprInfo{"false", "vajon"}; }
 	| SZAMERTEK {
@@ -247,6 +318,34 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 		string vartype = get_variable_type(varname);
 		$$ = new ExprInfo{varname, vartype};
 		delete $1;
+	}
+	| VALTOZO INDEXKEZD kifejezes INDEXVEG {
+		string varname = *$1;
+		ExprInfo* index = $3;
+
+		check_variable_declared(varname, yylineno, startcol);
+		string vartype = get_variable_type(varname);
+
+		// Extract element type from vektor<type>
+		string element_type = extract_vector_element_type(vartype);
+
+		if (index->type != "szám") {
+			semantic_error("vector index must be numeric type", yylineno, startcol);
+		}
+
+		$$ = new ExprInfo{varname + "[" + index->code + "]", element_type};
+		delete $1;
+		delete index;
+	}
+	| HOSSZ VALTOZO {
+    string varname = *$2;
+    check_variable_declared(varname, yylineno, startcol);
+    string vartype = get_variable_type(varname);
+
+    string element_type = extract_vector_element_type(vartype); // Actually you may not need this
+    // The type of 'hossz' is always szám
+    $$ = new ExprInfo{varname + ".size()", "szám"};
+    delete $2;
 	}
 	| kifejezes PLUSZ kifejezes {
 		ExprInfo* expr1 = $1;
@@ -372,8 +471,10 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 %%
 
 int main() {
-	generated_code << "#include <iostream>" << endl << endl << "using namespace std;"
-	               << endl << endl << "int main() {" << endl;
+	generated_code << "#include <iostream>" << endl
+				   << "#include <vector>" << endl << endl
+				   << "using namespace std;" << endl << endl
+				   << "int main() {" << endl;
 	indent_level++;
 
 	yyparse();
@@ -473,10 +574,36 @@ string indent() {
 	return string(indent_level * 4, ' ');
 }
 
+bool is_vector_type(const string& type, string& inner) {
+    const string prefix = "vektor<";
+    const string suffix = ">";
+    if (type.size() >= prefix.size() + suffix.size() &&
+        type.compare(0, prefix.size(), prefix) == 0 &&
+        type.compare(type.size() - suffix.size(), suffix.size(), suffix) == 0) 
+    {
+        inner = type.substr(prefix.size(), type.size() - prefix.size() - suffix.size());
+        return true;
+    }
+    return false;
+}
+
+string extract_vector_element_type(const string& type) {
+    string inner;
+    if (is_vector_type(type, inner)) return inner;
+    semantic_error("type is not a vector: " + type, yylineno, startcol);
+    return "void";
+}
+
 string map_type_to_cpp(string type) {
 	if (type == "szám") return "int";
 	if (type == "valós") return "float";
 	if (type == "betü") return "char";
 	if (type == "vajon") return "bool";
+
+    string inner;
+    if (is_vector_type(type, inner)) {
+        return "vector<" + map_type_to_cpp(inner) + ">";
+    }
+
 	return "void";
 }
