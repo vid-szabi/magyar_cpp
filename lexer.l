@@ -463,9 +463,18 @@ int utf8_strlen(const string& str) {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Szöveg érték: " << yytext << endl;
-    yylval.valtozonev = new string(yytext);
-    return SZOVEGERTEK;
+    
+    // Ellenőrizzük, hogy van-e interpoláció
+    string text(yytext);
+    if (text.find("${") != string::npos) {
+        out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Interpolált szöveg: " << yytext << endl;
+        yylval.valtozonev = new string(yytext);
+        return INTERPOLALT_SZOVEGERTEK;
+    } else {
+        out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Szöveg érték: " << yytext << endl;
+        yylval.valtozonev = new string(yytext);
+        return SZOVEGERTEK;
+    }
 }
 
     /* End of file */

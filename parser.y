@@ -54,6 +54,8 @@ bool can_convert(string from, string to);
 string generate_conversion_code(string from_type, string to_type, string code);
 void warn_conversion(string from, string to, int line, int col);
 
+string process_interpolated_string(const string& str, int line, int col);
+
 extern int yylex();
 extern int yylineno;
 extern int startcol;
@@ -95,7 +97,8 @@ extern bool has_error;
 %type <valtozonev> inicializalo_lista
 
 %token SZOVEG
-%token <valtozonev> SZOVEGERTEK
+%token <valtozonev> SZOVEGERTEK INTERPOLALT_SZOVEGERTEK
+
 
 %left PLUSZ MINUSZ
 %left SZOROZ OSZT
@@ -392,6 +395,12 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 		// Add L prefix for wide string literals
 		value = "L" + value;
 		$$ = new ExprInfo{value, "szöveg"};
+		delete $1;
+	}
+	| INTERPOLALT_SZOVEGERTEK {
+		string str = *$1;
+		string processed = process_interpolated_string(str, yylineno, startcol);
+		$$ = new ExprInfo{processed, "szöveg"};
 		delete $1;
 	}
 	| VALTOZO {
@@ -836,4 +845,72 @@ void warn_conversion(string from, string to, int line, int col) {
     // betü -> szám / valós, safe ASCII mapping: no warning
 
     // numeric widening valós <- szám — no warning
+}
+
+string process_interpolated_string(const string& str, int line, int col) {
+    // Remove leading and trailing quotes
+    string content = str.substr(1, str.length() - 2);
+    string result = "wstring(L\"";
+    
+    size_t pos = 0;
+    
+    while (pos < content.length()) {
+        size_t start = content.find("${", pos);
+        
+        if (start == string::npos) {
+            // No more interpolations, add the rest of the string
+            result += content.substr(pos);
+            break;
+        }
+        
+        // Add the string part before the interpolation
+        if (start > pos) {
+            result += content.substr(pos, start - pos);
+        }
+        result += "\") + ";
+        
+        // Find the end of the interpolation
+        size_t end = content.find("}", start);
+        if (end == string::npos) {
+            semantic_error("unclosed interpolation in string", line, col);
+            return "L\"\"";
+        }
+        
+        // Extract the variable name/expression
+        string varname = content.substr(start + 2, end - start - 2);
+        
+        // Remove whitespace
+        varname.erase(0, varname.find_first_not_of(" \t\n\r"));
+        varname.erase(varname.find_last_not_of(" \t\n\r") + 1);
+        
+        if (varname.empty()) {
+            semantic_error("empty interpolation in string", line, col);
+            return "L\"\"";
+        }
+        
+        // Check if the variable exists
+        check_variable_declared(varname, line, col);
+        string vartype = get_variable_type(varname);
+        
+        // Convert to wstring based on type
+        if (vartype == "szöveg") {
+            result += varname;
+        } else if (vartype == "szám") {
+            result += "to_wstring(" + varname + ")";
+        } else if (vartype == "valós") {
+            result += "to_wstring(" + varname + ")";
+        } else if (vartype == "betü") {
+            result += "wstring(1, " + varname + ")";
+        } else if (vartype == "vajon") {
+            result += "(" + varname + " ? L\"igaz\" : L\"hamis\")";
+        } else {
+            semantic_error("type '" + vartype + "' cannot be interpolated into string", line, col);
+        }
+        
+        result += " + wstring(L\"";
+        pos = end + 1;
+    }
+    
+    result += "\")";
+    return result;
 }

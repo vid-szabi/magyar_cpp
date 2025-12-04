@@ -8,14 +8,15 @@ A compiler for a Hungarian variant of C++ built using **Flex** (lexical analyzer
 
 - **szám** - Integer type
 - **valós** - Floating-point type
-- **betü** - Character type
- - **betü** - Character type (single character — only non-accented characters are accepted)
+- **betü** - Character type (single character — only non-accented characters are accepted)
+- **szöveg** - String/text type (supports string interpolation with `${variable}` syntax)
 - **vajon** - Boolean type
 
 ### Keywords & Operations
 
 - **Variable Declaration & Assignment**: `szám x = 5;`
-- **I/O Operations**: `beolvas` (input), `kiír` (output)
+- **I/O Operations**: `beolvas` (input), `kiír` (output), `kiírsor` (output with newline), `újsor` (newline only)
+- **String Interpolation**: strings support `${variable}` syntax for automatic variable-to-string conversion
 - **Control Flow**:
   - `ha-akkor-különben` (if-then-else)
   - `amíg` (while loops)
@@ -129,17 +130,18 @@ This produces:
 
 ## Files Overview
 
-| File            | Purpose                                                   |
-| --------------- | --------------------------------------------------------- |
-| `lexer.l`       | Defines tokens and lexical rules for the Hungarian syntax |
-| `parser.y`      | Defines grammar rules and syntax validation               |
-| Makefile        | Contains pre-written building rules                       |
-| `fibonacci.hun` | Example program demonstrating language features           |
-| `cipher.hun`    | Cipher example demonstrating `vektor<szöveg>` usage       |
-| `elagazas.hun`  | Small example demonstrating `ha...különben` flow          |
-| `code.cpp`      | Generated C++ code emitted by the compiler                |
-| `lexer.output`  | Lexer diagnostic output (token positions)                 |
-| `parser.output` | Parser diagnostic output (states / conflicts)             |
+| File                | Purpose                                                           |
+| ------------------- | ----------------------------------------------------------------- |
+| `lexer.l`           | Defines tokens and lexical rules for the Hungarian syntax         |
+| `parser.y`          | Defines grammar rules and syntax validation                       |
+| Makefile            | Contains pre-written building rules                               |
+| `fibonacci.hun`     | Example program demonstrating language features                   |
+| `cipher.hun`        | Cipher example demonstrating `vektor<szöveg>` usage               |
+| `elagazas.hun`      | Small example demonstrating `ha...különben` flow                  |
+| `interpolation.hun` | Example demonstrating string interpolation (`${variable}` syntax) |
+| `code.cpp`          | Generated C++ code emitted by the compiler                        |
+| `lexer.output`      | Lexer diagnostic output (token positions)                         |
+| `parser.output`     | Parser diagnostic output (states / conflicts)                     |
 
 ## Key Implementation Details
 
@@ -198,6 +200,14 @@ This is a compiler project for compiler construction coursework, implementing:
 - Vector length can be used in expressions or assigned to variables: `szám tombhossz legyen hossz tomb;`
 - Indexing into a `szöveg` (string) returns a single-character `wstring` (code generation emits an expression that produces a `wstring` of length 1 for string indexing).
 
-## Future enhancements
+### String Interpolation
 
-- string interpolation
+- Strings can contain `${variable}` placeholders that are replaced with variable values at compile-time code generation.
+- Supported types in interpolation:
+  - `szöveg`: inserted directly into the concatenation
+  - `szám`, `valós`: converted to string via `to_wstring()`
+  - `betü`: converted to single-character `wstring`
+  - `vajon`: converted to `"igaz"` or `"hamis"`
+- Example: `szöveg msg legyen "Person: ${name}, Age: ${age}";`
+- Generated C++ code concatenates strings using `+` operator, producing a `wstring`.
+- Lexer detects interpolation patterns and emits `INTERPOLALT_SZOVEGERTEK` token; parser calls `process_interpolated_string()` to generate code.
