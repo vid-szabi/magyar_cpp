@@ -49,8 +49,13 @@ kiír fibo1;
 ├── parser.y             # Bison parser specification
 ├── fibonacci.hun        # Example program in Magyar C++
 ├── fibonacci.cpp        # Equivalent C++ reference implementation
+├── cipher.hun           # Cipher example in Magyar C++
+├── elagazas.hun         # Small if/else example
+├── code.cpp             # Generated C++ output (emitted by the compiler)
 ├── lex.yy.c             # Generated C code from Flex
 ├── parser.tab.c/.h      # Generated parser code from Bison
+├── lexer.output         # Lexer diagnostic output (generated)
+├── parser.output        # Parser diagnostic output (generated)
 ```
 
 ## Building & Running
@@ -107,6 +112,8 @@ g++ code.cpp -o program
 ./program
 ```
 
+> Note: running the compiler or the build targets will generate several files (lexer/parser artifacts and generated C++). Typical generated files: `lex.yy.c`, `parser.tab.c`, `parser.tab.h`, `parser.output`, `lexer.output`, and `code.cpp`. Consider adding these to `.gitignore` if you don't intend to commit generated artifacts.
+
 ### Build with Diagnostic Output
 
 ```bash
@@ -127,6 +134,11 @@ This produces:
 | `parser.y`      | Defines grammar rules and syntax validation               |
 | Makefile        | Contains pre-written building rules                       |
 | `fibonacci.hun` | Example program demonstrating language features           |
+| `cipher.hun`    | Cipher example demonstrating `vektor<szöveg>` usage       |
+| `elagazas.hun`  | Small example demonstrating `ha...különben` flow          |
+| `code.cpp`      | Generated C++ code emitted by the compiler                |
+| `lexer.output`  | Lexer diagnostic output (token positions)                 |
+| `parser.output` | Parser diagnostic output (states / conflicts)             |
 
 ## Key Implementation Details
 
@@ -135,6 +147,8 @@ This produces:
 - **Operator Precedence**: Correct precedence for arithmetic, comparison, and logical operators
 - **Comment Support**: Both `//` single-line and `/* */` multi-line comments
 - **Detailed Output**: Lexer produces detailed analysis output with token positions
+- **Wide-string & locale support**: Generated C++ uses `wstring`, `L"..."` literals and configures the locale (via `locale::global`) so `wcin`/`wcout` correctly handle Hungarian characters.
+- **Generated artifacts**: The compiler emits helper files such as `code.cpp`, `lexer.output` and `parser.output` during analysis and code generation.
 
 ## Current Status
 
@@ -152,6 +166,7 @@ This is a compiler project for compiler construction coursework, implementing:
 
 - `vektor<tipus>` now supported
 - Example: `vektor<szám> tomb;`
+- Initializer lists supported: `vektor<szám> v = {1, 2, 3};` (parsed as an initializer list)
 
 #### Element Access & Assignment
 
@@ -180,8 +195,8 @@ This is a compiler project for compiler construction coursework, implementing:
 
 - Vector elements can be used in expressions: `kiír tomb[0];`
 - Vector length can be used in expressions or assigned to variables: `szám tombhossz legyen hossz tomb;`
+- Indexing into a `szöveg` (string) returns a single-character `wstring` (code generation emits an expression that produces a `wstring` of length 1 for string indexing).
 
 ## Future enhancements
 
-- vector initialization
 - string interpolation

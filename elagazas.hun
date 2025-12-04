@@ -1,0 +1,9 @@
+szám x legyen 5;
+
+ha (x nagyobb 3)
+{
+    kiír x;
+} különben
+{
+    kiír 0;
+}

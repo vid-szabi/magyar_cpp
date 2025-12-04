@@ -67,6 +67,14 @@ int utf8_strlen(const string& str) {
     return BETU;
 }
 
+"szöveg" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Típus: " << yytext << endl;
+    return SZOVEG;
+}
+
 "vajon" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -155,6 +163,14 @@ int utf8_strlen(const string& str) {
     return BEOLVAS;
 }
 
+"kiírsor" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Bemeneti-kimeneti parancs: " << yytext << endl;
+    return KIIRSOR;
+}
+
 "kiír" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -163,28 +179,28 @@ int utf8_strlen(const string& str) {
     return KIIR;
 }
 
+"újsor" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Bemeneti-kimeneti parancs: " << yytext << endl;
+    return UJSOR;
+}
+
     /* Conditional statement if-then-else */
 "ha" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] Elágazás: " << yytext << endl;
     return HA;
-}
-
-"akkor" {
-    startcol = colno;
-    int charlen = utf8_strlen(yytext);
-    colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
-    return AKKOR;
 }
 
 "különben" {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
     colno += charlen;
-    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << yytext << endl;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Elágazás: " << yytext << endl;
     return KULONBEN;
 }
 
@@ -319,6 +335,15 @@ int utf8_strlen(const string& str) {
     return ZAROJELVEG;
 }
 
+    /* Comma for initializer list */
+"," {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Vessző: " << yytext << endl;
+    return VESSZO;
+}
+
     /* Assignment operator */
 "legyen" {
     startcol = colno;
@@ -423,7 +448,7 @@ int utf8_strlen(const string& str) {
     return SZAMERTEK;
 }
 
-    /* Character literal */
+    /* Character literal without hungarian accents */
 '(\\\\.|[^\\\\'])' {
     startcol = colno;
     int charlen = utf8_strlen(yytext);
@@ -431,6 +456,16 @@ int utf8_strlen(const string& str) {
     out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Karakterlánc: " << yytext << endl;
     yylval.betu_ertek = yytext[0];
     return BETUERTEK;
+}
+
+    /* String literals */
+\"([^"\\]|\\.)*\" {
+    startcol = colno;
+    int charlen = utf8_strlen(yytext);
+    colno += charlen;
+    out << "[sor: " << yylineno << ", oszlop: " << startcol << ", hossz: " << charlen << "] " << "Szöveg érték: " << yytext << endl;
+    yylval.valtozonev = new string(yytext);
+    return SZOVEGERTEK;
 }
 
     /* End of file */

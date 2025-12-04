@@ -48,6 +48,7 @@ string indent();
 string map_type_to_cpp(string type);
 
 string extract_vector_element_type(const string& type);
+bool is_vector_type(const string& type, string& inner);
 
 bool can_convert(string from, string to);
 string generate_conversion_code(string from_type, string to_type, string code);
@@ -74,15 +75,15 @@ extern bool has_error;
 %token <betu_ertek> BETUERTEK
 %token SZAM VALOS BETU
 
-%token VEKTOR SABLONKEZD SABLONVEG INDEXKEZD INDEXVEG
+%token VEKTOR SABLONKEZD SABLONVEG INDEXKEZD INDEXVEG VESSZO
 %token HOZZAAD KIVESZ HOSSZ
 
 %token LOGIKAI IGAZ HAMIS
 
 %token MINT
 
-%token BEOLVAS KIIR
-%token HA AKKOR KULONBEN
+%token BEOLVAS KIIR KIIRSOR UJSOR
+%token HA KULONBEN
 %token AMIG
 %token NEMEGYENLO EGYENLO NEM ES VAGY
 %token UTASITASVEG
@@ -91,6 +92,10 @@ extern bool has_error;
 
 %type <tipus> tipus
 %type <expr> kifejezes ha_feltetel amig_feltetel
+%type <valtozonev> inicializalo_lista
+
+%token SZOVEG
+%token <valtozonev> SZOVEGERTEK
 
 %left PLUSZ MINUSZ
 %left SZOROZ OSZT
@@ -119,6 +124,8 @@ program: utasitas
 utasitas: deklaracio UTASITASVEG
 		| ertekadas UTASITASVEG
 		| kiir UTASITASVEG
+		| kiirsor UTASITASVEG
+		| ujsor UTASITASVEG
 		| beolvas UTASITASVEG
 		| elagazas 
 		| ciklus
@@ -157,17 +164,54 @@ deklaracio: tipus VALTOZO {
 	delete $2;
 	delete expr;
 }
+| tipus VALTOZO ERTEKAD BLOKKKEZD inicializalo_lista BLOKKVEG {
+	string type = *$1;
+	string varname = *$2;
+	string init_list = *$5;
+
+	check_variable_redeclared(varname, yylineno, startcol);
+
+	string inner;
+	if (!is_vector_type(type, inner)) {
+		semantic_error("initializer list can only be used with vector types", yylineno, startcol);
+	}
+
+	Symbol sym = {type, yylineno, startcol, true};
+	symbol_table[varname] = sym;
+
+	generated_code << indent() << map_type_to_cpp(type) << " "
+		<< varname << " = {" << init_list << "};" << endl; 
+}
 ;
 
 tipus: SZAM { $$ = new string("szám"); }
 	 | VALOS { $$ = new string("valós"); }
 	 | BETU { $$ = new string("betü"); }
 	 | LOGIKAI { $$ = new string("vajon"); }
+	 | SZOVEG { $$ = new string("szöveg"); }
 	 | VEKTOR SABLONKEZD tipus SABLONVEG {
 		string inner_type = *$3;
 		$$ = new string("vektor<" + inner_type + ">");
 		delete $3;
 	 }
+;
+
+inicializalo_lista: kifejezes {
+	ExprInfo* expr = $1;
+	
+	$$ = new string(expr->code);
+	
+	delete expr;
+}
+| inicializalo_lista VESSZO kifejezes {
+	string* list = $1;
+	ExprInfo* expr = $3;
+	
+	$$ = new string(*list + ", " + expr->code);
+	
+	delete list;
+	delete expr;
+}
 ;
 
 ertekadas: VALTOZO ERTEKAD kifejezes {
@@ -212,20 +256,40 @@ ertekadas: VALTOZO ERTEKAD kifejezes {
 ;
 
 kiir: KIIR kifejezes {
-	ExprInfo* expr = $2;
-	generated_code << indent() << "cout << " << expr->code << " << endl;" << endl;
-	delete expr;
+    ExprInfo* expr = $2;
+        
+	generated_code << indent() << "wcout << " << expr->code << ";" << endl;
+
+    delete expr;
 }
 ;
+
+kiirsor: KIIRSOR kifejezes {
+	ExprInfo* expr = $2;
+
+    generated_code << indent() << "wcout << " << expr->code << " << endl;" << endl;
+    
+	delete expr;
+}
+
+ujsor: UJSOR {
+	generated_code << indent() << "wcout << endl;" << endl;
+}
 
 beolvas: BEOLVAS kifejezes {
-	ExprInfo* expr = $2;
-	generated_code << indent() << "cin >> " << expr->code << ";" << endl;
-	delete expr;
+    ExprInfo* expr = $2;
+    if (expr->type == "szöveg") {
+        // Clear buffer if needed, then read full line
+        generated_code << indent() << "if (wcin.peek() == '\\n') wcin.ignore();" << endl;
+        generated_code << indent() << "getline(wcin, " << expr->code << ");" << endl;
+    } else {
+        generated_code << indent() << "wcin >> " << expr->code << ";" << endl;
+    }
+    delete expr;
 }
 ;
 
-ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG AKKOR {
+ha_feltetel: HA ZAROJELKEZD kifejezes ZAROJELVEG {
 	ExprInfo* condition = $3;
 	generated_code << indent() << "if (" << condition->code << ") {" << endl;
 	indent_level++;
@@ -240,16 +304,21 @@ elagazas: ha_feltetel BLOKKKEZD blokk BLOKKVEG {
 	generated_code << indent() << "}" << endl;
 	delete condition;
 }
-| ha_feltetel BLOKKKEZD blokk BLOKKVEG KULONBEN BLOKKKEZD blokk BLOKKVEG {
+| ha_feltetel BLOKKKEZD blokk BLOKKVEG kulonben_kezd BLOKKKEZD blokk BLOKKVEG {
 	ExprInfo* condition = $1;
-	/* blokk already generated */
-	indent_level--;
-	generated_code << indent() << "} else {" << endl;
-	indent_level++;
+	/* first blokk already generated */
+	// kulonben_kezd already wrote "} else {"
 	/* second blokk already generated */
 	indent_level--;
 	generated_code << indent() << "}" << endl;
 	delete condition;
+}
+;
+
+kulonben_kezd: KULONBEN {
+	indent_level--;
+	generated_code << indent() << "} else {" << endl;
+	indent_level++;
 }
 ;
 
@@ -318,6 +387,13 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 		string value = to_string($1);
 		$$ = new ExprInfo{value, "betü"};
 	}
+	| SZOVEGERTEK {
+		string value = *$1;
+		// Add L prefix for wide string literals
+		value = "L" + value;
+		$$ = new ExprInfo{value, "szöveg"};
+		delete $1;
+	}
 	| VALTOZO {
 		string varname = *$1;
 		check_variable_declared(varname, yylineno, startcol);
@@ -339,7 +415,13 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 			semantic_error("vector index must be numeric type", yylineno, startcol);
 		}
 
-		$$ = new ExprInfo{varname + "[" + index->code + "]", element_type};
+		if (vartype == "szöveg") {
+			$$ = new ExprInfo{"wstring(1, " + varname + "[" + index->code + "])", "szöveg"};
+		}
+		else {
+			$$ = new ExprInfo{varname + "[" + index->code + "]", element_type};
+		}
+
 		delete $1;
 		delete index;
 	}
@@ -348,7 +430,6 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
     check_variable_declared(varname, yylineno, startcol);
     string vartype = get_variable_type(varname);
 
-    string element_type = extract_vector_element_type(vartype); // Actually you may not need this
     // The type of 'hossz' is always szám
     $$ = new ExprInfo{varname + ".size()", "szám"};
     delete $2;
@@ -495,10 +576,18 @@ kifejezes: IGAZ { $$ = new ExprInfo{"true", "vajon"}; }
 
 int main() {
 	generated_code << "#include <iostream>" << endl
-				   << "#include <vector>" << endl << endl
+				   << "#include <vector>" << endl
+				   << "#include <vector>" << endl
+				   << "#include <locale>" << endl << endl
 				   << "using namespace std;" << endl << endl
 				   << "int main() {" << endl;
 	indent_level++;
+	
+	// Add Hungarian locale setup
+	generated_code << indent() << "locale::global(locale(\"\"));" << endl;
+	generated_code << indent() << "wcin.imbue(locale());" << endl;
+	generated_code << indent() << "wcout.imbue(locale());" << endl;
+	generated_code << endl;
 
 	yyparse();
 
@@ -612,8 +701,16 @@ bool is_vector_type(const string& type, string& inner) {
 
 string extract_vector_element_type(const string& type) {
     string inner;
-    if (is_vector_type(type, inner)) return inner;
-    semantic_error("type is not a vector: " + type, yylineno, startcol);
+
+    if (is_vector_type(type, inner)) {
+		return inner;
+	}
+
+	if (type == "szöveg") {
+		return "szöveg";
+	}
+	
+	semantic_error("type is not a vector: " + type, yylineno, startcol);
     return "void";
 }
 
@@ -622,6 +719,7 @@ string map_type_to_cpp(string type) {
 	if (type == "valós") return "float";
 	if (type == "betü") return "char";
 	if (type == "vajon") return "bool";
+	if (type == "szöveg") return "wstring";
 
     string inner;
     if (is_vector_type(type, inner)) {
