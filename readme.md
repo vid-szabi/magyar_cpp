@@ -9,6 +9,7 @@ A compiler for a Hungarian variant of C++ built using **Flex** (lexical analyzer
 - **szám** - Integer type
 - **valós** - Floating-point type
 - **betü** - Character type
+ - **betü** - Character type (single character — only non-accented characters are accepted)
 - **vajon** - Boolean type
 
 ### Keywords & Operations
